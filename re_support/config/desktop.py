@@ -35,13 +35,5 @@ def get_data():
             "color": "#27AE60",
             "icon": "octicon octicon-globe",
             "label": _("Buyer Portal Settings"),
-            "type": "module",
-        },
-        {
-            "module_name": "Reports Analytics",
-            "color": "#F39C12",
-            "icon": "octicon octicon-bar-chart",
-            "label": _("Reports & Analytics"),
-            "type": "module",
         }
     ]
