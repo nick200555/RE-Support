@@ -1,7 +1,7 @@
 #!/bin/bash
 # frappe_preflight.sh
 
-APP_NAME=$(basename $(pwd))
+APP_NAME=$(basename "$(pwd)")
 MODULE_ROOT="./$APP_NAME"
 FAILURES=0
 
@@ -30,7 +30,7 @@ MISSING_INITS=$(find $MODULE_ROOT -type d \
     -not -path "*/public*" \
     -not -path "*/www*" \
     -not -path "*/templates*" \
-    -exec sh -c '[ ! -f "$1/__init__.py" ] && echo "$1"' _ {} \;)
+    -exec sh -c '[ ! -f "$1/__init__.py" ] && echo "$1"' _ {} \; || true)
 
 if [ -n "$MISSING_INITS" ]; then
     echo "❌ Missing __init__.py files in:"
