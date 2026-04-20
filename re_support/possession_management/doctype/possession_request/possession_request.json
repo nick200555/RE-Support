@@ -1,0 +1,165 @@
+{
+    "is_submittable": 1,
+    "custom": 1,
+    "module": "Possession Management",
+    "name": "Possession Request",
+    "autoname": "POSS-.YYYY.MM.-.####",
+    "fields": [
+        {
+            "fieldname": "possession_no",
+            "fieldtype": "Data",
+            "read_only": 1
+        },
+        {
+            "fieldname": "project",
+            "fieldtype": "Link",
+            "options": "Project",
+            "reqd": 1
+        },
+        {
+            "fieldname": "unit_no",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "tower_block",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "floor_no",
+            "fieldtype": "Int"
+        },
+        {
+            "fieldname": "buyer",
+            "fieldtype": "Link",
+            "options": "Contact",
+            "reqd": 1
+        },
+        {
+            "fieldname": "co_buyer",
+            "fieldtype": "Link",
+            "options": "Contact"
+        },
+        {
+            "fieldname": "buyer_mobile",
+            "fieldtype": "Data",
+            "fetch_from": "buyer.mobile_no",
+            "read_only": 1
+        },
+        {
+            "fieldname": "booking_ref",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "sale_deed_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "total_consideration",
+            "fieldtype": "Currency"
+        },
+        {
+            "fieldname": "outstanding_dues",
+            "fieldtype": "Currency"
+        },
+        {
+            "fieldname": "dues_verified_by",
+            "fieldtype": "Link",
+            "options": "User"
+        },
+        {
+            "fieldname": "dues_cleared",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "dues_cleared_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "oc_received",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "oc_number",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "oc_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "oc_copy",
+            "fieldtype": "Attach"
+        },
+        {
+            "fieldname": "noc_list",
+            "fieldtype": "Table",
+            "options": "NOC Document"
+        },
+        {
+            "fieldname": "all_nocs_received",
+            "fieldtype": "Check",
+            "read_only": 1
+        },
+        {
+            "fieldname": "scheduled_date",
+            "fieldtype": "Datetime"
+        },
+        {
+            "fieldname": "confirmed_by_buyer",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "pre_inspection_done",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "pre_inspection_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "defect_report",
+            "fieldtype": "Link",
+            "options": "Defect Report"
+        },
+        {
+            "fieldname": "key_handover_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "handover_by",
+            "fieldtype": "Link",
+            "options": "User"
+        },
+        {
+            "fieldname": "keys_count",
+            "fieldtype": "Int"
+        },
+        {
+            "fieldname": "welcome_kit_issued",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "utility_connections",
+            "fieldtype": "Table",
+            "options": "Utility Item"
+        },
+        {
+            "fieldname": "buyer_signature",
+            "fieldtype": "Signature"
+        },
+        {
+            "fieldname": "witness_name",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "options": "Initiated\\nDues Check\\nNOC Collection\\nScheduled\\nKey Handover\\nCompleted"
+        },
+        {
+            "fieldname": "remarks",
+            "fieldtype": "Text Editor"
+        }
+    ]
+}

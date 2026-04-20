@@ -1,0 +1,115 @@
+{
+    "is_submittable": 1,
+    "custom": 1,
+    "module": "Defect Snagging",
+    "name": "Defect Report",
+    "autoname": "DEF-.YYYY.-.####",
+    "fields": [
+        {
+            "fieldname": "report_no",
+            "fieldtype": "Data",
+            "read_only": 1
+        },
+        {
+            "fieldname": "project",
+            "fieldtype": "Link",
+            "options": "Project",
+            "reqd": 1
+        },
+        {
+            "fieldname": "unit_no",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "tower_block",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "floor_no",
+            "fieldtype": "Int"
+        },
+        {
+            "fieldname": "buyer",
+            "fieldtype": "Link",
+            "options": "Contact",
+            "reqd": 1
+        },
+        {
+            "fieldname": "buyer_mobile",
+            "fieldtype": "Data",
+            "fetch_from": "buyer.mobile_no",
+            "read_only": 1
+        },
+        {
+            "fieldname": "inspection_date",
+            "fieldtype": "Date",
+            "reqd": 1
+        },
+        {
+            "fieldname": "inspector",
+            "fieldtype": "Link",
+            "options": "User",
+            "reqd": 1
+        },
+        {
+            "fieldname": "source_ticket",
+            "fieldtype": "Link",
+            "options": "Support Ticket"
+        },
+        {
+            "fieldname": "inspection_type",
+            "fieldtype": "Select",
+            "options": "Pre-Handover Inspection\\nPost-Handover\\nRe-Inspection\\nAnnual"
+        },
+        {
+            "fieldname": "defects",
+            "fieldtype": "Table",
+            "options": "Defect Item"
+        },
+        {
+            "fieldname": "total_defects",
+            "fieldtype": "Int",
+            "read_only": 1
+        },
+        {
+            "fieldname": "open_defects",
+            "fieldtype": "Int",
+            "read_only": 1
+        },
+        {
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "options": "Draft\\nUnder Review\\nIn Rectification\\nQC Pending\\nCompleted\\nBuyer Accepted"
+        },
+        {
+            "fieldname": "qc_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "qc_inspector",
+            "fieldtype": "Link",
+            "options": "User"
+        },
+        {
+            "fieldname": "qc_notes",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "buyer_remarks",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "buyer_signature",
+            "fieldtype": "Signature"
+        },
+        {
+            "fieldname": "completion_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "internal_notes",
+            "fieldtype": "Text Editor"
+        }
+    ]
+}

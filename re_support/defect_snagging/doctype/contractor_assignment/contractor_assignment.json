@@ -1,0 +1,53 @@
+{
+    "custom": 1,
+    "module": "Defect Snagging",
+    "name": "Contractor Assignment",
+    "autoname": "CASS-.YYYY.-.####",
+    "fields": [
+        {
+            "fieldname": "defect_report",
+            "fieldtype": "Link",
+            "options": "Defect Report",
+            "reqd": 1
+        },
+        {
+            "fieldname": "contractor",
+            "fieldtype": "Link",
+            "options": "Supplier",
+            "reqd": 1
+        },
+        {
+            "fieldname": "assignment_date",
+            "fieldtype": "Date",
+            "reqd": 1
+        },
+        {
+            "fieldname": "due_date",
+            "fieldtype": "Date",
+            "reqd": 1
+        },
+        {
+            "fieldname": "items_assigned",
+            "fieldtype": "Int"
+        },
+        {
+            "fieldname": "items_completed",
+            "fieldtype": "Int",
+            "read_only": 1
+        },
+        {
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "options": "Pending\\nIn Progress\\nCompleted\\nPartially Done\\nDefaulted"
+        },
+        {
+            "fieldname": "remarks",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "purchase_order",
+            "fieldtype": "Link",
+            "options": "Purchase Order"
+        }
+    ]
+}

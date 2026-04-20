@@ -1,0 +1,45 @@
+{
+    "custom": 1,
+    "module": "Buyer Portal",
+    "name": "Portal Notification",
+    "autoname": "PNOT-.YYYY.MM.DD.-.##",
+    "fields": [
+        {
+            "fieldname": "buyer",
+            "fieldtype": "Link",
+            "options": "Contact",
+            "reqd": 1
+        },
+        {
+            "fieldname": "notification_type",
+            "fieldtype": "Select",
+            "options": "Ticket Created\\nStatus Changed\\nSLA Breach\\nPossession Update\\nDefect Update\\nRERA Notice"
+        },
+        {
+            "fieldname": "channel",
+            "fieldtype": "Select",
+            "options": "WhatsApp\\nEmail\\nSMS\\nIn-App"
+        },
+        {
+            "fieldname": "source_document",
+            "fieldtype": "Dynamic Link"
+        },
+        {
+            "fieldname": "message",
+            "fieldtype": "Text"
+        },
+        {
+            "fieldname": "sent_at",
+            "fieldtype": "Datetime"
+        },
+        {
+            "fieldname": "delivery_status",
+            "fieldtype": "Select",
+            "options": "Sent\\nDelivered\\nRead\\nFailed"
+        },
+        {
+            "fieldname": "failure_reason",
+            "fieldtype": "Small Text"
+        }
+    ]
+}

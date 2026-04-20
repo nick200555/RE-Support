@@ -1,0 +1,42 @@
+{
+    "istable": 1,
+    "custom": 1,
+    "module": "Possession Management",
+    "name": "NOC Document",
+    "fields": [
+        {
+            "fieldname": "noc_type",
+            "fieldtype": "Select",
+            "options": "Bank NOC\\nSociety NOC\\nWater Connection NOC\\nFire NOC\\nLift Inspection\\nProperty Tax Clearance\\nOther",
+            "reqd": 1
+        },
+        {
+            "fieldname": "issuing_authority",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "mandatory",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "received",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "received_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "expiry_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "document",
+            "fieldtype": "Attach"
+        },
+        {
+            "fieldname": "remarks",
+            "fieldtype": "Small Text"
+        }
+    ]
+}

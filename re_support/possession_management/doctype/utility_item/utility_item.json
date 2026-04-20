@@ -1,0 +1,12 @@
+{
+    "istable": 1,
+    "custom": 1,
+    "module": "Possession Management",
+    "name": "Utility Item",
+    "fields": [
+        {
+            "fieldname": "utility",
+            "fieldtype": "Data"
+        }
+    ]
+}

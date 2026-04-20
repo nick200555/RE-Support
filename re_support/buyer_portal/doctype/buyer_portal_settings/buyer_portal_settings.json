@@ -1,0 +1,91 @@
+{
+    "issingle": 1,
+    "custom": 1,
+    "module": "Buyer Portal",
+    "name": "Buyer Portal Settings",
+    "fields": [
+        {
+            "fieldname": "portal_enabled",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "portal_url",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "allow_ticket_create",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "allow_ticket_attachment",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "allowed_categories",
+            "fieldtype": "Table MultiSelect"
+        },
+        {
+            "fieldname": "show_possession_status",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "show_defect_report",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "whatsapp_notify",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "whatsapp_api_provider",
+            "fieldtype": "Select",
+            "options": "Interakt\\nWati\\nAiSensy\\nGupshup\\nCustom"
+        },
+        {
+            "fieldname": "whatsapp_api_key",
+            "fieldtype": "Password"
+        },
+        {
+            "fieldname": "email_notify",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "email_notify_template",
+            "fieldtype": "Link",
+            "options": "Email Template"
+        },
+        {
+            "fieldname": "support_email",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "support_phone",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "office_hours",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "portal_logo",
+            "fieldtype": "Attach Image"
+        },
+        {
+            "fieldname": "welcome_message",
+            "fieldtype": "Text"
+        },
+        {
+            "fieldname": "footer_links",
+            "fieldtype": "Table"
+        },
+        {
+            "fieldname": "buyer_auth_method",
+            "fieldtype": "Select",
+            "options": "OTP via Mobile\\nEmail OTP\\nPassword\\nBoth"
+        },
+        {
+            "fieldname": "session_timeout_mins",
+            "fieldtype": "Int"
+        }
+    ]
+}

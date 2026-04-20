@@ -1,0 +1,50 @@
+{
+    "custom": 1,
+    "module": "Complaint Management",
+    "name": "Ticket Category",
+    "fields": [
+        {
+            "fieldname": "category_name",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "department",
+            "fieldtype": "Select",
+            "options": "Civil\\nElectrical\\nPlumbing\\nLegal\\nFinance\\nGeneral",
+            "reqd": 1
+        },
+        {
+            "fieldname": "default_sla",
+            "fieldtype": "Link",
+            "options": "SLA Policy"
+        },
+        {
+            "fieldname": "auto_assign_role",
+            "fieldtype": "Link",
+            "options": "Role"
+        },
+        {
+            "fieldname": "rera_risk",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "allow_buyer_create",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "email_template",
+            "fieldtype": "Link",
+            "options": "Email Template"
+        },
+        {
+            "fieldname": "color_code",
+            "fieldtype": "Color"
+        },
+        {
+            "fieldname": "is_active",
+            "fieldtype": "Check",
+            "default": "1"
+        }
+    ]
+}

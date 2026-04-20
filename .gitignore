@@ -1,0 +1,12 @@
+# virtual environment
+env/
+venv/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# frappe/erpnext specifics
+site/
+logs/
+.bench/
+*.pdf

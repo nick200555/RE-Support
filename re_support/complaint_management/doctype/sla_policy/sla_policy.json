@@ -1,0 +1,52 @@
+{
+    "custom": 1,
+    "module": "Complaint Management",
+    "name": "SLA Policy",
+    "fields": [
+        {
+            "fieldname": "policy_name",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "applies_to_priority",
+            "fieldtype": "Select",
+            "options": "Low\\nMedium\\nHigh\\nCritical\\nAll"
+        },
+        {
+            "fieldname": "response_time_hrs",
+            "fieldtype": "Int",
+            "reqd": 1
+        },
+        {
+            "fieldname": "resolution_time_hrs",
+            "fieldtype": "Int",
+            "reqd": 1
+        },
+        {
+            "fieldname": "escalate_after_hrs",
+            "fieldtype": "Int"
+        },
+        {
+            "fieldname": "escalate_to",
+            "fieldtype": "Link",
+            "options": "User"
+        },
+        {
+            "fieldname": "notify_buyer_on_breach",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "notify_manager_on_breach",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "working_days_only",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "breach_message",
+            "fieldtype": "Small Text"
+        }
+    ]
+}

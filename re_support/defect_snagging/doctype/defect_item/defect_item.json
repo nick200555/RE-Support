@@ -1,0 +1,69 @@
+{
+    "istable": 1,
+    "custom": 1,
+    "module": "Defect Snagging",
+    "name": "Defect Item",
+    "fields": [
+        {
+            "fieldname": "area",
+            "fieldtype": "Select",
+            "options": "Living Room\\nKitchen\\nMaster Bedroom\\nBedroom 2\\nBathroom\\nToilet\\nBalcony\\nCommon Area\\nExterior",
+            "reqd": 1
+        },
+        {
+            "fieldname": "location_detail",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "defect_type",
+            "fieldtype": "Select",
+            "options": "Crack\\nSeepage\\nTiling\\nPaint\\nFixture\\nElectrical\\nPlumbing\\nCarpentry\\nFalse Ceiling\\nWaterproofing\\nOther",
+            "reqd": 1
+        },
+        {
+            "fieldname": "description",
+            "fieldtype": "Small Text",
+            "reqd": 1
+        },
+        {
+            "fieldname": "photo",
+            "fieldtype": "Attach"
+        },
+        {
+            "fieldname": "severity",
+            "fieldtype": "Select",
+            "options": "Minor\\nModerate\\nMajor",
+            "reqd": 1
+        },
+        {
+            "fieldname": "contractor",
+            "fieldtype": "Link",
+            "options": "Supplier"
+        },
+        {
+            "fieldname": "due_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "contractor_notes",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "rectification_photo",
+            "fieldtype": "Attach"
+        },
+        {
+            "fieldname": "resolved_on",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "item_status",
+            "fieldtype": "Select",
+            "options": "Open\\nAssigned\\nIn Progress\\nDone\\nRejected\\nCannot Rectify"
+        },
+        {
+            "fieldname": "rejection_reason",
+            "fieldtype": "Small Text"
+        }
+    ]
+}

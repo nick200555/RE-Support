@@ -1,0 +1,27 @@
+{
+    "custom": 1,
+    "module": "Possession Management",
+    "name": "Possession Checklist",
+    "fields": [
+        {
+            "fieldname": "checklist_name",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "project_type",
+            "fieldtype": "Select",
+            "options": "Apartment\\nVilla\\nCommercial\\nPlotted"
+        },
+        {
+            "fieldname": "items",
+            "fieldtype": "Table",
+            "options": "Utility Item"
+        },
+        {
+            "fieldname": "is_active",
+            "fieldtype": "Check",
+            "default": "1"
+        }
+    ]
+}

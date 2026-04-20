@@ -1,0 +1,143 @@
+{
+    "is_submittable": 1,
+    "custom": 1,
+    "module": "RERA Escalation",
+    "name": "RERA Complaint",
+    "autoname": "RERA-.YYYY.-.####",
+    "fields": [
+        {
+            "fieldname": "rera_complaint_no",
+            "fieldtype": "Data",
+            "reqd": 1
+        },
+        {
+            "fieldname": "rera_portal_ref",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "source_ticket",
+            "fieldtype": "Link",
+            "options": "Support Ticket"
+        },
+        {
+            "fieldname": "buyer",
+            "fieldtype": "Link",
+            "options": "Contact",
+            "reqd": 1
+        },
+        {
+            "fieldname": "buyer_advocate",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "project",
+            "fieldtype": "Link",
+            "options": "Project",
+            "reqd": 1
+        },
+        {
+            "fieldname": "unit_no",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "complaint_type",
+            "fieldtype": "Select",
+            "options": "Delay in Possession\\nConstruction Defect\\nFalse Representation\\nNon-disclosure\\nAgreement Breach\\nOther"
+        },
+        {
+            "fieldname": "filed_date",
+            "fieldtype": "Date",
+            "reqd": 1
+        },
+        {
+            "fieldname": "state_rera",
+            "fieldtype": "Select",
+            "options": "MahaRERA\\nRERA Karnataka\\nUP RERA\\nGujarat RERA\\nHaryana RERA\\nOther"
+        },
+        {
+            "fieldname": "authority_address",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "first_notice_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "response_deadline",
+            "fieldtype": "Date",
+            "reqd": 1
+        },
+        {
+            "fieldname": "legal_team",
+            "fieldtype": "Link",
+            "options": "User"
+        },
+        {
+            "fieldname": "external_counsel",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "hearing_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "hearing_venue",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "response_logs",
+            "fieldtype": "Table",
+            "options": "RERA Response Log"
+        },
+        {
+            "fieldname": "attachments",
+            "fieldtype": "Attach"
+        },
+        {
+            "fieldname": "developer_position",
+            "fieldtype": "Text Editor"
+        },
+        {
+            "fieldname": "settlement_offered",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "settlement_amount",
+            "fieldtype": "Currency"
+        },
+        {
+            "fieldname": "outcome",
+            "fieldtype": "Select",
+            "options": "Pending\\nIn Favour of Developer\\nAgainst Developer\\nSettled\\nWithdrawn\\nDismissed"
+        },
+        {
+            "fieldname": "outcome_date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "penalty_amount",
+            "fieldtype": "Currency"
+        },
+        {
+            "fieldname": "penalty_paid",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "penalty_jv",
+            "fieldtype": "Link",
+            "options": "Journal Entry"
+        },
+        {
+            "fieldname": "appeal_filed",
+            "fieldtype": "Check"
+        },
+        {
+            "fieldname": "appeal_tribunal",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "remarks",
+            "fieldtype": "Text Editor"
+        }
+    ]
+}
