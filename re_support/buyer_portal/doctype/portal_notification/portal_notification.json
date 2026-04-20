@@ -1,4 +1,5 @@
 {
+    "doctype": "DocType",
     "custom": 1,
     "module": "Buyer Portal",
     "name": "Portal Notification",
