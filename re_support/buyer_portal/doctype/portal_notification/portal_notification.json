@@ -8,44 +8,53 @@
    "fieldname": "buyer",
    "fieldtype": "Link",
    "options": "Contact",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Buyer"
   },
   {
    "fieldname": "notification_type",
    "fieldtype": "Select",
-   "options": "Ticket Created\\nStatus Changed\\nSLA Breach\\nPossession Update\\nDefect Update\\nRERA Notice"
+   "options": "Ticket Created\\nStatus Changed\\nSLA Breach\\nPossession Update\\nDefect Update\\nRERA Notice",
+   "label": "Notification Type"
   },
   {
    "fieldname": "channel",
    "fieldtype": "Select",
-   "options": "WhatsApp\\nEmail\\nSMS\\nIn-App"
+   "options": "WhatsApp\\nEmail\\nSMS\\nIn-App",
+   "label": "Channel"
   },
   {
    "fieldname": "reference_doctype",
    "fieldtype": "Link",
-   "options": "DocType"
+   "options": "DocType",
+   "label": "Reference Doctype"
   },
   {
    "fieldname": "source_document",
    "fieldtype": "Dynamic Link",
-   "options": "reference_doctype"
+   "options": "reference_doctype",
+   "label": "Source Document"
   },
   {
    "fieldname": "message",
-   "fieldtype": "Text"
+   "fieldtype": "Text",
+   "label": "Message"
   },
   {
    "fieldname": "sent_at",
-   "fieldtype": "Datetime"
+   "fieldtype": "Datetime",
+   "label": "Sent At"
   },
   {
    "fieldname": "delivery_status",
    "fieldtype": "Select",
-   "options": "Sent\\nDelivered\\nRead\\nFailed"
+   "options": "Sent\\nDelivered\\nRead\\nFailed",
+   "label": "Delivery Status"
   },
   {
    "fieldname": "failure_reason",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Failure Reason"
   }
  ],
  "permissions": [

@@ -6,47 +6,57 @@
   {
    "fieldname": "policy_name",
    "fieldtype": "Data",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Policy Name"
   },
   {
    "fieldname": "applies_to_priority",
    "fieldtype": "Select",
-   "options": "Low\\nMedium\\nHigh\\nCritical\\nAll"
+   "options": "Low\\nMedium\\nHigh\\nCritical\\nAll",
+   "label": "Applies To Priority"
   },
   {
    "fieldname": "response_time_hrs",
    "fieldtype": "Int",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Response Time Hrs"
   },
   {
    "fieldname": "resolution_time_hrs",
    "fieldtype": "Int",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Resolution Time Hrs"
   },
   {
    "fieldname": "escalate_after_hrs",
-   "fieldtype": "Int"
+   "fieldtype": "Int",
+   "label": "Escalate After Hrs"
   },
   {
    "fieldname": "escalate_to",
    "fieldtype": "Link",
-   "options": "User"
+   "options": "User",
+   "label": "Escalate To"
   },
   {
    "fieldname": "notify_buyer_on_breach",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Notify Buyer On Breach"
   },
   {
    "fieldname": "notify_manager_on_breach",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Notify Manager On Breach"
   },
   {
    "fieldname": "working_days_only",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Working Days Only"
   },
   {
    "fieldname": "breach_message",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Breach Message"
   }
  ],
  "permissions": [

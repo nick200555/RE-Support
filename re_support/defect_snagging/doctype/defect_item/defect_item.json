@@ -8,62 +8,75 @@
    "fieldname": "area",
    "fieldtype": "Select",
    "options": "Living Room\\nKitchen\\nMaster Bedroom\\nBedroom 2\\nBathroom\\nToilet\\nBalcony\\nCommon Area\\nExterior",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Area"
   },
   {
    "fieldname": "location_detail",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Location Detail"
   },
   {
    "fieldname": "defect_type",
    "fieldtype": "Select",
    "options": "Crack\\nSeepage\\nTiling\\nPaint\\nFixture\\nElectrical\\nPlumbing\\nCarpentry\\nFalse Ceiling\\nWaterproofing\\nOther",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Defect Type"
   },
   {
    "fieldname": "description",
    "fieldtype": "Small Text",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Description"
   },
   {
    "fieldname": "photo",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Photo"
   },
   {
    "fieldname": "severity",
    "fieldtype": "Select",
    "options": "Minor\\nModerate\\nMajor",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Severity"
   },
   {
    "fieldname": "contractor",
    "fieldtype": "Link",
-   "options": "Supplier"
+   "options": "Supplier",
+   "label": "Contractor"
   },
   {
    "fieldname": "due_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Due Date"
   },
   {
    "fieldname": "contractor_notes",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Contractor Notes"
   },
   {
    "fieldname": "rectification_photo",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Rectification Photo"
   },
   {
    "fieldname": "resolved_on",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Resolved On"
   },
   {
    "fieldname": "item_status",
    "fieldtype": "Select",
-   "options": "Open\\nAssigned\\nIn Progress\\nDone\\nRejected\\nCannot Rectify"
+   "options": "Open\\nAssigned\\nIn Progress\\nDone\\nRejected\\nCannot Rectify",
+   "label": "Item Status"
   },
   {
    "fieldname": "rejection_reason",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Rejection Reason"
   }
  ],
  "permissions": [

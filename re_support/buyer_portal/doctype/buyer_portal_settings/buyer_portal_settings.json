@@ -6,86 +6,106 @@
  "fields": [
   {
    "fieldname": "portal_enabled",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Portal Enabled"
   },
   {
    "fieldname": "portal_url",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Portal Url"
   },
   {
    "fieldname": "allow_ticket_create",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Allow Ticket Create"
   },
   {
    "fieldname": "allow_ticket_attachment",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Allow Ticket Attachment"
   },
   {
    "fieldname": "allowed_categories",
-   "fieldtype": "Text"
+   "fieldtype": "Text",
+   "label": "Allowed Categories"
   },
   {
    "fieldname": "show_possession_status",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Show Possession Status"
   },
   {
    "fieldname": "show_defect_report",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Show Defect Report"
   },
   {
    "fieldname": "whatsapp_notify",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Whatsapp Notify"
   },
   {
    "fieldname": "whatsapp_api_provider",
    "fieldtype": "Select",
-   "options": "Interakt\\nWati\\nAiSensy\\nGupshup\\nCustom"
+   "options": "Interakt\\nWati\\nAiSensy\\nGupshup\\nCustom",
+   "label": "Whatsapp Api Provider"
   },
   {
    "fieldname": "whatsapp_api_key",
-   "fieldtype": "Password"
+   "fieldtype": "Password",
+   "label": "Whatsapp Api Key"
   },
   {
    "fieldname": "email_notify",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Email Notify"
   },
   {
    "fieldname": "email_notify_template",
    "fieldtype": "Link",
-   "options": "Email Template"
+   "options": "Email Template",
+   "label": "Email Notify Template"
   },
   {
    "fieldname": "support_email",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Support Email"
   },
   {
    "fieldname": "support_phone",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Support Phone"
   },
   {
    "fieldname": "office_hours",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Office Hours"
   },
   {
    "fieldname": "portal_logo",
-   "fieldtype": "Attach Image"
+   "fieldtype": "Attach Image",
+   "label": "Portal Logo"
   },
   {
    "fieldname": "welcome_message",
-   "fieldtype": "Text"
+   "fieldtype": "Text",
+   "label": "Welcome Message"
   },
   {
    "fieldname": "footer_links",
-   "fieldtype": "Text"
+   "fieldtype": "Text",
+   "label": "Footer Links"
   },
   {
    "fieldname": "buyer_auth_method",
    "fieldtype": "Select",
-   "options": "OTP via Mobile\\nEmail OTP\\nPassword\\nBoth"
+   "options": "OTP via Mobile\\nEmail OTP\\nPassword\\nBoth",
+   "label": "Buyer Auth Method"
   },
   {
    "fieldname": "session_timeout_mins",
-   "fieldtype": "Int"
+   "fieldtype": "Int",
+   "label": "Session Timeout Mins"
   }
  ],
  "permissions": [

@@ -8,35 +8,43 @@
    "fieldname": "noc_type",
    "fieldtype": "Select",
    "options": "Bank NOC\\nSociety NOC\\nWater Connection NOC\\nFire NOC\\nLift Inspection\\nProperty Tax Clearance\\nOther",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Noc Type"
   },
   {
    "fieldname": "issuing_authority",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Issuing Authority"
   },
   {
    "fieldname": "mandatory",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Mandatory"
   },
   {
    "fieldname": "received",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Received"
   },
   {
    "fieldname": "received_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Received Date"
   },
   {
    "fieldname": "expiry_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Expiry Date"
   },
   {
    "fieldname": "document",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Document"
   },
   {
    "fieldname": "remarks",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Remarks"
   }
  ],
  "permissions": [

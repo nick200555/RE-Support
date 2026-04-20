@@ -6,22 +6,26 @@
   {
    "fieldname": "checklist_name",
    "fieldtype": "Data",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Checklist Name"
   },
   {
    "fieldname": "project_type",
    "fieldtype": "Select",
-   "options": "Apartment\\nVilla\\nCommercial\\nPlotted"
+   "options": "Apartment\\nVilla\\nCommercial\\nPlotted",
+   "label": "Project Type"
   },
   {
    "fieldname": "items",
    "fieldtype": "Table",
-   "options": "Utility Item"
+   "options": "Utility Item",
+   "label": "Items"
   },
   {
    "fieldname": "is_active",
    "fieldtype": "Check",
-   "default": "1"
+   "default": "1",
+   "label": "Is Active"
   }
  ],
  "permissions": [

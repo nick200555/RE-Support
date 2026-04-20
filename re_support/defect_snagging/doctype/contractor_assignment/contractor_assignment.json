@@ -8,46 +8,55 @@
    "fieldname": "defect_report",
    "fieldtype": "Link",
    "options": "Defect Report",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Defect Report"
   },
   {
    "fieldname": "contractor",
    "fieldtype": "Link",
    "options": "Supplier",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Contractor"
   },
   {
    "fieldname": "assignment_date",
    "fieldtype": "Date",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Assignment Date"
   },
   {
    "fieldname": "due_date",
    "fieldtype": "Date",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Due Date"
   },
   {
    "fieldname": "items_assigned",
-   "fieldtype": "Int"
+   "fieldtype": "Int",
+   "label": "Items Assigned"
   },
   {
    "fieldname": "items_completed",
    "fieldtype": "Int",
-   "read_only": 1
+   "read_only": 1,
+   "label": "Items Completed"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
-   "options": "Pending\\nIn Progress\\nCompleted\\nPartially Done\\nDefaulted"
+   "options": "Pending\\nIn Progress\\nCompleted\\nPartially Done\\nDefaulted",
+   "label": "Status"
   },
   {
    "fieldname": "remarks",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Remarks"
   },
   {
    "fieldname": "purchase_order",
    "fieldtype": "Link",
-   "options": "Purchase Order"
+   "options": "Purchase Order",
+   "label": "Purchase Order"
   }
  ],
  "permissions": [

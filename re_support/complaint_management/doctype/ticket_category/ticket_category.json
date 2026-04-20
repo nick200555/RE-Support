@@ -6,45 +6,54 @@
   {
    "fieldname": "category_name",
    "fieldtype": "Data",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Category Name"
   },
   {
    "fieldname": "department",
    "fieldtype": "Select",
    "options": "Civil\\nElectrical\\nPlumbing\\nLegal\\nFinance\\nGeneral",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Department"
   },
   {
    "fieldname": "default_sla",
    "fieldtype": "Link",
-   "options": "SLA Policy"
+   "options": "SLA Policy",
+   "label": "Default Sla"
   },
   {
    "fieldname": "auto_assign_role",
    "fieldtype": "Link",
-   "options": "Role"
+   "options": "Role",
+   "label": "Auto Assign Role"
   },
   {
    "fieldname": "rera_risk",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Rera Risk"
   },
   {
    "fieldname": "allow_buyer_create",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Allow Buyer Create"
   },
   {
    "fieldname": "email_template",
    "fieldtype": "Link",
-   "options": "Email Template"
+   "options": "Email Template",
+   "label": "Email Template"
   },
   {
    "fieldname": "color_code",
-   "fieldtype": "Color"
+   "fieldtype": "Color",
+   "label": "Color Code"
   },
   {
    "fieldname": "is_active",
    "fieldtype": "Check",
-   "default": "1"
+   "default": "1",
+   "label": "Is Active"
   }
  ],
  "permissions": [

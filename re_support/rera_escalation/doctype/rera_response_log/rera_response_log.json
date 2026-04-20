@@ -7,35 +7,42 @@
   {
    "fieldname": "log_date",
    "fieldtype": "Date",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Log Date"
   },
   {
    "fieldname": "activity_type",
    "fieldtype": "Select",
    "options": "Response Filed\\nHearing Attended\\nDocument Submitted\\nNotice Received\\nSettlement Discussion\\nOrder Received",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Activity Type"
   },
   {
    "fieldname": "description",
    "fieldtype": "Text",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Description"
   },
   {
    "fieldname": "filed_by",
    "fieldtype": "Link",
-   "options": "User"
+   "options": "User",
+   "label": "Filed By"
   },
   {
    "fieldname": "document",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Document"
   },
   {
    "fieldname": "next_action",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Next Action"
   },
   {
    "fieldname": "next_action_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Next Action Date"
   }
  ],
  "permissions": [

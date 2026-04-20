@@ -8,136 +8,166 @@
   {
    "fieldname": "rera_complaint_no",
    "fieldtype": "Data",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Rera Complaint No"
   },
   {
    "fieldname": "rera_portal_ref",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Rera Portal Ref"
   },
   {
    "fieldname": "source_ticket",
    "fieldtype": "Link",
-   "options": "Support Ticket"
+   "options": "Support Ticket",
+   "label": "Source Ticket"
   },
   {
    "fieldname": "buyer",
    "fieldtype": "Link",
    "options": "Contact",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Buyer"
   },
   {
    "fieldname": "buyer_advocate",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Buyer Advocate"
   },
   {
    "fieldname": "project",
    "fieldtype": "Link",
    "options": "Project",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Project"
   },
   {
    "fieldname": "unit_no",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Unit No"
   },
   {
    "fieldname": "complaint_type",
    "fieldtype": "Select",
-   "options": "Delay in Possession\\nConstruction Defect\\nFalse Representation\\nNon-disclosure\\nAgreement Breach\\nOther"
+   "options": "Delay in Possession\\nConstruction Defect\\nFalse Representation\\nNon-disclosure\\nAgreement Breach\\nOther",
+   "label": "Complaint Type"
   },
   {
    "fieldname": "filed_date",
    "fieldtype": "Date",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Filed Date"
   },
   {
    "fieldname": "state_rera",
    "fieldtype": "Select",
-   "options": "MahaRERA\\nRERA Karnataka\\nUP RERA\\nGujarat RERA\\nHaryana RERA\\nOther"
+   "options": "MahaRERA\\nRERA Karnataka\\nUP RERA\\nGujarat RERA\\nHaryana RERA\\nOther",
+   "label": "State Rera"
   },
   {
    "fieldname": "authority_address",
-   "fieldtype": "Small Text"
+   "fieldtype": "Small Text",
+   "label": "Authority Address"
   },
   {
    "fieldname": "first_notice_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "First Notice Date"
   },
   {
    "fieldname": "response_deadline",
    "fieldtype": "Date",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Response Deadline"
   },
   {
    "fieldname": "legal_team",
    "fieldtype": "Link",
-   "options": "User"
+   "options": "User",
+   "label": "Legal Team"
   },
   {
    "fieldname": "external_counsel",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "External Counsel"
   },
   {
    "fieldname": "hearing_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Hearing Date"
   },
   {
    "fieldname": "hearing_venue",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Hearing Venue"
   },
   {
    "fieldname": "response_logs",
    "fieldtype": "Table",
-   "options": "RERA Response Log"
+   "options": "RERA Response Log",
+   "label": "Response Logs"
   },
   {
    "fieldname": "attachments",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Attachments"
   },
   {
    "fieldname": "developer_position",
-   "fieldtype": "Text Editor"
+   "fieldtype": "Text Editor",
+   "label": "Developer Position"
   },
   {
    "fieldname": "settlement_offered",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Settlement Offered"
   },
   {
    "fieldname": "settlement_amount",
-   "fieldtype": "Currency"
+   "fieldtype": "Currency",
+   "label": "Settlement Amount"
   },
   {
    "fieldname": "outcome",
    "fieldtype": "Select",
-   "options": "Pending\\nIn Favour of Developer\\nAgainst Developer\\nSettled\\nWithdrawn\\nDismissed"
+   "options": "Pending\\nIn Favour of Developer\\nAgainst Developer\\nSettled\\nWithdrawn\\nDismissed",
+   "label": "Outcome"
   },
   {
    "fieldname": "outcome_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Outcome Date"
   },
   {
    "fieldname": "penalty_amount",
-   "fieldtype": "Currency"
+   "fieldtype": "Currency",
+   "label": "Penalty Amount"
   },
   {
    "fieldname": "penalty_paid",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Penalty Paid"
   },
   {
    "fieldname": "penalty_jv",
    "fieldtype": "Link",
-   "options": "Journal Entry"
+   "options": "Journal Entry",
+   "label": "Penalty Jv"
   },
   {
    "fieldname": "appeal_filed",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Appeal Filed"
   },
   {
    "fieldname": "appeal_tribunal",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Appeal Tribunal"
   },
   {
    "fieldname": "remarks",
-   "fieldtype": "Text Editor"
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
   }
  ],
  "permissions": [

@@ -8,158 +8,193 @@
   {
    "fieldname": "possession_no",
    "fieldtype": "Data",
-   "read_only": 1
+   "read_only": 1,
+   "label": "Possession No"
   },
   {
    "fieldname": "project",
    "fieldtype": "Link",
    "options": "Project",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Project"
   },
   {
    "fieldname": "unit_no",
    "fieldtype": "Data",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Unit No"
   },
   {
    "fieldname": "tower_block",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Tower Block"
   },
   {
    "fieldname": "floor_no",
-   "fieldtype": "Int"
+   "fieldtype": "Int",
+   "label": "Floor No"
   },
   {
    "fieldname": "buyer",
    "fieldtype": "Link",
    "options": "Contact",
-   "reqd": 1
+   "reqd": 1,
+   "label": "Buyer"
   },
   {
    "fieldname": "co_buyer",
    "fieldtype": "Link",
-   "options": "Contact"
+   "options": "Contact",
+   "label": "Co Buyer"
   },
   {
    "fieldname": "buyer_mobile",
    "fieldtype": "Data",
    "fetch_from": "buyer.mobile_no",
-   "read_only": 1
+   "read_only": 1,
+   "label": "Buyer Mobile"
   },
   {
    "fieldname": "booking_ref",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Booking Ref"
   },
   {
    "fieldname": "sale_deed_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Sale Deed Date"
   },
   {
    "fieldname": "total_consideration",
-   "fieldtype": "Currency"
+   "fieldtype": "Currency",
+   "label": "Total Consideration"
   },
   {
    "fieldname": "outstanding_dues",
-   "fieldtype": "Currency"
+   "fieldtype": "Currency",
+   "label": "Outstanding Dues"
   },
   {
    "fieldname": "dues_verified_by",
    "fieldtype": "Link",
-   "options": "User"
+   "options": "User",
+   "label": "Dues Verified By"
   },
   {
    "fieldname": "dues_cleared",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Dues Cleared"
   },
   {
    "fieldname": "dues_cleared_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Dues Cleared Date"
   },
   {
    "fieldname": "oc_received",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Oc Received"
   },
   {
    "fieldname": "oc_number",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Oc Number"
   },
   {
    "fieldname": "oc_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Oc Date"
   },
   {
    "fieldname": "oc_copy",
-   "fieldtype": "Attach"
+   "fieldtype": "Attach",
+   "label": "Oc Copy"
   },
   {
    "fieldname": "noc_list",
    "fieldtype": "Table",
-   "options": "NOC Document"
+   "options": "NOC Document",
+   "label": "Noc List"
   },
   {
    "fieldname": "all_nocs_received",
    "fieldtype": "Check",
-   "read_only": 1
+   "read_only": 1,
+   "label": "All Nocs Received"
   },
   {
    "fieldname": "scheduled_date",
-   "fieldtype": "Datetime"
+   "fieldtype": "Datetime",
+   "label": "Scheduled Date"
   },
   {
    "fieldname": "confirmed_by_buyer",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Confirmed By Buyer"
   },
   {
    "fieldname": "pre_inspection_done",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Pre Inspection Done"
   },
   {
    "fieldname": "pre_inspection_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Pre Inspection Date"
   },
   {
    "fieldname": "defect_report",
    "fieldtype": "Link",
-   "options": "Defect Report"
+   "options": "Defect Report",
+   "label": "Defect Report"
   },
   {
    "fieldname": "key_handover_date",
-   "fieldtype": "Date"
+   "fieldtype": "Date",
+   "label": "Key Handover Date"
   },
   {
    "fieldname": "handover_by",
    "fieldtype": "Link",
-   "options": "User"
+   "options": "User",
+   "label": "Handover By"
   },
   {
    "fieldname": "keys_count",
-   "fieldtype": "Int"
+   "fieldtype": "Int",
+   "label": "Keys Count"
   },
   {
    "fieldname": "welcome_kit_issued",
-   "fieldtype": "Check"
+   "fieldtype": "Check",
+   "label": "Welcome Kit Issued"
   },
   {
    "fieldname": "utility_connections",
    "fieldtype": "Table",
-   "options": "Utility Item"
+   "options": "Utility Item",
+   "label": "Utility Connections"
   },
   {
    "fieldname": "buyer_signature",
-   "fieldtype": "Signature"
+   "fieldtype": "Signature",
+   "label": "Buyer Signature"
   },
   {
    "fieldname": "witness_name",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Witness Name"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
-   "options": "Initiated\\nDues Check\\nNOC Collection\\nScheduled\\nKey Handover\\nCompleted"
+   "options": "Initiated\\nDues Check\\nNOC Collection\\nScheduled\\nKey Handover\\nCompleted",
+   "label": "Status"
   },
   {
    "fieldname": "remarks",
-   "fieldtype": "Text Editor"
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
   }
  ],
  "permissions": [

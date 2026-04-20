@@ -6,7 +6,8 @@
  "fields": [
   {
    "fieldname": "utility",
-   "fieldtype": "Data"
+   "fieldtype": "Data",
+   "label": "Utility"
   }
  ],
  "permissions": [
