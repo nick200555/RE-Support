@@ -22,8 +22,14 @@
             "options": "WhatsApp\\nEmail\\nSMS\\nIn-App"
         },
         {
+            "fieldname": "reference_doctype",
+            "fieldtype": "Link",
+            "options": "DocType"
+        },
+        {
             "fieldname": "source_document",
-            "fieldtype": "Dynamic Link"
+            "fieldtype": "Dynamic Link",
+            "options": "reference_doctype"
         },
         {
             "fieldname": "message",
