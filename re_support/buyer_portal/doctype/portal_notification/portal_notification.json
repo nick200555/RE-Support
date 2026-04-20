@@ -1,65 +1,92 @@
 {
-    "doctype": "DocType",
-    "module": "Buyer Portal",
-    "name": "Portal Notification",
-    "autoname": "PNOT-.YYYY.MM.DD.-.##",
-    "fields": [
-        {
-            "fieldname": "buyer",
-            "fieldtype": "Link",
-            "options": "Contact",
-            "reqd": 1
-        },
-        {
-            "fieldname": "notification_type",
-            "fieldtype": "Select",
-            "options": "Ticket Created\\nStatus Changed\\nSLA Breach\\nPossession Update\\nDefect Update\\nRERA Notice"
-        },
-        {
-            "fieldname": "channel",
-            "fieldtype": "Select",
-            "options": "WhatsApp\\nEmail\\nSMS\\nIn-App"
-        },
-        {
-            "fieldname": "reference_doctype",
-            "fieldtype": "Link",
-            "options": "DocType"
-        },
-        {
-            "fieldname": "source_document",
-            "fieldtype": "Dynamic Link",
-            "options": "reference_doctype"
-        },
-        {
-            "fieldname": "message",
-            "fieldtype": "Text"
-        },
-        {
-            "fieldname": "sent_at",
-            "fieldtype": "Datetime"
-        },
-        {
-            "fieldname": "delivery_status",
-            "fieldtype": "Select",
-            "options": "Sent\\nDelivered\\nRead\\nFailed"
-        },
-        {
-            "fieldname": "failure_reason",
-            "fieldtype": "Small Text"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "module": "Buyer Portal",
+ "name": "Portal Notification",
+ "autoname": "PNOT-.YYYY.MM.DD.-.##",
+ "fields": [
+  {
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "options": "Contact",
+   "reqd": 1
+  },
+  {
+   "fieldname": "notification_type",
+   "fieldtype": "Select",
+   "options": "Ticket Created\\nStatus Changed\\nSLA Breach\\nPossession Update\\nDefect Update\\nRERA Notice"
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Select",
+   "options": "WhatsApp\\nEmail\\nSMS\\nIn-App"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "source_document",
+   "fieldtype": "Dynamic Link",
+   "options": "reference_doctype"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Text"
+  },
+  {
+   "fieldname": "sent_at",
+   "fieldtype": "Datetime"
+  },
+  {
+   "fieldname": "delivery_status",
+   "fieldtype": "Select",
+   "options": "Sent\\nDelivered\\nRead\\nFailed"
+  },
+  {
+   "fieldname": "failure_reason",
+   "fieldtype": "Small Text"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 0,
+ "field_order": [
+  "buyer",
+  "notification_type",
+  "channel",
+  "reference_doctype",
+  "source_document",
+  "message",
+  "sent_at",
+  "delivery_status",
+  "failure_reason"
+ ]
 }

@@ -1,66 +1,94 @@
 {
-    "doctype": "DocType",
-    "module": "Complaint Management",
-    "name": "SLA Policy",
-    "fields": [
-        {
-            "fieldname": "policy_name",
-            "fieldtype": "Data",
-            "reqd": 1
-        },
-        {
-            "fieldname": "applies_to_priority",
-            "fieldtype": "Select",
-            "options": "Low\\nMedium\\nHigh\\nCritical\\nAll"
-        },
-        {
-            "fieldname": "response_time_hrs",
-            "fieldtype": "Int",
-            "reqd": 1
-        },
-        {
-            "fieldname": "resolution_time_hrs",
-            "fieldtype": "Int",
-            "reqd": 1
-        },
-        {
-            "fieldname": "escalate_after_hrs",
-            "fieldtype": "Int"
-        },
-        {
-            "fieldname": "escalate_to",
-            "fieldtype": "Link",
-            "options": "User"
-        },
-        {
-            "fieldname": "notify_buyer_on_breach",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "notify_manager_on_breach",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "working_days_only",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "breach_message",
-            "fieldtype": "Small Text"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "module": "Complaint Management",
+ "name": "SLA Policy",
+ "fields": [
+  {
+   "fieldname": "policy_name",
+   "fieldtype": "Data",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applies_to_priority",
+   "fieldtype": "Select",
+   "options": "Low\\nMedium\\nHigh\\nCritical\\nAll"
+  },
+  {
+   "fieldname": "response_time_hrs",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "resolution_time_hrs",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "escalate_after_hrs",
+   "fieldtype": "Int"
+  },
+  {
+   "fieldname": "escalate_to",
+   "fieldtype": "Link",
+   "options": "User"
+  },
+  {
+   "fieldname": "notify_buyer_on_breach",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "notify_manager_on_breach",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "working_days_only",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "breach_message",
+   "fieldtype": "Small Text"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 0,
+ "field_order": [
+  "policy_name",
+  "applies_to_priority",
+  "response_time_hrs",
+  "resolution_time_hrs",
+  "escalate_after_hrs",
+  "escalate_to",
+  "notify_buyer_on_breach",
+  "notify_manager_on_breach",
+  "working_days_only",
+  "breach_message"
+ ]
 }

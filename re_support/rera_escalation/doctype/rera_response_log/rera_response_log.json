@@ -1,55 +1,79 @@
 {
-    "doctype": "DocType",
-    "istable": 1,
-    "module": "RERA Escalation",
-    "name": "RERA Response Log",
-    "fields": [
-        {
-            "fieldname": "log_date",
-            "fieldtype": "Date",
-            "reqd": 1
-        },
-        {
-            "fieldname": "activity_type",
-            "fieldtype": "Select",
-            "options": "Response Filed\\nHearing Attended\\nDocument Submitted\\nNotice Received\\nSettlement Discussion\\nOrder Received",
-            "reqd": 1
-        },
-        {
-            "fieldname": "description",
-            "fieldtype": "Text",
-            "reqd": 1
-        },
-        {
-            "fieldname": "filed_by",
-            "fieldtype": "Link",
-            "options": "User"
-        },
-        {
-            "fieldname": "document",
-            "fieldtype": "Attach"
-        },
-        {
-            "fieldname": "next_action",
-            "fieldtype": "Small Text"
-        },
-        {
-            "fieldname": "next_action_date",
-            "fieldtype": "Date"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "istable": 1,
+ "module": "RERA Escalation",
+ "name": "RERA Response Log",
+ "fields": [
+  {
+   "fieldname": "log_date",
+   "fieldtype": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "activity_type",
+   "fieldtype": "Select",
+   "options": "Response Filed\\nHearing Attended\\nDocument Submitted\\nNotice Received\\nSettlement Discussion\\nOrder Received",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "reqd": 1
+  },
+  {
+   "fieldname": "filed_by",
+   "fieldtype": "Link",
+   "options": "User"
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach"
+  },
+  {
+   "fieldname": "next_action",
+   "fieldtype": "Small Text"
+  },
+  {
+   "fieldname": "next_action_date",
+   "fieldtype": "Date"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "field_order": [
+  "log_date",
+  "activity_type",
+  "description",
+  "filed_by",
+  "document",
+  "next_action",
+  "next_action_date"
+ ]
 }

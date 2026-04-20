@@ -1,64 +1,91 @@
 {
-    "doctype": "DocType",
-    "module": "Complaint Management",
-    "name": "Ticket Category",
-    "fields": [
-        {
-            "fieldname": "category_name",
-            "fieldtype": "Data",
-            "reqd": 1
-        },
-        {
-            "fieldname": "department",
-            "fieldtype": "Select",
-            "options": "Civil\\nElectrical\\nPlumbing\\nLegal\\nFinance\\nGeneral",
-            "reqd": 1
-        },
-        {
-            "fieldname": "default_sla",
-            "fieldtype": "Link",
-            "options": "SLA Policy"
-        },
-        {
-            "fieldname": "auto_assign_role",
-            "fieldtype": "Link",
-            "options": "Role"
-        },
-        {
-            "fieldname": "rera_risk",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "allow_buyer_create",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "email_template",
-            "fieldtype": "Link",
-            "options": "Email Template"
-        },
-        {
-            "fieldname": "color_code",
-            "fieldtype": "Color"
-        },
-        {
-            "fieldname": "is_active",
-            "fieldtype": "Check",
-            "default": "1"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "module": "Complaint Management",
+ "name": "Ticket Category",
+ "fields": [
+  {
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "reqd": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Select",
+   "options": "Civil\\nElectrical\\nPlumbing\\nLegal\\nFinance\\nGeneral",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_sla",
+   "fieldtype": "Link",
+   "options": "SLA Policy"
+  },
+  {
+   "fieldname": "auto_assign_role",
+   "fieldtype": "Link",
+   "options": "Role"
+  },
+  {
+   "fieldname": "rera_risk",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "allow_buyer_create",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "email_template",
+   "fieldtype": "Link",
+   "options": "Email Template"
+  },
+  {
+   "fieldname": "color_code",
+   "fieldtype": "Color"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "default": "1"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 0,
+ "field_order": [
+  "category_name",
+  "department",
+  "default_sla",
+  "auto_assign_role",
+  "rera_risk",
+  "allow_buyer_create",
+  "email_template",
+  "color_code",
+  "is_active"
+ ]
 }

@@ -1,56 +1,81 @@
 {
-    "doctype": "DocType",
-    "istable": 1,
-    "module": "Possession Management",
-    "name": "NOC Document",
-    "fields": [
-        {
-            "fieldname": "noc_type",
-            "fieldtype": "Select",
-            "options": "Bank NOC\\nSociety NOC\\nWater Connection NOC\\nFire NOC\\nLift Inspection\\nProperty Tax Clearance\\nOther",
-            "reqd": 1
-        },
-        {
-            "fieldname": "issuing_authority",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "mandatory",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "received",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "received_date",
-            "fieldtype": "Date"
-        },
-        {
-            "fieldname": "expiry_date",
-            "fieldtype": "Date"
-        },
-        {
-            "fieldname": "document",
-            "fieldtype": "Attach"
-        },
-        {
-            "fieldname": "remarks",
-            "fieldtype": "Small Text"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "istable": 1,
+ "module": "Possession Management",
+ "name": "NOC Document",
+ "fields": [
+  {
+   "fieldname": "noc_type",
+   "fieldtype": "Select",
+   "options": "Bank NOC\\nSociety NOC\\nWater Connection NOC\\nFire NOC\\nLift Inspection\\nProperty Tax Clearance\\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "issuing_authority",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "mandatory",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "received",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "received_date",
+   "fieldtype": "Date"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date"
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "field_order": [
+  "noc_type",
+  "issuing_authority",
+  "mandatory",
+  "received",
+  "received_date",
+  "expiry_date",
+  "document",
+  "remarks"
+ ]
 }

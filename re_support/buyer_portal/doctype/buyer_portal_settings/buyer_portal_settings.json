@@ -1,105 +1,143 @@
 {
-    "doctype": "DocType",
-    "issingle": 1,
-    "module": "Buyer Portal",
-    "name": "Buyer Portal Settings",
-    "fields": [
-        {
-            "fieldname": "portal_enabled",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "portal_url",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "allow_ticket_create",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "allow_ticket_attachment",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "allowed_categories",
-            "fieldtype": "Text"
-        },
-        {
-            "fieldname": "show_possession_status",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "show_defect_report",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "whatsapp_notify",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "whatsapp_api_provider",
-            "fieldtype": "Select",
-            "options": "Interakt\\nWati\\nAiSensy\\nGupshup\\nCustom"
-        },
-        {
-            "fieldname": "whatsapp_api_key",
-            "fieldtype": "Password"
-        },
-        {
-            "fieldname": "email_notify",
-            "fieldtype": "Check"
-        },
-        {
-            "fieldname": "email_notify_template",
-            "fieldtype": "Link",
-            "options": "Email Template"
-        },
-        {
-            "fieldname": "support_email",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "support_phone",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "office_hours",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "portal_logo",
-            "fieldtype": "Attach Image"
-        },
-        {
-            "fieldname": "welcome_message",
-            "fieldtype": "Text"
-        },
-        {
-            "fieldname": "footer_links",
-            "fieldtype": "Text"
-        },
-        {
-            "fieldname": "buyer_auth_method",
-            "fieldtype": "Select",
-            "options": "OTP via Mobile\\nEmail OTP\\nPassword\\nBoth"
-        },
-        {
-            "fieldname": "session_timeout_mins",
-            "fieldtype": "Int"
-        }
-    ],
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ]
+ "doctype": "DocType",
+ "issingle": 1,
+ "module": "Buyer Portal",
+ "name": "Buyer Portal Settings",
+ "fields": [
+  {
+   "fieldname": "portal_enabled",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "portal_url",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "allow_ticket_create",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "allow_ticket_attachment",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "allowed_categories",
+   "fieldtype": "Text"
+  },
+  {
+   "fieldname": "show_possession_status",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "show_defect_report",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "whatsapp_notify",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "whatsapp_api_provider",
+   "fieldtype": "Select",
+   "options": "Interakt\\nWati\\nAiSensy\\nGupshup\\nCustom"
+  },
+  {
+   "fieldname": "whatsapp_api_key",
+   "fieldtype": "Password"
+  },
+  {
+   "fieldname": "email_notify",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "email_notify_template",
+   "fieldtype": "Link",
+   "options": "Email Template"
+  },
+  {
+   "fieldname": "support_email",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "support_phone",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "office_hours",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "portal_logo",
+   "fieldtype": "Attach Image"
+  },
+  {
+   "fieldname": "welcome_message",
+   "fieldtype": "Text"
+  },
+  {
+   "fieldname": "footer_links",
+   "fieldtype": "Text"
+  },
+  {
+   "fieldname": "buyer_auth_method",
+   "fieldtype": "Select",
+   "options": "OTP via Mobile\\nEmail OTP\\nPassword\\nBoth"
+  },
+  {
+   "fieldname": "session_timeout_mins",
+   "fieldtype": "Int"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 0,
+ "field_order": [
+  "portal_enabled",
+  "portal_url",
+  "allow_ticket_create",
+  "allow_ticket_attachment",
+  "allowed_categories",
+  "show_possession_status",
+  "show_defect_report",
+  "whatsapp_notify",
+  "whatsapp_api_provider",
+  "whatsapp_api_key",
+  "email_notify",
+  "email_notify_template",
+  "support_email",
+  "support_phone",
+  "office_hours",
+  "portal_logo",
+  "welcome_message",
+  "footer_links",
+  "buyer_auth_method",
+  "session_timeout_mins"
+ ]
 }
