@@ -43,5 +43,12 @@ def get_data():
             "icon": "octicon octicon-bar-chart",
             "label": _("Reports & Analytics"),
             "type": "module"
+        },
+        {
+            "module_name": "RE Support",
+            "color": "#3498DB",
+            "icon": "octicon octicon-book",
+            "label": _("RE Support"),
+            "type": "module"
         }
     ]
