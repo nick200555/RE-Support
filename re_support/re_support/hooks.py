@@ -69,4 +69,5 @@ fixtures = [
     "Property Setter",
     "Role",
     "Workflow",
+    "Workspace",
 ]
