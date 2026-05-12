@@ -1,31 +1,6 @@
 {
- "charts": [
-  {
-   "chart_name": "Open Tickets",
-   "label": "Open Tickets"
-  },
-  {
-   "chart_name": "Ticket Resolution Trend",
-   "label": "Ticket Resolution Trend"
-  },
-  {
-   "chart_name": "Technician Utilization",
-   "label": "Technician Utilization"
-  },
-  {
-   "chart_name": "AMC Renewals",
-   "label": "AMC Renewals"
-  },
-  {
-   "chart_name": "Service Revenue",
-   "label": "Service Revenue"
-  },
-  {
-   "chart_name": "Customer Satisfaction Score",
-   "label": "Customer Satisfaction Score"
-  }
- ],
- "content": "[{\"id\": \"cb-tickets\", \"type\": \"card\", \"data\": {\"card_name\": \"Tickets & Support\", \"col\": 12}}, {\"id\": \"cb-customers\", \"type\": \"card\", \"data\": {\"card_name\": \"Customers & Contracts\", \"col\": 12}}, {\"id\": \"cb-field-service\", \"type\": \"card\", \"data\": {\"card_name\": \"Field Service Operations\", \"col\": 12}}, {\"id\": \"cb-assets\", \"type\": \"card\", \"data\": {\"card_name\": \"Assets & Maintenance\", \"col\": 12}}, {\"id\": \"cb-billing\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing & Invoicing\", \"col\": 12}}, {\"id\": \"cb-masters\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters & Setup\", \"col\": 12}}, {\"id\": \"cb-reports\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports & Analytics\", \"col\": 12}}]",
+ "charts": [],
+ "content": "[{\"id\": \"cb-support\", \"type\": \"card\", \"data\": {\"card_name\": \"Support & Complaints\", \"col\": 12}}, {\"id\": \"cb-defects\", \"type\": \"card\", \"data\": {\"card_name\": \"Defect Snagging\", \"col\": 12}}, {\"id\": \"cb-possession\", \"type\": \"card\", \"data\": {\"card_name\": \"Possession & Handover\", \"col\": 12}}, {\"id\": \"cb-rera\", \"type\": \"card\", \"data\": {\"card_name\": \"RERA Escalation\", \"col\": 12}}]",
  "creation": "2024-01-01 00:00:00.000000",
  "developer_mode_only": 0,
  "disable_user_customization": 0,
@@ -43,10 +18,10 @@
    "hidden": 0,
    "idx": 1,
    "is_query_report": 0,
-   "label": "Tickets & Support",
+   "label": "Support & Complaints",
    "link_count": 0,
    "onboard": 1,
-   "title": "Tickets & Support",
+   "title": "Support & Complaints",
    "type": "Card Break"
   },
   {
@@ -66,11 +41,11 @@
    "hidden": 0,
    "idx": 3,
    "is_query_report": 0,
-   "label": "Service Request",
+   "label": "Ticket Category",
    "link_count": 0,
-   "link_to": "Service Request",
+   "link_to": "Ticket Category",
    "link_type": "DocType",
-   "onboard": 1,
+   "onboard": 0,
    "type": "Link"
   },
   {
@@ -78,45 +53,45 @@
    "hidden": 0,
    "idx": 4,
    "is_query_report": 0,
-   "label": "Complaint Log",
+   "label": "SLA Policy",
    "link_count": 0,
-   "link_to": "Complaint Log",
+   "link_to": "SLA Policy",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "idx": 5,
+   "is_query_report": 0,
+   "label": "Defect Snagging",
+   "link_count": 0,
+   "onboard": 1,
+   "title": "Defect Snagging",
+   "type": "Card Break"
   },
   {
    "dependencies": "",
    "hidden": 0,
-   "idx": 5,
-   "is_query_report": 0,
-   "label": "Support Feedback",
-   "link_count": 0,
-   "link_to": "Support Feedback",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
    "idx": 6,
    "is_query_report": 0,
-   "label": "Customers & Contracts",
+   "label": "Defect Report",
    "link_count": 0,
+   "link_to": "Defect Report",
+   "link_type": "DocType",
    "onboard": 1,
-   "title": "Customers & Contracts",
-   "type": "Card Break"
+   "type": "Link"
   },
   {
    "dependencies": "",
    "hidden": 0,
    "idx": 7,
    "is_query_report": 0,
-   "label": "Customer",
+   "label": "Defect Item",
    "link_count": 0,
-   "link_to": "Customer",
+   "link_to": "Defect Item",
    "link_type": "DocType",
-   "onboard": 1,
+   "onboard": 0,
    "type": "Link"
   },
   {
@@ -124,45 +99,45 @@
    "hidden": 0,
    "idx": 8,
    "is_query_report": 0,
-   "label": "AMC Contract",
+   "label": "Contractor Assignment",
    "link_count": 0,
-   "link_to": "AMC Contract",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 9,
-   "is_query_report": 0,
-   "label": "Warranty Claim",
-   "link_count": 0,
-   "link_to": "Warranty Claim",
+   "link_to": "Contractor Assignment",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   },
   {
    "hidden": 0,
-   "idx": 10,
+   "idx": 9,
    "is_query_report": 0,
-   "label": "Field Service Operations",
+   "label": "Possession & Handover",
    "link_count": 0,
    "onboard": 1,
-   "title": "Field Service Operations",
+   "title": "Possession & Handover",
    "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "idx": 10,
+   "is_query_report": 0,
+   "label": "Possession Request",
+   "link_count": 0,
+   "link_to": "Possession Request",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
   },
   {
    "dependencies": "",
    "hidden": 0,
    "idx": 11,
    "is_query_report": 0,
-   "label": "Technician",
+   "label": "Possession Checklist",
    "link_count": 0,
-   "link_to": "Technician",
+   "link_to": "Possession Checklist",
    "link_type": "DocType",
-   "onboard": 1,
+   "onboard": 0,
    "type": "Link"
   },
   {
@@ -170,9 +145,9 @@
    "hidden": 0,
    "idx": 12,
    "is_query_report": 0,
-   "label": "Service Engineer",
+   "label": "NOC Document",
    "link_count": 0,
-   "link_to": "Service Engineer",
+   "link_to": "NOC Document",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -182,253 +157,43 @@
    "hidden": 0,
    "idx": 13,
    "is_query_report": 0,
-   "label": "Service Visit",
+   "label": "Utility Item",
    "link_count": 0,
-   "link_to": "Service Visit",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 14,
-   "is_query_report": 0,
-   "label": "Service Report",
-   "link_count": 0,
-   "link_to": "Service Report",
+   "link_to": "Utility Item",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   },
   {
    "hidden": 0,
-   "idx": 15,
+   "idx": 14,
    "is_query_report": 0,
-   "label": "Assets & Maintenance",
+   "label": "RERA Escalation",
    "link_count": 0,
    "onboard": 1,
-   "title": "Assets & Maintenance",
+   "title": "RERA Escalation",
    "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "idx": 15,
+   "is_query_report": 0,
+   "label": "RERA Complaint",
+   "link_count": 0,
+   "link_to": "RERA Complaint",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
   },
   {
    "dependencies": "",
    "hidden": 0,
    "idx": 16,
    "is_query_report": 0,
-   "label": "Asset",
+   "label": "RERA Response Log",
    "link_count": 0,
-   "link_to": "Asset",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 17,
-   "is_query_report": 0,
-   "label": "Installation",
-   "link_count": 0,
-   "link_to": "Installation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 18,
-   "is_query_report": 0,
-   "label": "Maintenance Schedule",
-   "link_count": 0,
-   "link_to": "Maintenance Schedule",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "idx": 19,
-   "is_query_report": 0,
-   "label": "Billing & Invoicing",
-   "link_count": 0,
-   "onboard": 0,
-   "title": "Billing & Invoicing",
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 20,
-   "is_query_report": 0,
-   "label": "Payment Entry",
-   "link_count": 0,
-   "link_to": "Payment Entry",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 21,
-   "is_query_report": 0,
-   "label": "Spare Parts",
-   "link_count": 0,
-   "link_to": "Spare Parts",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 22,
-   "is_query_report": 0,
-   "label": "Inventory Item",
-   "link_count": 0,
-   "link_to": "Inventory Item",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 23,
-   "is_query_report": 0,
-   "label": "Supplier",
-   "link_count": 0,
-   "link_to": "Supplier",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "idx": 24,
-   "is_query_report": 0,
-   "label": "Reports & Analytics",
-   "link_count": 0,
-   "onboard": 0,
-   "title": "Reports & Analytics",
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 25,
-   "is_query_report": 0,
-   "label": "Ticket Resolution Report",
-   "link_count": 0,
-   "link_to": "Ticket Resolution Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 26,
-   "is_query_report": 0,
-   "label": "Technician Performance Report",
-   "link_count": 0,
-   "link_to": "Technician Performance Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 27,
-   "is_query_report": 0,
-   "label": "AMC Renewal Report",
-   "link_count": 0,
-   "link_to": "AMC Renewal Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 28,
-   "is_query_report": 0,
-   "label": "Service Visit Report",
-   "link_count": 0,
-   "link_to": "Service Visit Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 29,
-   "is_query_report": 0,
-   "label": "Customer Satisfaction Report",
-   "link_count": 0,
-   "link_to": "Customer Satisfaction Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 30,
-   "is_query_report": 0,
-   "label": "Asset Maintenance Report",
-   "link_count": 0,
-   "link_to": "Asset Maintenance Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 31,
-   "is_query_report": 0,
-   "label": "Spare Parts Consumption Report",
-   "link_count": 0,
-   "link_to": "Spare Parts Consumption Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 32,
-   "is_query_report": 0,
-   "label": "Revenue Analysis Report",
-   "link_count": 0,
-   "link_to": "Revenue Analysis Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "idx": 33,
-   "is_query_report": 0,
-   "label": "Masters & Setup",
-   "link_count": 0,
-   "onboard": 0,
-   "title": "Masters & Setup",
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "idx": 34,
-   "is_query_report": 0,
-   "label": "RE Support Settings",
-   "link_count": 0,
-   "link_to": "RE Support Settings",
+   "link_to": "RERA Response Log",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -453,32 +218,28 @@
    "type": "DocType"
   },
   {
-   "color": "Green",
-   "format": "{} Active",
-   "label": "AMC Renewals",
-   "link_to": "AMC Contract",
-   "stats_filter": "{\"status\": \"Active\"}",
+   "color": "Red",
+   "format": "{} Open",
+   "label": "Open Defects",
+   "link_to": "Defect Report",
+   "stats_filter": "{\"status\": \"Open\"}",
    "type": "DocType"
   },
   {
-   "color": "Purple",
-   "format": "{} Active",
-   "label": "Technician Utilization",
-   "link_to": "Technician",
+   "color": "Green",
+   "format": "{} Pending",
+   "label": "Possession Requests",
+   "link_to": "Possession Request",
+   "stats_filter": "{\"status\": \"Pending\"}",
    "type": "DocType"
   },
   {
    "color": "Orange",
-   "format": "{} Pending",
-   "label": "Service Revenue",
-   "link_to": "Payment Entry",
+   "format": "{} Active",
+   "label": "RERA Complaints",
+   "link_to": "RERA Complaint",
+   "stats_filter": "{\"status\": \"Active\"}",
    "type": "DocType"
-  },
-  {
-   "color": "Teal",
-   "label": "Customer Satisfaction Score",
-   "link_to": "Customer Satisfaction Report",
-   "type": "Report"
   }
  ],
  "title": "RE Support"
