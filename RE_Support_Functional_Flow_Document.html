@@ -1,0 +1,3469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>RE Support System — Functional Flow Document</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --blue-900: #0B2545;
+  --blue-800: #13315C;
+  --blue-700: #1A4080;
+  --blue-600: #1D5299;
+  --blue-400: #3B82C4;
+  --blue-300: #93B8DB;
+  --blue-100: #E8F0FA;
+  --blue-50:  #F4F8FD;
+  --gray-900: #1A1A2E;
+  --gray-700: #374151;
+  --gray-500: #6B7280;
+  --gray-300: #D1D5DB;
+  --gray-100: #F3F4F6;
+  --gray-50:  #FAFAFA;
+  --white:    #FFFFFF;
+  --font:     'Inter', -apple-system, sans-serif;
+  --mono:     'JetBrains Mono', 'Courier New', monospace;
+  --radius:   6px;
+  --shadow:   0 2px 8px rgba(0,0,0,.10);
+}
+
+/* ── Page (A4) ── */
+@page {
+  size: A4 portrait;
+  margin: 22mm 18mm 22mm 18mm;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 10.5pt; }
+body {
+  font-family: var(--font);
+  color: var(--gray-700);
+  line-height: 1.7;
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ────── COVER PAGE ────── */
+.cover-page {
+  page-break-after: always;
+  height: 267mm;
+  background: linear-gradient(155deg, #0B2545 0%, #1A4080 55%, #1D5299 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.cover-circle-1 {
+  position: absolute; top: -80px; right: -80px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.cover-circle-2 {
+  position: absolute; bottom: 40px; right: 20px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+}
+.cover-top {
+  background: rgba(255,255,255,.08);
+  padding: 14px 36px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.cover-logo {
+  width: 38px; height: 38px; border-radius: 8px;
+  background: #3B82C4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15pt; font-weight: 800; letter-spacing: -1px;
+}
+.cover-app { font-size: 9pt; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.cover-body {
+  flex: 1; padding: 48px 36px 28px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.cover-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 20px;
+  padding: 4px 14px; margin-bottom: 22px;
+  font-size: 7.5pt; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: #93B8DB; width: fit-content;
+}
+.cover-title {
+  font-size: 34pt; font-weight: 800;
+  line-height: 1.08; letter-spacing: -1px;
+  margin-bottom: 6px; color: #fff;
+}
+.cover-title span { color: #93B8DB; }
+.cover-subtitle {
+  font-size: 12pt; font-weight: 400;
+  color: rgba(255,255,255,.72); line-height: 1.45;
+  max-width: 480px; margin-bottom: 36px;
+}
+.cover-line { width: 56px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, #93B8DB, transparent);
+  margin-bottom: 32px;
+}
+.cover-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; max-width: 440px; margin-bottom: 36px;
+}
+.cover-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius); padding: 10px 14px;
+}
+.cover-card .lbl { font-size: 7pt; text-transform: uppercase; letter-spacing: .09em; color: #93B8DB; font-weight: 600; margin-bottom: 3px; }
+.cover-card .val { font-size: 9pt; font-weight: 500; color: rgba(255,255,255,.9); }
+.cover-stats { display: flex; gap: 22px; }
+.c-stat .num { font-size: 22pt; font-weight: 800; color: #fff; display: block; }
+.c-stat .lbl { font-size: 7pt; text-transform: uppercase; letter-spacing: .08em; color: #93B8DB; font-weight: 600; }
+.cover-footer {
+  background: rgba(0,0,0,.22);
+  padding: 12px 36px;
+  display: flex; justify-content: space-between;
+  font-size: 7.5pt; color: rgba(255,255,255,.45);
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+/* ────── TOC PAGE ────── */
+.toc-page { page-break-after: always; padding: 8px 0 20px; }
+.toc-h { font-size: 18pt; font-weight: 700; color: var(--blue-800);
+  padding-bottom: 8px; border-bottom: 2px solid var(--blue-600); margin-bottom: 4px; }
+.toc-sub { font-size: 8.5pt; color: var(--gray-500); margin-bottom: 22px; }
+.toc-row { display: flex; align-items: baseline; padding: 5.5px 0;
+  border-bottom: 1px dotted var(--gray-300); font-size: 9.5pt; }
+.toc-row.l1 { font-weight: 600; color: var(--blue-800); }
+.toc-row.l2 { padding-left: 18px; font-size: 9pt; color: var(--gray-700); }
+.toc-row.l3 { padding-left: 34px; font-size: 8.5pt; color: var(--gray-500); }
+.toc-n { min-width: 30px; font-weight: 700; color: var(--blue-600); }
+.toc-dots { flex:1; margin: 0 8px; }
+
+/* ────── RUNNING HEADER / FOOTER ────── */
+.page-header {
+  display: flex; justify-content: space-between;
+  font-size: 7.5pt; color: var(--gray-500);
+  padding-bottom: 6px; margin-bottom: 18px;
+  border-bottom: 1px solid var(--gray-300);
+}
+.page-header strong { color: var(--blue-600); }
+.page-footer {
+  display: flex; justify-content: space-between;
+  font-size: 7.5pt; color: var(--gray-500);
+  padding-top: 6px; margin-top: 22px;
+  border-top: 1px solid var(--gray-300);
+}
+
+/* ────── SECTION BANNER ────── */
+h1 {
+  font-family: var(--font);
+  font-size: 16pt; font-weight: 700;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--blue-900), var(--blue-700));
+  padding: 18px 22px; margin: 0 0 22px 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+  page-break-before: always; page-break-after: avoid;
+  position: relative; overflow: hidden;
+}
+h1::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, #93B8DB, var(--blue-400), transparent);
+}
+
+/* ────── HEADINGS ────── */
+h2 {
+  font-size: 13pt; font-weight: 700; color: var(--blue-800);
+  margin: 26px 0 12px; padding-bottom: 6px;
+  border-bottom: 2px solid var(--blue-100);
+  position: relative; page-break-after: avoid;
+}
+h2::after {
+  content:''; position:absolute; bottom:-2px; left:0;
+  width:36px; height:2px; background: var(--blue-600);
+}
+h3 { font-size: 11.5pt; font-weight: 700; color: var(--blue-700); margin: 18px 0 8px; page-break-after:avoid; }
+h4 { font-size: 10.5pt; font-weight: 600; color: var(--gray-700); margin: 14px 0 6px; page-break-after:avoid; }
+h5, h6 { font-size: 10pt; font-weight: 600; color: var(--gray-500); margin: 10px 0 6px; }
+
+/* ────── PARAGRAPH ────── */
+p { margin: 0 0 12px; }
+strong { font-weight: 700; color: var(--gray-900); }
+em { font-style: italic; }
+a { color: var(--blue-600); text-decoration: none; }
+del { text-decoration: line-through; color: var(--gray-500); }
+
+/* ────── CODE ────── */
+code {
+  font-family: var(--mono); font-size: 8.5pt;
+  background: var(--gray-100); color: var(--blue-700);
+  padding: 2px 5px; border-radius: 4px;
+  border: 1px solid var(--gray-300);
+}
+pre {
+  background: #1E293B; color: #E2E8F0;
+  border-radius: var(--radius); padding: 14px 16px;
+  font-family: var(--mono); font-size: 8pt; line-height: 1.6;
+  margin: 14px 0 18px; page-break-inside: avoid;
+  border-left: 3px solid var(--blue-400);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+pre code { background:transparent; color:inherit; border:none; padding:0; font-size:inherit; }
+
+/* ────── TABLES ────── */
+table { width:100%; border-collapse:collapse; margin:12px 0 20px;
+  font-size: 9pt; page-break-inside: auto; box-shadow: var(--shadow);
+  border-radius: var(--radius); overflow:hidden; }
+thead { background: linear-gradient(135deg, var(--blue-800), var(--blue-700)); color: var(--white); }
+thead th { padding:9px 11px; text-align:left; font-weight:600; font-size:8.5pt; letter-spacing:.03em; border:none; }
+tbody tr:nth-child(even) { background: var(--blue-50); }
+tbody tr:nth-child(odd)  { background: var(--white); }
+tbody tr { page-break-inside:avoid; }
+td { padding:7px 11px; border-bottom:1px solid var(--gray-100); vertical-align:top; line-height:1.5; }
+tr:last-child td { border-bottom:none; }
+
+/* ────── LISTS ────── */
+ul, ol { padding-left:22px; margin:6px 0 12px; }
+li { margin-bottom:5px; line-height:1.6; }
+li::marker { color: var(--blue-600); }
+ul ul, ol ol { margin:4px 0 4px 8px; }
+
+/* ────── BLOCKQUOTE ────── */
+blockquote {
+  background: linear-gradient(135deg, var(--blue-50), var(--white));
+  border-left: 4px solid var(--blue-600);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 14px 0; padding: 12px 16px;
+  color: var(--blue-800); font-size: 10pt;
+  box-shadow: var(--shadow); page-break-inside: avoid;
+}
+blockquote p { margin:0; }
+
+/* ────── HR ────── */
+hr { border:none; border-top:1px solid var(--gray-300); margin:20px 0; }
+
+/* ────── MERMAID ────── */
+.mermaid-wrapper {
+  background: var(--white);
+  border: 1px solid var(--gray-300); border-radius: var(--radius);
+  padding: 18px; margin: 18px 0; text-align: center;
+  page-break-inside: avoid; box-shadow: var(--shadow);
+}
+.mermaid { display:inline-block; max-width:100%; }
+.mermaid svg { max-width:100%; height:auto; }
+
+/* ────── PRINT ────── */
+@media print {
+  h1 { page-break-before: always; }
+  h1, h2, h3, h4 { page-break-after: avoid; }
+  table, pre, blockquote, .mermaid-wrapper { page-break-inside: avoid; }
+  tr { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER PAGE ══════════════════════════════════════════════════════════ -->
+<div class="cover-page">
+  <div class="cover-circle-1"></div>
+  <div class="cover-circle-2"></div>
+
+  <div class="cover-top">
+    <div class="cover-logo">RSS</div>
+    <span class="cover-app">re_support &nbsp;·&nbsp; Frappe / ERPNext v15+</span>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-badge">Enterprise Documentation · Version 1.0 · 2026</div>
+    <div class="cover-title">Real Estate<br/><span>Support System</span></div>
+    <p class="cover-subtitle">
+      Enterprise Functional Flow &amp; Solution Architecture Document<br/>
+      Complaints · Defects · Possession · RERA · Self-Service Portal · Analytics
+    </p>
+    <div class="cover-line"></div>
+
+    <div class="cover-grid">
+      <div class="cover-card"><div class="lbl">Document Type</div><div class="val">Functional Flow &amp; Architecture</div></div>
+      <div class="cover-card"><div class="lbl">Version</div><div class="val">1.0 — April 2026</div></div>
+      <div class="cover-card"><div class="lbl">Platform</div><div class="val">Frappe / ERPNext v15+</div></div>
+      <div class="cover-card"><div class="lbl">Classification</div><div class="val">Confidential — Internal Use</div></div>
+    </div>
+
+    <div class="cover-stats">
+      <div class="c-stat"><span class="num">6</span><span class="lbl">Modules</span></div>
+      <div class="c-stat"><span class="num">26+</span><span class="lbl">DocTypes</span></div>
+      <div class="c-stat"><span class="num">9</span><span class="lbl">Reports</span></div>
+      <div class="c-stat"><span class="num">7</span><span class="lbl">Roles</span></div>
+      <div class="c-stat"><span class="num">14</span><span class="lbl">Sections</span></div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span>Prepared for: Functional &amp; Implementation Teams</span>
+    <span>re_support · frappe.io / erpnext.com</span>
+    <span>April 2026</span>
+  </div>
+</div>
+
+<!-- ══ TABLE OF CONTENTS ═══════════════════════════════════════════════════ -->
+<div class="toc-page">
+  <div class="toc-h">Table of Contents</div>
+  <div class="toc-sub">Real Estate Support System — Enterprise Functional Flow Document</div>
+  
+    <div class="toc-row l1">
+      <span class="toc-n">1</span>
+      <span>System Overview</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.1</span>
+      <span>Purpose of the System</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.2</span>
+      <span>Business Problem Solved</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.3</span>
+      <span>Industry / Domain</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.4</span>
+      <span>Main Objectives</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.5</span>
+      <span>Core Functionalities</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.6</span>
+      <span>System Scope</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.7</span>
+      <span>Target Users</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">1.8</span>
+      <span>Business Benefits</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">2</span>
+      <span>High-Level System Architecture</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.1</span>
+      <span>Overall Architecture</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.2</span>
+      <span>Frontend Architecture</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.3</span>
+      <span>Backend Architecture</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.4</span>
+      <span>Request-Response Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.5</span>
+      <span>Authentication Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">2.6</span>
+      <span>Module Interaction Diagram</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">3</span>
+      <span>Module-Wise Functional Breakdown</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.1</span>
+      <span>Module 1: Complaint Management</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.2</span>
+      <span>Module 2: Defect & Snagging</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.3</span>
+      <span>Module 3: Possession Management</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.4</span>
+      <span>Module 4: RERA Escalation</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.5</span>
+      <span>Module 5: Buyer Portal</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">3.6</span>
+      <span>Module 6: Reports & Analytics</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">4</span>
+      <span>End-to-End Business Process Flows</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">4.1</span>
+      <span>Buyer Complaint → Resolution</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">4.2</span>
+      <span>Defect Inspection → Buyer Acceptance</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">4.3</span>
+      <span>Possession Handover Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">4.4</span>
+      <span>RERA Escalation Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">4.5</span>
+      <span>Buyer Self-Service Portal Journey</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">5</span>
+      <span>Role-Based System Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">5.1</span>
+      <span>Role Definitions & Responsibilities</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">5.2</span>
+      <span>Role-Based Permission Matrix</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l2">
+      <span class="toc-n">5.3</span>
+      <span>Dashboard Visibility by Role</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">6</span>
+      <span>Database & Data Flow Understanding</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">7</span>
+      <span>API & Service Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">8</span>
+      <span>UI / Screen Flow Documentation</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">9</span>
+      <span>Automation & Background Process Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">10</span>
+      <span>Reports & Analytics Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">11</span>
+      <span>Security & Access Control Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">12</span>
+      <span>Error Handling & Exception Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">13</span>
+      <span>Integration Flow</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">14</span>
+      <span>Complete System Flow Summary</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">A</span>
+      <span>Appendix A: Naming Series Reference</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">B</span>
+      <span>Appendix B: Workflow State Matrix</span>
+      <span class="toc-dots"></span>
+    </div>
+    <div class="toc-row l1">
+      <span class="toc-n">C</span>
+      <span>Appendix C: Installation Reference</span>
+      <span class="toc-dots"></span>
+    </div>
+</div>
+
+<!-- ══ BODY CONTENT ════════════════════════════════════════════════════════ -->
+<div class="content">
+<h1>Real Estate Support System (RSS)</h1>
+<h2>Structural Functional Flow Document</h2>
+<p><strong>Application:</strong> <code>re_support</code> — Frappe / ERPNext v15+ Custom Application<br><strong>Version:</strong> 1.0 | 2026<br><strong>Document Type:</strong> Enterprise Functional Specification &amp; Solution Architecture<br><strong>Audience:</strong> Functional Consultants · Implementation Teams · Business Analysts · QA Engineers · Stakeholders · Developers</p>
+<hr>
+<blockquote>
+<p><strong>Document Purpose</strong>
+This document provides a comprehensive functional and technical understanding of the Real Estate Support System (RSS). It is designed so that a functional consultant, QA engineer, business analyst, or developer can fully understand the system&#39;s architecture, business flows, data models, role logic, and automation without reading the source code directly.</p>
+</blockquote>
+<hr>
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#1-system-overview">System Overview</a></li>
+<li><a href="#2-high-level-system-architecture">High-Level System Architecture</a></li>
+<li><a href="#3-module-wise-functional-breakdown">Module-Wise Functional Breakdown</a></li>
+<li><a href="#4-end-to-end-business-process-flows">End-to-End Business Process Flows</a></li>
+<li><a href="#5-role-based-system-flow">Role-Based System Flow</a></li>
+<li><a href="#6-database--data-flow-understanding">Database &amp; Data Flow Understanding</a></li>
+<li><a href="#7-api--service-flow">API &amp; Service Flow</a></li>
+<li><a href="#8-ui--screen-flow-documentation">UI / Screen Flow Documentation</a></li>
+<li><a href="#9-automation--background-process-flow">Automation &amp; Background Process Flow</a></li>
+<li><a href="#10-reports--analytics-flow">Reports &amp; Analytics Flow</a></li>
+<li><a href="#11-security--access-control-flow">Security &amp; Access Control Flow</a></li>
+<li><a href="#12-error-handling--exception-flow">Error Handling &amp; Exception Flow</a></li>
+<li><a href="#13-integration-flow">Integration Flow</a></li>
+<li><a href="#14-complete-system-flow-summary">Complete System Flow Summary</a></li>
+</ol>
+<hr>
+<h1>1. System Overview</h1>
+<h2>1.1 Purpose of the System</h2>
+<p>The <strong>Real Estate Support System (RSS)</strong> is a purpose-built Frappe custom application installed on top of ERPNext v15+. Its core mission is to digitize and manage the entire <strong>post-handover real estate support value chain</strong> — from the moment a buyer raises a complaint, through field rectification, possession key handover, and regulatory compliance under RERA (Real Estate Regulatory Authority).</p>
+<h2>1.2 Business Problem Solved</h2>
+<p>Real estate developers face a fragmented support ecosystem after project completion: complaints are tracked in spreadsheets, defect inspections use paper punch-lists, possession handovers miss documentation, and RERA non-compliance is discovered too late. RSS eliminates these silos by providing a single, integrated, audit-ready platform.</p>
+<h2>1.3 Industry / Domain</h2>
+<ul>
+<li><strong>Industry:</strong> Real Estate Development</li>
+<li><strong>Segment:</strong> Post-Construction Customer Support &amp; Compliance</li>
+<li><strong>Regulatory Context:</strong> RERA (Real Estate Regulatory Authority) — India</li>
+</ul>
+<h2>1.4 Main Objectives</h2>
+<table>
+<thead>
+<tr>
+<th>Objective</th>
+<th>Business Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Centralized complaint management</td>
+<td>Eliminates ticket duplication; enforces SLA accountability</td>
+</tr>
+<tr>
+<td>Automated SLA enforcement</td>
+<td>Reduces breach penalties; improves buyer satisfaction</td>
+</tr>
+<tr>
+<td>Digital defect punch-lists</td>
+<td>End-to-end QC trail; reduces contractor disputes</td>
+</tr>
+<tr>
+<td>Structured possession workflow</td>
+<td>Ensures legal compliance; prevents premature key handover</td>
+</tr>
+<tr>
+<td>RERA case tracking</td>
+<td>Reduces penalty risk; provides legal audit trail</td>
+</tr>
+<tr>
+<td>Buyer self-service portal</td>
+<td>Reduces inbound calls by 40–60%; improves transparency</td>
+</tr>
+<tr>
+<td>Unified reporting &amp; dashboards</td>
+<td>Enables data-driven management decisions</td>
+</tr>
+</tbody></table>
+<h2>1.5 Core Functionalities</h2>
+<ol>
+<li><strong>Complaint Management</strong> — Support ticketing with SLA policy, category-based auto-assignment, and buyer notification</li>
+<li><strong>Defect &amp; Snagging</strong> — Unit-level defect logging with photographs, contractor rectification, and buyer e-sign acceptance</li>
+<li><strong>Possession Management</strong> — End-to-end possession workflow: dues check → NOC collection → OC → key handover</li>
+<li><strong>RERA Escalation</strong> — RERA portal complaint tracking, legal team management, hearing schedules, and outcome recording</li>
+<li><strong>Buyer Portal</strong> — Frappe web portal for buyers: self-service ticket creation, status tracking, possession checklist</li>
+<li><strong>Reports &amp; Analytics</strong> — SLA dashboards, TAT reports, RERA risk scores, project-level defect heatmaps</li>
+</ol>
+<h2>1.6 System Scope</h2>
+<table>
+<thead>
+<tr>
+<th>In Scope</th>
+<th>Out of Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Post-handover buyer support</td>
+<td>Pre-sales CRM management</td>
+</tr>
+<tr>
+<td>Defect inspection &amp; rectification</td>
+<td>Construction project management</td>
+</tr>
+<tr>
+<td>Possession documentation &amp; handover</td>
+<td>Sales order / booking management</td>
+</tr>
+<tr>
+<td>RERA complaint &amp; hearing tracking</td>
+<td>Unit/inventory master management</td>
+</tr>
+<tr>
+<td>Buyer self-service web portal</td>
+<td>Payment gateway / EMI processing</td>
+</tr>
+<tr>
+<td>SLA monitoring &amp; escalation</td>
+<td>Contractor time &amp; attendance</td>
+</tr>
+</tbody></table>
+<h2>1.7 Target Users</h2>
+<table>
+<thead>
+<tr>
+<th>User Type</th>
+<th>Role in System</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Manager</td>
+<td>Oversees all operations; approves escalations; views all reports</td>
+</tr>
+<tr>
+<td>Support Agent</td>
+<td>Manages day-to-day tickets; responds to buyers</td>
+</tr>
+<tr>
+<td>Site Inspector</td>
+<td>Logs defects; performs QC re-inspections</td>
+</tr>
+<tr>
+<td>Legal Team</td>
+<td>Manages RERA complaints; files responses</td>
+</tr>
+<tr>
+<td>Possession Executive</td>
+<td>Orchestrates possession workflow; conducts handovers</td>
+</tr>
+<tr>
+<td>Finance Team</td>
+<td>Verifies dues; processes RERA penalty JVs</td>
+</tr>
+<tr>
+<td>Buyer</td>
+<td>Self-service portal: raises tickets, tracks status</td>
+</tr>
+</tbody></table>
+<h2>1.8 Business Benefits</h2>
+<ul>
+<li><strong>SLA Compliance Visibility</strong> — Real-time breach detection every 30 minutes</li>
+<li><strong>Audit-Ready Documentation</strong> — Digital signatures, document attachments, response logs</li>
+<li><strong>RERA Risk Reduction</strong> — Automated deadline alerts; integrated penalty tracking</li>
+<li><strong>Multi-Project Support</strong> — All DocTypes filtered by Project — works across entire portfolio</li>
+<li><strong>Zero Core ERPNext Changes</strong> — All extensions via custom fields fixtures; safe to upgrade ERPNext</li>
+</ul>
+<hr>
+<h1>2. High-Level System Architecture</h1>
+<h2>2.1 Overall Architecture</h2>
+<p>RSS is a <strong>Frappe App</strong> (Python/JavaScript) that runs within the Frappe bench ecosystem. It follows Frappe&#39;s standard MVC (Model-View-Controller) pattern with an additional Service Layer via <code>utils/</code>.</p>
+<div class="mermaid-wrapper"><div class="mermaid">graph TD
+    A["🌐 Buyer Portal (Web)"] --> B["Frappe Web Server (gunicorn)"]
+    C["🖥️ ERPNext Backend UI"] --> B
+    D["📱 Mobile Browser (Site Inspector)"] --> B
+    B --> E["Frappe Application Layer (re_support)"]
+    E --> F["Business Logic Layer"]
+    F --> G["hooks.py — Doc Events & Scheduler"]
+    F --> H["utils/ — SLA Engine & Notifications"]
+    F --> I["Module Controllers (.py)"]
+    G --> J["MariaDB Database"]
+    H --> K["WhatsApp API Provider (Interakt/Wati)"]
+    H --> L["Email (frappe.sendmail)"]
+    I --> J
+    E --> M["Redis Cache & Queue"]
+    M --> N["Background Workers (celery)"]
+    N --> I
+</div></div>
+<h2>2.2 Frontend Architecture</h2>
+<p>The frontend consists of two distinct layers:</p>
+<ol>
+<li><p><strong>Frappe Desk UI (ERPNext)</strong> — Standard Frappe forms, lists, reports, and dashboards served to internal users (agents, inspectors, legal team). Built with Frappe&#39;s form framework + client-side JavaScript (<code>.js</code> files per DocType).</p>
+</li>
+<li><p><strong>Buyer Web Portal</strong> — Frappe&#39;s web page framework serving HTML templates (<code>buyer_portal.html</code>, <code>ticket_detail.html</code>, <code>possession_status.html</code>) accessible at public URLs. Authentication via mobile OTP.</p>
+</li>
+</ol>
+<h2>2.3 Backend Architecture</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph LR
+    subgraph re_support App
+        A[complaint_management]
+        B[defect_snagging]
+        C[possession_management]
+        D[rera_escalation]
+        E[buyer_portal]
+        F[reports_analytics]
+        G[utils]
+    end
+    subgraph ERPNext Core
+        H[Project]
+        I[Contact / Customer]
+        J[Accounts / JE]
+        K[Purchase Order]
+        L[HR / Users]
+    end
+    A --> G
+    B --> G
+    C --> G
+    D --> G
+    A --> H
+    A --> I
+    B --> K
+    D --> J
+    C --> I
+    E --> A
+    E --> C
+</div></div>
+<h2>2.4 Request-Response Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">sequenceDiagram
+    participant B as Browser / Portal
+    participant W as Web Server
+    participant F as Frappe Framework
+    participant M as Module Controller
+    participant DB as MariaDB
+    participant C as Cache (Redis)
+
+    B->>W: HTTP Request (GET/POST)
+    W->>F: Route to handler
+    F->>F: Authenticate session / token
+    F->>M: Call DocType controller / API method
+    M->>DB: frappe.get_doc() / frappe.db.get_value()
+    DB-->>M: Return data
+    M->>C: Check / update cache
+    M-->>F: Return response dict
+    F-->>W: JSON response
+    W-->>B: Render UI / return JSON
+</div></div>
+<h2>2.5 Authentication Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A[User Accesses System] --> B{User Type?}
+    B --> |Internal Agent/Manager| C[Frappe Login Page]
+    B --> |Buyer - Portal| D[/support portal URL/]
+    C --> E[Username + Password]
+    E --> F{Valid?}
+    F --> |Yes| G[Frappe Session Cookie]
+    F --> |No| H[Login Error]
+    G --> I[Role-based menu & permissions applied]
+    D --> J[Enter Mobile Number]
+    J --> K[OTP sent via SMS/WhatsApp]
+    K --> L[Enter OTP]
+    L --> M{Valid OTP?}
+    M --> |Yes| N[Frappe Portal Session - Buyer Role]
+    M --> |No| O[OTP Error / Retry]
+    N --> P[Buyer sees own tickets & possession status]
+</div></div>
+<h2>2.6 Module Interaction Diagram</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph TD
+    CM[Complaint Management] -->|"Civil/Plumbing complaint\nauto-creates"| DS[Defect & Snagging]
+    CM -->|"SLA breach or\nRERA-risk category"| RE[RERA Escalation]
+    DS -->|"Pre-possession snags\nlinked to"| PM[Possession Management]
+    CM -->|"Ticket status visible in"| BP[Buyer Portal]
+    PM -->|"Possession status visible in"| BP
+    DS -->|"Defect report visible in"| BP
+    CM --> RA[Reports & Analytics]
+    DS --> RA
+    PM --> RA
+    RE --> RA
+</div></div>
+<hr>
+<h1>3. Module-Wise Functional Breakdown</h1>
+<hr>
+<h2>Module 1: Complaint Management</h2>
+<h3>Purpose</h3>
+<p>This is the <strong>primary operational module</strong> used daily by the support team. It manages the complete lifecycle of a buyer complaint — from intake through resolution or escalation — with built-in SLA enforcement, auto-assignment, and buyer notification at every status change.</p>
+<h3>Functionalities</h3>
+<ul>
+<li>Raise support tickets via portal, WhatsApp, or CRM</li>
+<li>Auto-assign to correct team/agent based on complaint category</li>
+<li>Auto-calculate SLA response and resolution deadlines</li>
+<li>Track first response timestamp for SLA measurement</li>
+<li>Notify buyer via WhatsApp/email on every status change</li>
+<li>Escalate automatically on SLA breach</li>
+<li>Bridge into Defect Report for civil/plumbing issues</li>
+<li>Rate buyer satisfaction (1–5 stars) on ticket closure</li>
+<li>Flag RERA-risk categories for legal review</li>
+</ul>
+<h3>User Actions</h3>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Actions Available</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Buyer</td>
+<td>Create ticket via portal; view status</td>
+</tr>
+<tr>
+<td>Support Agent</td>
+<td>View assigned tickets; change status; add notes; respond to buyer</td>
+</tr>
+<tr>
+<td>Support Manager</td>
+<td>View all tickets; reassign; delete; configure SLA; escalate</td>
+</tr>
+<tr>
+<td>System</td>
+<td>Auto-assign; set SLA deadlines; flag breaches; create defect reports</td>
+</tr>
+</tbody></table>
+<h3>Workflow — Step by Step</h3>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A[Buyer raises complaint] --> B[Support Ticket created - Status: Open]
+    B --> C{Category has auto_assign_role?}
+    C --> |Yes| D[assigned_to and assigned_team populated]
+    C --> |No| E[Ticket stays in queue for manual assignment]
+    D --> F[Agent notified via WhatsApp/Email]
+    E --> F
+    F --> G[Agent reviews - Status: Assigned]
+    G --> H[first_response_at recorded]
+    H --> I[Agent works - Status: In Progress]
+    I --> J{Category = Civil/Plumbing?}
+    J --> |Yes| K[Defect Report auto-created and linked]
+    J --> |No| L[Continue in Complaint module]
+    K --> L
+    L --> M{Issue resolved?}
+    M --> |Yes| N[Status: Resolved - resolution_notes filled]
+    N --> O{Buyer confirms?}
+    O --> |Yes| P[Status: Closed - buyer_rating collected]
+    O --> |No, reopens| G
+    M --> |No| Q{SLA breached?}
+    Q --> |Yes| R[Status: Escalated - manager notified]
+    Q --> |No| I
+    R --> S{RERA Risk Category?}
+    S --> |Yes| T[RERA Complaint created if needed]
+    S --> |No| U[Manager handles escalation]
+</div></div>
+<h3>Backend Processing</h3>
+<table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Method</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>before_insert</code></td>
+<td><code>sla_engine.set_sla_due_dates()</code></td>
+<td>Reads category → fetches default SLA policy → calculates <code>sla_response_due</code> and <code>sla_resolution_due</code> from current timestamp</td>
+</tr>
+<tr>
+<td><code>on_update</code></td>
+<td><code>notifications.notify_buyer_status_change()</code></td>
+<td>Detects if <code>status</code> field changed; sends WhatsApp/email notification to buyer</td>
+</tr>
+<tr>
+<td><code>on_update</code></td>
+<td><code>support_ticket.check_first_response()</code></td>
+<td>If status changes to &quot;In Progress&quot; or &quot;Resolved&quot; and <code>first_response_at</code> is empty, records the current datetime</td>
+</tr>
+<tr>
+<td><code>on_submit</code></td>
+<td><code>support_ticket.create_defect_if_applicable()</code></td>
+<td>Checks if category maps to civil/plumbing; creates linked Defect Report automatically</td>
+</tr>
+<tr>
+<td>Scheduler (30 min)</td>
+<td><code>sla_engine.check_sla_breaches()</code></td>
+<td>Scans all open tickets; if <code>sla_resolution_due &lt; now</code>, sets <code>resolution_breached = 1</code> and fires <code>send_breach_alert()</code></td>
+</tr>
+</tbody></table>
+<h3>Database Interaction</h3>
+<p><strong>Primary DocTypes:</strong></p>
+<ul>
+<li><code>Support Ticket</code> — Core transaction record (one per complaint)</li>
+<li><code>Ticket Category</code> — Master that governs SLA defaults and routing</li>
+<li><code>SLA Policy</code> — Master that defines response/resolution time targets</li>
+</ul>
+<p><strong>Key Relationships:</strong></p>
+<ul>
+<li><code>Support Ticket.category</code> → <code>Ticket Category</code></li>
+<li><code>Support Ticket.sla_policy</code> → <code>SLA Policy</code></li>
+<li><code>Support Ticket.buyer</code> → ERPNext <code>Contact</code></li>
+<li><code>Support Ticket.project</code> → ERPNext <code>Project</code></li>
+<li><code>Support Ticket.assigned_to</code> → ERPNext <code>User</code></li>
+<li><code>Support Ticket.assigned_team</code> → ERPNext <code>Department</code></li>
+<li><code>Support Ticket.defect_report</code> → <code>Defect Report</code> (cross-module link)</li>
+<li><code>Support Ticket.rera_complaint</code> → <code>RERA Complaint</code> (cross-module link)</li>
+</ul>
+<h3>APIs Used</h3>
+<ul>
+<li><code>buyer_portal/api.py::get_buyer_tickets()</code> — Returns all tickets for authenticated buyer</li>
+<li><code>buyer_portal/api.py::create_ticket()</code> — Creates new ticket from portal form</li>
+</ul>
+<h3>Validation Rules</h3>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Field</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Category required</td>
+<td><code>category</code></td>
+<td>Mandatory on save</td>
+</tr>
+<tr>
+<td>Buyer required</td>
+<td><code>buyer</code></td>
+<td>Mandatory on save</td>
+</tr>
+<tr>
+<td>Project required</td>
+<td><code>project</code></td>
+<td>Mandatory on save</td>
+</tr>
+<tr>
+<td>Unit number required</td>
+<td><code>unit_no</code></td>
+<td>Mandatory on save</td>
+</tr>
+<tr>
+<td>SLA auto-set</td>
+<td>SLA fields</td>
+<td>Calculated on <code>before_insert</code>; cannot be manually overridden below category default</td>
+</tr>
+<tr>
+<td>Photo mandatory</td>
+<td>Defect Item <code>photo</code></td>
+<td>Mandatory when severity = Major</td>
+</tr>
+</tbody></table>
+<h3>Permissions &amp; Roles</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Create</th>
+<th>Read</th>
+<th>Edit</th>
+<th>Delete</th>
+<th>Submit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Manager</td>
+<td>✅</td>
+<td>✅ All</td>
+<td>✅ All</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Support Agent</td>
+<td>✅</td>
+<td>✅ Own/Assigned</td>
+<td>✅ Assigned</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Site Inspector</td>
+<td>❌</td>
+<td>✅ Read-only</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Legal Team</td>
+<td>❌</td>
+<td>✅ Read-only</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Buyer (Portal)</td>
+<td>✅ Own</td>
+<td>✅ Own only</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<h3>Notifications / Triggers</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Channel</th>
+<th>Recipient</th>
+<th>Message</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ticket status changed</td>
+<td>WhatsApp + Email</td>
+<td>Buyer</td>
+<td>&quot;Your ticket {ticket_no} is now {status}&quot;</td>
+</tr>
+<tr>
+<td>SLA breach detected</td>
+<td>WhatsApp + Email</td>
+<td>Manager + Buyer (if configured)</td>
+<td>&quot;Ticket {ticket_no} SLA breached&quot;</td>
+</tr>
+<tr>
+<td>First response recorded</td>
+<td>Internal only</td>
+<td>Log only</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Daily summary</td>
+<td>Email</td>
+<td>All Support Managers</td>
+<td>Count of open/breached tickets</td>
+</tr>
+</tbody></table>
+<h3>Error Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SLA Policy not found on category</td>
+<td><code>set_sla_due_dates()</code> skips SLA calculation; ticket saved without SLA deadlines</td>
+</tr>
+<tr>
+<td>WhatsApp API failure</td>
+<td><code>msgprint()</code> used as fallback; Portal Notification record created with <code>delivery_status = Failed</code></td>
+</tr>
+<tr>
+<td>Duplicate ticket creation</td>
+<td>Naming series prevents duplicates; <code>frappe.DuplicateEntryError</code> caught at framework level</td>
+</tr>
+<tr>
+<td>Buyer contact not found</td>
+<td>Validation error on save — contact must exist in ERPNext</td>
+</tr>
+</tbody></table>
+<h3>Dependencies</h3>
+<ul>
+<li>Requires <code>Ticket Category</code> and <code>SLA Policy</code> masters to be configured before use</li>
+<li>Requires ERPNext <code>Project</code> and <code>Contact</code> records to exist</li>
+<li>Feeds into <code>Defect &amp; Snagging</code> and <code>RERA Escalation</code> modules</li>
+</ul>
+<hr>
+<h2>Module 2: Defect &amp; Snagging</h2>
+<h3>Purpose</h3>
+<p>Manages the complete post-handover <strong>punch-list process</strong>. Site inspectors log defects per unit with photographs, area classification, and severity rating. Defects are assigned to contractors with due dates. A QC re-inspection confirms rectification. The buyer provides a <strong>digital sign-off</strong> on the completed report. All defect data feeds the project-wise defect heatmap.</p>
+<h3>Functionalities</h3>
+<ul>
+<li>Create defect inspection reports per unit per inspection type</li>
+<li>Log multiple defects per report with area, type, severity, and photo evidence</li>
+<li>Auto-assign contractors on submission</li>
+<li>Track contractor rectification progress per defect item</li>
+<li>QC re-inspection verification workflow</li>
+<li>Capture buyer digital signature on acceptance</li>
+<li>Auto-count open vs. completed defects</li>
+<li>Generate defect heatmap by project/tower/floor/unit</li>
+</ul>
+<h3>User Actions</h3>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Actions Available</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Site Inspector</td>
+<td>Create/edit defect reports; log defect items with photos; perform QC re-inspection</td>
+</tr>
+<tr>
+<td>Support Manager</td>
+<td>Review and approve defect reports; assign contractors; view heatmap report</td>
+</tr>
+<tr>
+<td>Contractor (via agent)</td>
+<td>Update defect item status to Done; upload rectification photos</td>
+</tr>
+<tr>
+<td>Buyer</td>
+<td>View own defect report (read-only via portal); sign digitally on acceptance</td>
+</tr>
+</tbody></table>
+<h3>Workflow — Step by Step</h3>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A[Site Inspector conducts inspection] --> B[Defect Report created - Status: Draft]
+    B --> C[Defect items logged with photos and severity]
+    C --> D[Manager reviews - Status: Under Review]
+    D --> E[Contractors assigned per defect item]
+    E --> F[Contractor Assignment records created]
+    F --> G[Status: In Rectification]
+    G --> H[Contractor rectifies, uploads photo]
+    H --> I[Defect Item item_status = Done]
+    I --> J{All items Done?}
+    J --> |No| H
+    J --> |Yes| K[QC Inspector re-inspects - Status: QC Pending]
+    K --> L[qc_date, qc_inspector, qc_notes recorded]
+    L --> M{QC Passed?}
+    M --> |No| G
+    M --> |Yes| N[Status: Completed]
+    N --> O[Buyer inspects unit]
+    O --> P[Buyer signs digitally - buyer_signature captured]
+    P --> Q[buyer_remarks noted]
+    Q --> R[Status: Buyer Accepted - completion_date stamped]
+    R --> S{Linked to Support Ticket?}
+    S --> |Yes| T[Support Ticket can be closed]
+    S --> |No| U[Process complete]
+</div></div>
+<h3>Backend Processing</h3>
+<table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Method</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_submit</code></td>
+<td><code>assign_contractors_on_submit()</code></td>
+<td>Reads defect items; creates <code>Contractor Assignment</code> records grouped by contractor</td>
+</tr>
+<tr>
+<td><code>on_update</code></td>
+<td><code>update_open_defect_count()</code></td>
+<td>Recalculates <code>open_defects</code> count from child table items with <code>item_status</code> not in (Done, Cannot Rectify)</td>
+</tr>
+</tbody></table>
+<h3>Database Interaction</h3>
+<p><strong>DocTypes:</strong></p>
+<ul>
+<li><code>Defect Report</code> — Parent transaction per inspection</li>
+<li><code>Defect Item</code> — Child table (many defects per report)</li>
+<li><code>Contractor Assignment</code> — Assignment tracking per contractor per report</li>
+</ul>
+<p><strong>Key Relationships:</strong></p>
+<ul>
+<li><code>Defect Report.project</code> → ERPNext <code>Project</code></li>
+<li><code>Defect Report.buyer</code> → ERPNext <code>Contact</code></li>
+<li><code>Defect Report.source_ticket</code> → <code>Support Ticket</code> (cross-module)</li>
+<li><code>Defect Report.defects</code> → <code>Defect Item</code> (child table)</li>
+<li><code>Defect Item.contractor</code> → ERPNext <code>Supplier</code></li>
+<li><code>Contractor Assignment.defect_report</code> → <code>Defect Report</code></li>
+<li><code>Contractor Assignment.purchase_order</code> → ERPNext <code>Purchase Order</code></li>
+</ul>
+<h3>Validation Rules</h3>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Photo mandatory for Major severity</td>
+<td><code>Defect Item.photo</code> required when <code>severity = Major</code></td>
+</tr>
+<tr>
+<td>QC cannot be done without all items assigned</td>
+<td>Status transition blocked if items without contractors exist</td>
+</tr>
+<tr>
+<td>Buyer signature required for acceptance</td>
+<td><code>buyer_signature</code> validated before status can reach &quot;Buyer Accepted&quot;</td>
+</tr>
+</tbody></table>
+<h3>Naming Series</h3>
+<ul>
+<li>Defect Report: <code>DEF-.YYYY.-.####</code> (e.g. <code>DEF-2026-0042</code>)</li>
+<li>Contractor Assignment: <code>CASS-.YYYY.-.####</code> (e.g. <code>CASS-2026-0015</code>)</li>
+</ul>
+<h3>Dependencies</h3>
+<ul>
+<li><code>Defect Item</code> is a child table — only exists within <code>Defect Report</code></li>
+<li><code>Contractor Assignment</code> is created automatically on <code>Defect Report</code> submit</li>
+<li><code>Supplier</code> master must be configured in ERPNext for contractor assignment</li>
+<li>Optionally links to ERPNext <code>Quality Inspection</code> for construction QC integration</li>
+</ul>
+<hr>
+<h2>Module 3: Possession Management</h2>
+<h3>Purpose</h3>
+<p>Manages the <strong>end-to-end legal and operational possession workflow</strong>. This is the most cross-functional module, spanning Finance (dues clearance), Legal (NOC collection), Construction (OC availability), and the Possession Executive (scheduling and physical key handover). Six workflow states enforce strict sequential departmental sign-offs.</p>
+<h3>Functionalities</h3>
+<ul>
+<li>Initiate possession request (manually or from CRM booking)</li>
+<li>Auto-fetch outstanding financial dues</li>
+<li>Finance team due verification with audit trail</li>
+<li>Legal NOC checklist management (Bank NOC, Society NOC, Fire NOC, etc.)</li>
+<li>OC (Occupancy Certificate) attachment and verification</li>
+<li>Possession date scheduling and buyer confirmation</li>
+<li>Pre-possession unit inspection linking to Defect Report</li>
+<li>Physical key handover documentation with key count</li>
+<li>Welcome kit issuance and utility connections tracking</li>
+<li>Buyer digital signature capture at handover</li>
+<li>WhatsApp notification at every milestone</li>
+</ul>
+<h3>Possession Request — 6-State Workflow</h3>
+<div class="mermaid-wrapper"><div class="mermaid">stateDiagram-v2
+    [*] --> Initiated: Request created from CRM or manually
+    Initiated --> DuesCheck: Finance verifies outstanding dues
+    DuesCheck --> NOCCollection: Dues cleared confirmed (dues_cleared = Yes)
+    NOCCollection --> Scheduled: All mandatory NOCs received + OC available
+    Scheduled --> KeyHandover: Pre-inspection done; date confirmed by buyer
+    KeyHandover --> Completed: Keys handed over; buyer signature captured
+    KeyHandover --> [*]: Exception flow
+    NOCCollection --> DuesCheck: NOC rejected; dues re-verification needed
+</div></div>
+<h3>Step-by-Step Workflow</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Actor</th>
+<th>Action</th>
+<th>System Trigger</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>CRM / Possession Exec</td>
+<td>Create Possession Request</td>
+<td><code>outstanding_dues</code> fetched; Status = Initiated</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Finance Team</td>
+<td>Verify dues clearance</td>
+<td><code>dues_cleared = Yes</code>; <code>dues_verified_by</code> recorded; Status → Dues Check</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Legal Team</td>
+<td>Collect and mark NOC receipts</td>
+<td>NOC Document child rows marked received</td>
+</tr>
+<tr>
+<td>4</td>
+<td>System</td>
+<td>Check all mandatory NOCs</td>
+<td><code>check_all_nocs_received()</code> auto-sets <code>all_nocs_received = Yes</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Possession Exec</td>
+<td>Upload OC; schedule date</td>
+<td><code>oc_copy</code> uploaded; <code>scheduled_date</code> confirmed; Status → Scheduled</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Site Inspector</td>
+<td>Pre-possession inspection</td>
+<td><code>pre_inspection_done</code> checked; any snags linked to Defect Report</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Possession Exec</td>
+<td>Physical key handover</td>
+<td><code>keys_count</code>, <code>handover_by</code>, <code>key_handover_date</code> recorded; Status → Key Handover</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Buyer</td>
+<td>Digital sign-off</td>
+<td><code>buyer_signature</code> captured; <code>welcome_kit_issued</code> checked</td>
+</tr>
+<tr>
+<td>9</td>
+<td>System</td>
+<td>Complete possession</td>
+<td><code>utility_connections</code> confirmed; buyer receives WhatsApp; Status → Completed</td>
+</tr>
+</tbody></table>
+<h3>Backend Processing</h3>
+<table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Method</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>before_save</code></td>
+<td><code>check_all_nocs_received()</code></td>
+<td>Scans NOC Document child table; if all mandatory NOCs have <code>received = Yes</code>, sets <code>all_nocs_received = Yes</code></td>
+</tr>
+<tr>
+<td><code>on_update</code></td>
+<td><code>notify_buyer_possession_update()</code></td>
+<td>Sends WhatsApp notification to buyer when status advances to next stage</td>
+</tr>
+<tr>
+<td>Daily scheduler</td>
+<td><code>update_possession_aging()</code></td>
+<td>Calculates how many days each Possession Request has been stuck in current stage for aging report</td>
+</tr>
+</tbody></table>
+<h3>NOC Document Child Table</h3>
+<table>
+<thead>
+<tr>
+<th>NOC Type</th>
+<th>Issuing Authority</th>
+<th>Mandatory?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bank NOC</td>
+<td>Financing bank</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Society NOC</td>
+<td>Housing society</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Water Connection NOC</td>
+<td>Municipal authority</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Fire NOC</td>
+<td>Fire department</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Lift Inspection</td>
+<td>Safety inspector</td>
+<td>Depends on project type</td>
+</tr>
+<tr>
+<td>Property Tax Clearance</td>
+<td>Municipal body</td>
+<td>✅ Yes</td>
+</tr>
+</tbody></table>
+<h3>Dependencies</h3>
+<ul>
+<li><code>Finance Team</code> role must verify dues before any NOC collection can begin</li>
+<li><code>Legal Team</code> role manages all NOC tracking</li>
+<li><code>Possession Exec</code> role orchestrates the handover event</li>
+<li><code>Defect Report</code> may be linked for pre-possession snags</li>
+<li>ERPNext <code>Project</code> must be configured with OC status</li>
+</ul>
+<hr>
+<h2>Module 4: RERA Escalation</h2>
+<h3>Purpose</h3>
+<p>Tracks formal complaints filed with state RERA authorities against the developer. This is the <strong>highest-priority compliance module</strong> — penalties can reach crore-scale amounts. The Legal team manages response preparation, hearing schedules, and outcome documentation. All penalty payments integrate with ERPNext Journal Entries.</p>
+<h3>Functionalities</h3>
+<ul>
+<li>Register RERA complaints with state RERA reference number</li>
+<li>Link to originating support ticket</li>
+<li>Track response deadlines with automated alerts</li>
+<li>Log every legal activity (hearings, filings, document submissions) in chronological response log</li>
+<li>Record settlement negotiations and outcome</li>
+<li>Integrate penalty payment with ERPNext Journal Entries</li>
+<li>Track appeal if developer contests the RERA order</li>
+<li>RERA Risk Dashboard: flag high-risk cases for management</li>
+</ul>
+<h3>RERA Complaint Lifecycle</h3>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A[Buyer files complaint with RERA portal] --> B[RERA Complaint DocType created]
+    B --> C[source_ticket linked; rera_portal_ref entered]
+    C --> D[response_deadline set]
+    D --> E[Legal team assigned; external counsel engaged if needed]
+    E --> F[Developer response prepared and filed]
+    F --> G[RERA Response Log: Response Filed + document attached]
+    G --> H[Hearing date received from RERA authority]
+    H --> I[hearing_date and hearing_venue updated]
+    I --> J[System sends daily hearing reminders to Legal Team]
+    J --> K[Hearing attended; proceedings documented]
+    K --> L[RERA Response Log: Hearing Attended; next_action defined]
+    L --> M{Settlement offered?}
+    M --> |Yes| N[settlement_offered = Yes; settlement_amount recorded]
+    N --> O[Outcome = Settled → Case closed]
+    M --> |No| P{RERA Order received?}
+    P --> |In Favour of Developer| Q[Outcome = In Favour of Developer]
+    P --> |Against Developer| R[penalty_amount recorded]
+    R --> S[Finance creates penalty Journal Entry]
+    S --> T[penalty_jv linked; penalty_paid tracked]
+    T --> U{Appeal?}
+    U --> |Yes| V[appeal_filed = Yes; new timeline tracked]
+    U --> |No| W[Case Closed]
+    Q --> W
+</div></div>
+<h3>Backend Processing</h3>
+<table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Method</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>before_save</code></td>
+<td><code>check_response_deadline()</code></td>
+<td>Checks if <code>response_deadline &lt; today</code>; triggers urgent alert to legal team if overdue</td>
+</tr>
+<tr>
+<td><code>on_submit</code></td>
+<td><code>notify_legal_team()</code></td>
+<td>Sends notification to assigned legal team member when complaint is formally submitted</td>
+</tr>
+<tr>
+<td>Hourly scheduler</td>
+<td><code>rera_alert.check_response_deadlines()</code></td>
+<td>Scans all active RERA complaints; alerts if response deadlines are within 48 hours</td>
+</tr>
+<tr>
+<td>Daily scheduler</td>
+<td><code>rera_alert.send_hearing_reminders()</code></td>
+<td>Sends hearing date reminders to Legal Team and external counsel</td>
+</tr>
+</tbody></table>
+<h3>Database Interaction</h3>
+<p><strong>DocTypes:</strong></p>
+<ul>
+<li><code>RERA Complaint</code> — Primary transaction (submittable)</li>
+<li><code>RERA Response Log</code> — Child table (activity-by-activity log)</li>
+</ul>
+<p><strong>Key Relationships:</strong></p>
+<ul>
+<li><code>RERA Complaint.source_ticket</code> → <code>Support Ticket</code></li>
+<li><code>RERA Complaint.buyer</code> → ERPNext <code>Contact</code></li>
+<li><code>RERA Complaint.project</code> → ERPNext <code>Project</code></li>
+<li><code>RERA Complaint.legal_team</code> → ERPNext <code>User</code></li>
+<li><code>RERA Complaint.penalty_jv</code> → ERPNext <code>Journal Entry</code></li>
+<li><code>RERA Complaint.response_logs</code> → <code>RERA Response Log</code> (child table)</li>
+</ul>
+<h3>Naming Series</h3>
+<ul>
+<li>RERA Complaint: <code>RERA-.YYYY.-.####</code> (e.g. <code>RERA-2026-0007</code>)</li>
+</ul>
+<h3>State RERA Selection Options</h3>
+<p>MahaRERA · RERA Karnataka · UP RERA · Gujarat RERA · Haryana RERA · Other (extensible via config)</p>
+<h3>Dependencies</h3>
+<ul>
+<li>Requires originating <code>Support Ticket</code> or manual creation</li>
+<li><code>Journal Entry</code> must be created in ERPNext for penalty payment linkage</li>
+<li>External counsel name is text-only; no separate DocType for advocates</li>
+</ul>
+<hr>
+<h2>Module 5: Buyer Portal</h2>
+<h3>Purpose</h3>
+<p>A Frappe <strong>web portal</strong> allowing buyers to self-serve without calling the support team. Buyers authenticate via mobile OTP, raise new complaints, track ticket status, view possession checklist progress, and review their unit&#39;s defect report. WhatsApp and email notifications keep buyers informed at every step.</p>
+<h3>Functionalities</h3>
+<ul>
+<li>Buyer login via mobile OTP (no password required)</li>
+<li>Raise new support tickets with attachments</li>
+<li>View real-time ticket status and SLA deadline</li>
+<li>View possession request status and scheduled handover date</li>
+<li>View defect report for owned unit (read-only)</li>
+<li>Receive WhatsApp/email notifications on all status changes</li>
+<li>Access support contact details (email, phone, office hours)</li>
+<li>Portal configuration controlled by <code>Buyer Portal Settings</code> (Single DocType)</li>
+</ul>
+<h3>Portal Pages</h3>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>URL Route</th>
+<th>Template</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Portal Home</td>
+<td><code>/support</code></td>
+<td><code>buyer_portal.html</code></td>
+<td>Welcome page; ticket list; raise new ticket</td>
+</tr>
+<tr>
+<td>Ticket Detail</td>
+<td><code>/support/&lt;ticket_no&gt;</code></td>
+<td><code>ticket_detail.html</code></td>
+<td>Full ticket detail; status history; add response</td>
+</tr>
+<tr>
+<td>Possession Status</td>
+<td><code>/possession/&lt;unit_no&gt;</code></td>
+<td><code>possession_status.html</code></td>
+<td>Stage-wise possession progress; handover date</td>
+</tr>
+</tbody></table>
+<h3>API Methods</h3>
+<div class="mermaid-wrapper"><div class="mermaid">sequenceDiagram
+    participant Portal as Buyer Portal (HTML)
+    participant API as buyer_portal/api.py
+    participant DB as MariaDB
+
+    Portal->>API: get_buyer_tickets(buyer_mobile)
+    API->>DB: frappe.get_list('Support Ticket', filters={buyer_mobile})
+    DB-->>API: List of tickets
+    API-->>Portal: JSON [{ticket_no, category, status, sla_resolution_due}]
+
+    Portal->>API: create_ticket(project, unit_no, category, description)
+    API->>DB: frappe.new_doc('Support Ticket').insert()
+    DB-->>API: ticket.name
+    API-->>Portal: ticket_no (TICK-2026-06-0001)
+
+    Portal->>API: get_possession_status(unit_no, project)
+    API->>DB: frappe.db.get_value('Possession Request', ...)
+    DB-->>API: {possession_no, status, scheduled_date, key_handover_date}
+    API-->>Portal: JSON possession status
+</div></div>
+<h3>Buyer Portal Settings (Single DocType)</h3>
+<p>Controls all portal features from one configuration screen accessible only to Support Manager:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>portal_enabled</code></td>
+<td>Checkbox</td>
+<td>Master on/off switch for entire portal</td>
+</tr>
+<tr>
+<td><code>allow_ticket_create</code></td>
+<td>Checkbox</td>
+<td>Enables/disables ticket creation from portal</td>
+</tr>
+<tr>
+<td><code>allowed_categories</code></td>
+<td>Multi-select</td>
+<td>Which complaint categories buyers can use</td>
+</tr>
+<tr>
+<td><code>show_possession_status</code></td>
+<td>Checkbox</td>
+<td>Shows/hides possession tracking page</td>
+</tr>
+<tr>
+<td><code>show_defect_report</code></td>
+<td>Checkbox</td>
+<td>Shows/hides defect report page</td>
+</tr>
+<tr>
+<td><code>whatsapp_notify</code></td>
+<td>Checkbox</td>
+<td>Enables WhatsApp notifications</td>
+</tr>
+<tr>
+<td><code>whatsapp_api_provider</code></td>
+<td>Select</td>
+<td>Provider: Interakt / Wati / AiSensy / Gupshup</td>
+</tr>
+<tr>
+<td><code>buyer_auth_method</code></td>
+<td>Select</td>
+<td>OTP via Mobile / Email OTP / Password</td>
+</tr>
+<tr>
+<td><code>session_timeout_mins</code></td>
+<td>Int</td>
+<td>Auto-logout after inactivity (default: 30 min)</td>
+</tr>
+</tbody></table>
+<h3>Portal Notification Log</h3>
+<p>Every notification dispatched (WhatsApp, Email, SMS, In-App) is recorded in the <code>Portal Notification</code> DocType with delivery status tracking.</p>
+<ul>
+<li><strong>Naming Series:</strong> <code>PNOT-.YYYY.MM.DD.-.##</code></li>
+<li><strong>Delivery States:</strong> Sent → Delivered → Read / Failed</li>
+<li><strong>Failure Reason:</strong> Captured for retry analysis</li>
+</ul>
+<h3>Dependencies</h3>
+<ul>
+<li>Requires <code>Buyer Portal Settings</code> to be configured with API keys</li>
+<li>Buyer must exist as ERPNext <code>Contact</code> with <code>is_buyer = Yes</code> custom field</li>
+<li><code>website_route_rules</code> in <code>hooks.py</code> must be active for URL routing</li>
+</ul>
+<hr>
+<h2>Module 6: Reports &amp; Analytics</h2>
+<h3>Purpose</h3>
+<p>Provides operational intelligence across all modules. All reports are Frappe <strong>Script Reports</strong> (Python-based, SQL-safe). Dashboards use ERPNext Number Cards and Chart components. The Support Dashboard is the default home page for Support Managers.</p>
+<h3>Report Inventory</h3>
+<table>
+<thead>
+<tr>
+<th>Report Name</th>
+<th>Type</th>
+<th>Key Filters</th>
+<th>Business Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SLA Breach Report</td>
+<td>Script Report</td>
+<td>Category, Period, Agent</td>
+<td>Identify SLA failures; hold agents accountable</td>
+</tr>
+<tr>
+<td>Ticket TAT by Category</td>
+<td>Script Report</td>
+<td>Category, Period, Priority</td>
+<td>Benchmark resolution times; improve routing</td>
+</tr>
+<tr>
+<td>Defect Heatmap by Unit</td>
+<td>Script Report</td>
+<td>Project, Tower, Floor, Period</td>
+<td>Visual density of defects; target remediation</td>
+</tr>
+<tr>
+<td>Possession Status Tracker</td>
+<td>Script Report</td>
+<td>Project, Status</td>
+<td>Stage-wise possession pipeline aging</td>
+</tr>
+<tr>
+<td>RERA Risk Dashboard</td>
+<td>Script Report + Dashboard</td>
+<td>Project, Category, Period</td>
+<td>RERA exposure; penalty risk management</td>
+</tr>
+<tr>
+<td>Agent Productivity Report</td>
+<td>Script Report</td>
+<td>Agent, Period, Team</td>
+<td>Tickets closed, avg resolution, buyer ratings</td>
+</tr>
+<tr>
+<td>Buyer Satisfaction Report</td>
+<td>Script Report</td>
+<td>Period, Project, Category</td>
+<td>NPS tracking; satisfaction trends</td>
+</tr>
+<tr>
+<td>Contractor Performance</td>
+<td>Script Report</td>
+<td>Contractor, Period, Project</td>
+<td>On-time completion %; defaulted items</td>
+</tr>
+<tr>
+<td>Support Dashboard</td>
+<td>Dashboard (Live)</td>
+<td>Date Range, Project</td>
+<td>Real-time KPIs for management</td>
+</tr>
+</tbody></table>
+<h3>Support Dashboard — Live KPIs</h3>
+<table>
+<thead>
+<tr>
+<th>KPI Card</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Open Tickets</td>
+<td><code>COUNT(Support Ticket WHERE status IN (&#39;Open&#39;, &#39;Assigned&#39;, &#39;In Progress&#39;))</code></td>
+</tr>
+<tr>
+<td>SLA Compliance %</td>
+<td><code>(Tickets resolved within SLA / Total closed) × 100</code></td>
+</tr>
+<tr>
+<td>Avg Resolution Time</td>
+<td><code>AVG(hours from creation to Closed status)</code></td>
+</tr>
+<tr>
+<td>RERA Active Cases</td>
+<td><code>COUNT(RERA Complaint WHERE outcome = &#39;Pending&#39;)</code></td>
+</tr>
+<tr>
+<td>Possession Pending</td>
+<td><code>COUNT(Possession Request WHERE status != &#39;Completed&#39;)</code></td>
+</tr>
+<tr>
+<td>Open Defects</td>
+<td><code>COUNT(Defect Item WHERE item_status IN (&#39;Open&#39;, &#39;Assigned&#39;, &#39;In Progress&#39;))</code></td>
+</tr>
+</tbody></table>
+<h3>Dashboard Charts</h3>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>Data Source</th>
+<th>Visual Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Open Tickets by Project</td>
+<td>Support Ticket grouped by project</td>
+<td>Bar Chart</td>
+</tr>
+<tr>
+<td>SLA Compliance Rate (trend)</td>
+<td>Support Ticket by week/month</td>
+<td>Line Chart</td>
+</tr>
+</tbody></table>
+<h3>Automation</h3>
+<ul>
+<li><strong>Weekly</strong>: <code>generate_weekly_kpi_report()</code> runs every Sunday to compile KPI summary</li>
+<li><strong>Export</strong>: All reports exportable to Excel and PDF via standard Frappe export</li>
+</ul>
+<hr>
+<h1>4. End-to-End Business Process Flows</h1>
+<h2>4.1 Buyer Complaint → Resolution Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["🧑 Buyer raises complaint\n(Portal / WhatsApp / CRM call)"] --> B["Support Ticket created\nStatus: Open\nNaming: TICK-2026-06-0001"]
+    B --> C["before_insert hook fires\nSLA due dates calculated\nCategory → SLA Policy → +response_hrs / +resolution_hrs"]
+    C --> D["Auto-assignment\nassigned_to = agent by category role\nassigned_team = department"]
+    D --> E["📱 WhatsApp sent to Buyer:\n'Ticket received, agent assigned'"]
+    E --> F["Agent acknowledges\nStatus: Assigned\nfirst_response_at = now()"]
+    F --> G["Agent investigates\nStatus: In Progress"]
+    G --> H{"Category = Civil\nor Plumbing?"}
+    H --> |Yes| I["Defect Report auto-created\n(on_submit hook)\nLinked via defect_report field"]
+    H --> |No| J["Agent resolves internally"]
+    I --> K["Defect module flow begins\n(See Section 4.2)"]
+    K --> J
+    J --> L["Status: Resolved\nresolution_notes filled"]
+    L --> M["📱 WhatsApp to Buyer:\n'Issue resolved - please confirm'"]
+    M --> N{"Buyer confirms\nresolution?"}
+    N --> |Yes| O["Status: Closed\nbuyer_rating collected\nSLA metrics updated"]
+    N --> |Dispute| P["Ticket reopened to In Progress"]
+    P --> G
+    O --> Q{"RERA-risk\ncategory?"}
+    Q --> |Yes| R["Support Manager reviews\nCreates RERA Complaint if needed"]
+    Q --> |No| S["🏁 Ticket lifecycle complete"]
+    R --> T["RERA Escalation flow begins\n(See Section 4.4)"]
+
+    style A fill:#2D9CDB,color:#fff
+    style O fill:#27AE60,color:#fff
+    style R fill:#E74C3C,color:#fff
+</div></div>
+<h2>4.2 Defect Inspection → Buyer Acceptance Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["📋 Site Inspector logs Defect Report\n(Triggered by complaint or scheduled inspection)"] --> B["Defect items added with:\nArea / Type / Severity / Photo\nNaming: DEF-2026-0042"]
+    B --> C["Manager reviews\nStatus: Under Review"]
+    C --> D["Contractors assigned per defect item\nContractor Assignment records created\nNaming: CASS-2026-0015"]
+    D --> E["Status: In Rectification"]
+    E --> F["Contractor rectifies defect\nUploads rectification photo\nitem_status = Done"]
+    F --> G{"All defect items\n= Done?"}
+    G --> |No| F
+    G --> |Yes| H["Status: QC Pending\nQC Inspector assigned"]
+    H --> I["QC re-inspection conducted\nqc_date, qc_inspector, qc_notes recorded"]
+    I --> J{"QC Pass?"}
+    J --> |Fail| K["Items marked Rejected\nContractor notified\nRe-rectification required"]
+    K --> F
+    J --> |Pass| L["Status: Completed"]
+    L --> M["Buyer invited for final inspection"]
+    M --> N["Buyer inspects unit"]
+    N --> O["buyer_signature captured digitally\nbuyer_remarks noted"]
+    O --> P["Status: Buyer Accepted\ncompletion_date stamped"]
+    P --> Q{"Linked to\nSupport Ticket?"}
+    Q --> |Yes| R["Support Ticket can now be\nmoved to Resolved/Closed"]
+    Q --> |No| S["🏁 Defect lifecycle complete"]
+</div></div>
+<h2>4.3 Possession Handover Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["Possession Request initiated\n(from CRM or manually)\nNaming: POSS-2026-06-0088"] --> B["Status: Initiated\noutstanding_dues fetched\nfrom CRM/Finance"]
+    B --> C["Finance Team verifies dues\ndues_cleared = Yes\ndues_verified_by recorded\nStatus: Dues Check"]
+    C --> D["Legal Team collects NOCs\nNOC Document child rows updated\n(Bank NOC, Society NOC, Fire NOC, etc.)"]
+    D --> E{"check_all_nocs_received()\nAll mandatory NOCs received?"}
+    E --> |No| D
+    E --> |Yes| F["all_nocs_received = Yes\nStatus: NOC Collection"]
+    F --> G["OC received\noc_number and oc_copy uploaded\nStatus: Scheduled"]
+    G --> H["Possession date scheduled\nscheduled_date confirmed\nBuyer receives WhatsApp confirmation"]
+    H --> I["Pre-possession inspection\npre_inspection_done = Yes\nAny snags → Defect Report linked"]
+    I --> J["Physical key handover conducted\nkeys_count recorded\nhandover_by (Possession Exec) noted\nStatus: Key Handover"]
+    J --> K["Buyer provides digital signature\nwelcome_kit_issued checked\nwitness_name noted"]
+    K --> L["Utility connections confirmed\nelectricity / water / gas status"]
+    L --> M["Status: Completed\n📱 WhatsApp sent to Buyer:\n'Congratulations on your new home!'"]
+    M --> N["Contact.possession_status auto-updated\n🏁 Possession lifecycle complete"]
+
+    style A fill:#2D9CDB,color:#fff
+    style M fill:#27AE60,color:#fff
+</div></div>
+<h2>4.4 RERA Escalation Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["Buyer files complaint with RERA portal"] --> B["RERA Complaint created\nsource_ticket linked\nrera_portal_ref entered\nNaming: RERA-2026-0007"]
+    B --> C["response_deadline set\nLegal team assigned\nExternal counsel engaged if needed"]
+    C --> D["on_submit → notify_legal_team()\nLegal team receives urgent notification"]
+    D --> E["Hourly scheduler checks deadlines\nbefore_save → check_response_deadline()"]
+    E --> F["Legal team prepares response\nFiles with RERA authority"]
+    F --> G["RERA Response Log entry:\nactivity_type = Response Filed\ndocument attached"]
+    G --> H["Hearing date received\nhearing_date and hearing_venue updated"]
+    H --> I["Daily scheduler sends hearing reminders\nsend_hearing_reminders()"]
+    I --> J["Legal team and counsel attend hearing\nHearing Attended response log entry\nnext_action defined"]
+    J --> K{"Settlement\noffered?"}
+    K --> |Yes| L["settlement_offered = Yes\nsettlement_amount recorded\nNegotiations documented"]
+    L --> M["Outcome = Settled → Case Closed"]
+    K --> |No| N{"RERA Order\nreceived?"}
+    N --> |In Favour of Developer| O["Outcome = In Favour of Developer\nSupport ticket updated"]
+    N --> |Against Developer| P["penalty_amount recorded\noutcome = Against Developer"]
+    P --> Q["Finance creates penalty JV\npenalty_jv linked to Journal Entry\npenalty_paid tracked"]
+    Q --> R{"Appeal\nrequired?"}
+    R --> |Yes| S["appeal_filed = Yes\nappeal_tribunal noted\nNew timeline tracked"]
+    R --> |No| T["🏁 RERA case closed"]
+    M --> T
+    O --> T
+    S --> J
+</div></div>
+<h2>4.5 Buyer Self-Service Portal Journey</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["🧑 Buyer visits /support"] --> B{"Portal enabled?"}
+    B --> |No| C["Maintenance page shown"]
+    B --> |Yes| D["Login page: Enter mobile number"]
+    D --> E["OTP sent via WhatsApp/SMS"]
+    E --> F["Enter OTP"]
+    F --> G{"Valid OTP?"}
+    G --> |No| H["Error: Re-enter OTP"]
+    G --> |Yes| I["Frappe session created\nBuyer role applied"]
+    I --> J["Buyer Portal Home page loads\nWelcome message + company logo"]
+    J --> K["Ticket list displayed\nget_buyer_tickets(buyer_mobile)"]
+    K --> L{"Action?"}
+    L --> |"View ticket detail"| M["Navigate to /support/TICK-...\nFull ticket detail + status history"]
+    L --> |"Raise new ticket"| N["Ticket creation form\n(allowed categories only)"]
+    N --> O["Fill: project, unit_no, category, description\nAttach photos if enabled"]
+    O --> P["create_ticket() API called\nSupport Ticket created\nBuyer notified via WhatsApp"]
+    L --> |"View possession status"| Q["Navigate to /possession/unit_no\nget_possession_status() API"]
+    Q --> R["Stage-wise possession progress shown\nScheduled handover date displayed"]
+    L --> |Logout| S["Session terminated\nPortal session_timeout_mins applies to auto-logout"]
+</div></div>
+<hr>
+<h1>5. Role-Based System Flow</h1>
+<h2>5.1 Role Definitions &amp; Responsibilities</h2>
+<h3>Support Manager</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Full system oversight, SLA policy configuration, escalation handling, KPI monitoring</li>
+<li><strong>Daily Activities:</strong> Review Support Dashboard; handle escalated tickets; approve RERA decisions; review reports</li>
+<li><strong>Approval Authority:</strong> Can delete documents; approve escalations; configure portal settings</li>
+</ul>
+<h3>Support Agent</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Day-to-day ticket management; buyer communication; complaint resolution</li>
+<li><strong>Daily Activities:</strong> Process assigned tickets; update status; add resolution notes; liaise with inspectors</li>
+<li><strong>Restrictions:</strong> Cannot access RERA module; cannot delete; cannot view possession module</li>
+</ul>
+<h3>Site Inspector</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Physical defect inspection; QC re-inspection; photo documentation</li>
+<li><strong>Daily Activities:</strong> Create defect reports on mobile browser; log defect items on-site; perform QC checks</li>
+<li><strong>Restrictions:</strong> Read-only on tickets; no access to RERA, Finance, possession settings</li>
+</ul>
+<h3>Legal Team</h3>
+<ul>
+<li><strong>Responsibilities:</strong> RERA complaint management; response filing; hearing management; settlement negotiations</li>
+<li><strong>Daily Activities:</strong> Update RERA case logs; file documents; monitor response deadlines; track hearing dates</li>
+<li><strong>Restrictions:</strong> No access to finance details; can only edit NOC fields in Possession module</li>
+</ul>
+<h3>Possession Executive</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Full possession workflow orchestration; keys issuance; buyer sign-off</li>
+<li><strong>Daily Activities:</strong> Update possession stages; coordinate with finance and legal; schedule handovers</li>
+<li><strong>Restrictions:</strong> No access to RERA or Finance modules</li>
+</ul>
+<h3>Finance Team</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Dues verification in possession; RERA penalty JV posting</li>
+<li><strong>Daily Activities:</strong> Verify financial dues on Possession Requests; create penalty Journal Entries</li>
+<li><strong>Restrictions:</strong> Read-only on tickets; can only edit dues-related fields in Possession</li>
+</ul>
+<h3>Buyer (Portal Role)</h3>
+<ul>
+<li><strong>Responsibilities:</strong> Self-service complaint creation and tracking</li>
+<li><strong>Access:</strong> Own tickets only; own possession status; own defect report (read-only)</li>
+<li><strong>Restrictions:</strong> No access to any admin module; cannot see other buyers&#39; data</li>
+</ul>
+<h2>5.2 Role-Based Permission Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>DocType</th>
+<th>Support Mgr</th>
+<th>Support Agent</th>
+<th>Site Inspector</th>
+<th>Legal Team</th>
+<th>Possession Exec</th>
+<th>Finance Team</th>
+<th>Buyer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Ticket</td>
+<td>Full / Submit</td>
+<td>Own / Assigned</td>
+<td>Read</td>
+<td>Read</td>
+<td>None</td>
+<td>Read</td>
+<td>Own Only</td>
+</tr>
+<tr>
+<td>Ticket Category</td>
+<td>Full</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>SLA Policy</td>
+<td>Full</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Defect Report</td>
+<td>Full / Submit</td>
+<td>Read</td>
+<td>Full / Submit</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Defect Item (child)</td>
+<td>Full</td>
+<td>Read</td>
+<td>Full</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+<td>Read</td>
+</tr>
+<tr>
+<td>Contractor Assignment</td>
+<td>Full</td>
+<td>Read</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Possession Request</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>NOC only</td>
+<td>Full</td>
+<td>Dues fields only</td>
+<td>Status only</td>
+</tr>
+<tr>
+<td>NOC Document (child)</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>Full</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Possession Checklist</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>RERA Complaint</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>RERA Response Log (child)</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Buyer Portal Settings</td>
+<td>Full</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Portal Notification</td>
+<td>Full</td>
+<td>Read</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>Own</td>
+</tr>
+<tr>
+<td>Reports (all modules)</td>
+<td>Full</td>
+<td>Limited (own)</td>
+<td>Defect only</td>
+<td>RERA only</td>
+<td>Possession only</td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<h2>5.3 Dashboard Visibility by Role</h2>
+<table>
+<thead>
+<tr>
+<th>Dashboard/Report</th>
+<th>Support Mgr</th>
+<th>Support Agent</th>
+<th>Site Inspector</th>
+<th>Legal</th>
+<th>Possession Exec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Dashboard</td>
+<td>✅ Full</td>
+<td>✅ Own tickets</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>SLA Breach Report</td>
+<td>✅</td>
+<td>✅ Own</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Defect Heatmap</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅ read</td>
+</tr>
+<tr>
+<td>RERA Risk Dashboard</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Possession Tracker</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ read</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Agent Productivity</td>
+<td>✅</td>
+<td>✅ Own</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Contractor Performance</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>6. Database &amp; Data Flow Understanding</h1>
+<h2>6.1 Core Entities / Models</h2>
+<div class="mermaid-wrapper"><div class="mermaid">erDiagram
+    CONTACT ||--o{ SUPPORT_TICKET : "buyer places"
+    CONTACT ||--o{ POSSESSION_REQUEST : "buyer initiates"
+    CONTACT ||--o{ DEFECT_REPORT : "buyer owns"
+    CONTACT ||--o{ RERA_COMPLAINT : "buyer files"
+    PROJECT ||--o{ SUPPORT_TICKET : "located in"
+    PROJECT ||--o{ DEFECT_REPORT : "located in"
+    PROJECT ||--o{ POSSESSION_REQUEST : "located in"
+    PROJECT ||--o{ RERA_COMPLAINT : "against"
+    TICKET_CATEGORY ||--o{ SUPPORT_TICKET : "categorizes"
+    SLA_POLICY ||--o{ TICKET_CATEGORY : "default for"
+    SLA_POLICY ||--o{ SUPPORT_TICKET : "governs"
+    SUPPORT_TICKET ||--o| DEFECT_REPORT : "bridges to"
+    SUPPORT_TICKET ||--o| RERA_COMPLAINT : "escalates to"
+    DEFECT_REPORT ||--|{ DEFECT_ITEM : "contains"
+    DEFECT_REPORT ||--o{ CONTRACTOR_ASSIGNMENT : "generates"
+    CONTRACTOR_ASSIGNMENT ||--o| PURCHASE_ORDER : "may create"
+    POSSESSION_REQUEST ||--|{ NOC_DOCUMENT : "requires"
+    POSSESSION_REQUEST ||--o| DEFECT_REPORT : "pre-inspection"
+    RERA_COMPLAINT ||--|{ RERA_RESPONSE_LOG : "tracks via"
+    RERA_COMPLAINT ||--o| JOURNAL_ENTRY : "penalty via"
+    SUPPLIER ||--o{ CONTRACTOR_ASSIGNMENT : "assigned as"
+    USER ||--o{ SUPPORT_TICKET : "handles"
+    DEPARTMENT ||--o{ SUPPORT_TICKET : "team assigned"
+</div></div>
+<h2>6.2 Data Lifecycle</h2>
+<h3>Support Ticket Lifecycle</h3>
+<div class="mermaid-wrapper"><div class="mermaid">graph LR
+    A[Created] --> B[SLA dates auto-set]
+    B --> C[Assigned to agent/team]
+    C --> D[first_response_at recorded]
+    D --> E[Status progression tracked]
+    E --> F{Closed/Resolved}
+    F --> |Yes| G[buyer_rating collected]
+    F --> |Escalated| H[RERA Complaint created]
+    G --> I[Archives after 2 years - scheduled job]
+</div></div>
+<h3>Defect Item Lifecycle</h3>
+<div class="mermaid-wrapper"><div class="mermaid">graph LR
+    A["Open\n(on Defect Report creation)"] --> B["Assigned\n(Contractor Assignment)"]
+    B --> C["In Progress\n(Contractor working)"]
+    C --> D{"Outcome"}
+    D --> |Good| E["Done\n(rectification_photo uploaded)"]
+    D --> |Issue| F["Rejected\n(rejection_reason noted)"]
+    D --> |Technical limit| G["Cannot Rectify\n(reason documented)"]
+    E --> H[QC verification]
+    H --> I[Buyer acceptance]
+</div></div>
+<h2>6.3 Naming Series Configuration</h2>
+<table>
+<thead>
+<tr>
+<th>DocType</th>
+<th>Naming Pattern</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Ticket</td>
+<td><code>TICK-.YYYY.MM.-.####</code></td>
+<td><code>TICK-2026-06-0001</code></td>
+</tr>
+<tr>
+<td>Defect Report</td>
+<td><code>DEF-.YYYY.-.####</code></td>
+<td><code>DEF-2026-0042</code></td>
+</tr>
+<tr>
+<td>Possession Request</td>
+<td><code>POSS-.YYYY.MM.-.####</code></td>
+<td><code>POSS-2026-06-0088</code></td>
+</tr>
+<tr>
+<td>RERA Complaint</td>
+<td><code>RERA-.YYYY.-.####</code></td>
+<td><code>RERA-2026-0007</code></td>
+</tr>
+<tr>
+<td>Contractor Assignment</td>
+<td><code>CASS-.YYYY.-.####</code></td>
+<td><code>CASS-2026-0015</code></td>
+</tr>
+<tr>
+<td>Portal Notification</td>
+<td><code>PNOT-.YYYY.MM.DD.-.##</code></td>
+<td><code>PNOT-2026-06-15-03</code></td>
+</tr>
+</tbody></table>
+<h2>6.4 ERPNext Custom Fields (Non-invasive Extensions)</h2>
+<p>All extensions to ERPNext core DocTypes use <code>fixtures/custom_fields.json</code> — zero core file modifications.</p>
+<table>
+<thead>
+<tr>
+<th>ERPNext DocType</th>
+<th>Custom Field</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Contact</td>
+<td><code>unit_no</code></td>
+<td>Data</td>
+<td>Buyer&#39;s flat/unit number</td>
+</tr>
+<tr>
+<td>Contact</td>
+<td><code>project</code></td>
+<td>Link → Project</td>
+<td>Buyer&#39;s real estate project</td>
+</tr>
+<tr>
+<td>Contact</td>
+<td><code>booking_ref</code></td>
+<td>Data</td>
+<td>CRM booking reference</td>
+</tr>
+<tr>
+<td>Contact</td>
+<td><code>possession_status</code></td>
+<td>Data (read-only)</td>
+<td>Auto-updated current possession stage</td>
+</tr>
+<tr>
+<td>Contact</td>
+<td><code>is_buyer</code></td>
+<td>Check</td>
+<td>Marks contact as a real estate buyer</td>
+</tr>
+<tr>
+<td>Project</td>
+<td><code>rera_registration_no</code></td>
+<td>Data</td>
+<td>RERA project registration number</td>
+</tr>
+<tr>
+<td>Project</td>
+<td><code>oc_received</code></td>
+<td>Check</td>
+<td>Occupancy Certificate received flag</td>
+</tr>
+<tr>
+<td>Project</td>
+<td><code>project_type</code></td>
+<td>Select</td>
+<td>Apartment / Villa / Commercial / Plotted</td>
+</tr>
+<tr>
+<td>Project</td>
+<td><code>total_units</code></td>
+<td>Int</td>
+<td>Total sellable units</td>
+</tr>
+<tr>
+<td>Purchase Order</td>
+<td><code>defect_report</code></td>
+<td>Link → Defect Report</td>
+<td>Traces PO to rectification batch</td>
+</tr>
+<tr>
+<td>Journal Entry</td>
+<td><code>rera_complaint</code></td>
+<td>Link → RERA Complaint</td>
+<td>Traces penalty JV to RERA case</td>
+</tr>
+</tbody></table>
+<h2>6.5 Data Movement Across Modules</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph TD
+    A["Buyer (Contact)"] --> B["Support Ticket"]
+    A --> C["Possession Request"]
+    A --> D["RERA Complaint"]
+    B --> |"Civil/Plumbing auto-create"| E["Defect Report"]
+    B --> |"SLA breach + RERA risk"| D
+    C --> |"Pre-inspection"| E
+    D --> |"Penalty payment"| F["Journal Entry (ERPNext)"]
+    E --> |"Contractor work order"| G["Purchase Order (ERPNext)"]
+    B --> H["Portal Notification"]
+    C --> H
+    D --> H
+    E --> H
+    B --> I["Reports & Analytics"]
+    C --> I
+    D --> I
+    E --> I
+</div></div>
+<hr>
+<h1>7. API &amp; Service Flow</h1>
+<h2>7.1 API Architecture</h2>
+<p>RSS uses two categories of APIs:</p>
+<ol>
+<li><p><strong>Frappe whitelisted methods</strong> — Decorated with <code>@frappe.whitelist()</code>, callable via AJAX from portal pages. Session-authenticated using Frappe cookies. <strong>No unauthenticated (guest) access allowed.</strong></p>
+</li>
+<li><p><strong>Frappe doc event hooks</strong> — Not external APIs; internal Python methods triggered by the framework lifecycle (before_insert, on_update, on_submit, etc.).</p>
+</li>
+</ol>
+<h2>7.2 Portal API Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Auth</th>
+<th>Input Parameters</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get_buyer_tickets</code></td>
+<td><code>/api/method/re_support.buyer_portal.api.get_buyer_tickets</code></td>
+<td>Session (Buyer role)</td>
+<td><code>buyer_mobile</code></td>
+<td>List of <code>{ticket_no, category, status, sla_resolution_due, priority}</code></td>
+</tr>
+<tr>
+<td><code>create_ticket</code></td>
+<td><code>/api/method/re_support.buyer_portal.api.create_ticket</code></td>
+<td>Session (Buyer role)</td>
+<td><code>project, unit_no, category, description, attachments?</code></td>
+<td><code>ticket_name</code> (string)</td>
+</tr>
+<tr>
+<td><code>get_possession_status</code></td>
+<td><code>/api/method/re_support.buyer_portal.api.get_possession_status</code></td>
+<td>Session (Buyer role)</td>
+<td><code>unit_no, project</code></td>
+<td><code>{possession_no, status, scheduled_date, key_handover_date}</code></td>
+</tr>
+</tbody></table>
+<h2>7.3 Request Lifecycle</h2>
+<div class="mermaid-wrapper"><div class="mermaid">sequenceDiagram
+    participant B as Buyer Browser
+    participant N as Nginx
+    participant G as Gunicorn (Frappe)
+    participant M as Middleware (auth + permissions)
+    participant A as api.py (whitelisted method)
+    participant D as MariaDB
+    participant R as Redis Cache
+
+    B->>N: POST /api/method/re_support.buyer_portal.api.create_ticket
+    N->>G: Forward request
+    G->>M: Check session cookie / token
+    M->>M: Validate user has Buyer role
+    M->>A: Call create_ticket(project, unit_no, category, description)
+    A->>D: frappe.new_doc('Support Ticket').insert()
+    D-->>A: Return inserted doc.name
+    A->>R: Invalidate related list caches
+    A-->>G: Return {ticket_name: 'TICK-2026-06-0001'}
+    G-->>B: HTTP 200 JSON response
+    G->>D: Trigger before_insert hook → sla_engine.set_sla_due_dates()
+    G->>D: Trigger on_update hook → notify_buyer_status_change()
+</div></div>
+<h2>7.4 External Service Integration</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Provider Options</th>
+<th>Integration Point</th>
+<th>API Key Storage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WhatsApp Messaging</td>
+<td>Interakt / Wati / AiSensy / Gupshup</td>
+<td><code>utils/notifications.py</code></td>
+<td><code>Buyer Portal Settings.whatsapp_api_key</code> (Password field, encrypted)</td>
+</tr>
+<tr>
+<td>Email (SMTP)</td>
+<td>Any SMTP / Frappe Email Domain</td>
+<td><code>frappe.sendmail()</code> in notifications.py</td>
+<td>Frappe Email Domain configuration</td>
+</tr>
+<tr>
+<td>SMS (OTP)</td>
+<td>Configured in Frappe</td>
+<td>Portal buyer authentication</td>
+<td>Frappe SMS settings</td>
+</tr>
+</tbody></table>
+<h2>7.5 Response Structures</h2>
+<p><strong>Success Response:</strong></p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;TICK-2026-06-0001&quot;
+}
+</code></pre>
+<p><strong>Error Response (validation):</strong></p>
+<pre><code class="language-json">{
+  &quot;exc_type&quot;: &quot;ValidationError&quot;,
+  &quot;exception&quot;: &quot;re_support.exceptions.ValidationError: Category is mandatory&quot;,
+  &quot;exc&quot;: &quot;...&quot;,
+  &quot;_server_messages&quot;: &quot;[{\&quot;message\&quot;: \&quot;Category is mandatory\&quot;}]&quot;
+}
+</code></pre>
+<p><strong>Permission Error:</strong></p>
+<pre><code class="language-json">{
+  &quot;exc_type&quot;: &quot;PermissionError&quot;,
+  &quot;exception&quot;: &quot;frappe.exceptions.PermissionError: Not permitted&quot;
+}
+</code></pre>
+<hr>
+<h1>8. UI / Screen Flow Documentation</h1>
+<h2>8.1 ERPNext Desk Navigation Tree</h2>
+<pre><code>ERPNext Home Screen
+└── RE Support Workspace
+    ├── Complaint Management Module
+    │   ├── Support Ticket [List] → New
+    │   ├── Ticket Category [List] → New
+    │   ├── SLA Policy [List] → New
+    │   ├── SLA Breach Report [Report]
+    │   └── Ticket TAT by Category [Report]
+    ├── Defect &amp; Snagging Module
+    │   ├── Defect Report [List] → New
+    │   ├── Contractor Assignment [List]
+    │   └── Defect Heatmap by Unit [Report]
+    ├── Possession Management Module
+    │   ├── Possession Request [List] → New
+    │   ├── Possession Checklist [List]
+    │   └── Possession Status Tracker [Report]
+    ├── RERA Escalation Module
+    │   ├── RERA Complaint [List] → New
+    │   └── RERA Risk Dashboard [Report/Dashboard]
+    ├── Buyer Portal Module
+    │   ├── Buyer Portal Settings [Single DocType]
+    │   └── Portal Notification [List]
+    └── Reports &amp; Analytics Module
+        ├── Support Dashboard [Dashboard]
+        ├── Agent Productivity Report [Report]
+        ├── Buyer Satisfaction Report [Report]
+        └── Contractor Performance Report [Report]
+</code></pre>
+<h2>8.2 Support Ticket Form — Screen Description</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Components</th>
+<th>User Interactions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>ticket_no (auto), status badge, priority flag</td>
+<td>Read-only; status can be changed by authorized roles</td>
+</tr>
+<tr>
+<td>Buyer Info</td>
+<td>buyer (Link), buyer_mobile (auto-fetch), project (Link), unit_no, tower_block, floor_no</td>
+<td>Select Contact → mobile fetches automatically; select Project</td>
+</tr>
+<tr>
+<td>Complaint Details</td>
+<td>category (Link), sub_category, priority, description (Rich Text), attachments</td>
+<td>Category selection triggers SLA auto-population on backend</td>
+</tr>
+<tr>
+<td>SLA Information</td>
+<td>sla_policy, sla_response_due, sla_resolution_due, first_response_at, response_breached, resolution_breached</td>
+<td>Auto-calculated; read-only</td>
+</tr>
+<tr>
+<td>Assignment</td>
+<td>assigned_to (User Link), assigned_team (Department Link)</td>
+<td>Auto-filled by category; can be overridden by Support Manager</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>resolution_notes, closed_at, buyer_rating (1–5 stars), buyer_feedback</td>
+<td>Filled by agent on resolution; rating submitted by buyer</td>
+</tr>
+<tr>
+<td>Cross-Module Links</td>
+<td>defect_report (Link), rera_complaint (Link)</td>
+<td>Auto-populated by system; navigates to linked DocType</td>
+</tr>
+<tr>
+<td>Internal</td>
+<td>internal_notes, escalation_reason</td>
+<td>Agent-only fields; not visible to buyer</td>
+</tr>
+</tbody></table>
+<h2>8.3 Buyer Portal Screens — Screen Description</h2>
+<h3>Portal Home (<code>/support</code>)</h3>
+<ul>
+<li><strong>Header:</strong> Company logo + welcome message from <code>Buyer Portal Settings</code></li>
+<li><strong>Components:</strong> Ticket summary cards (ticket_no, category, status, SLA deadline), &quot;Raise New Ticket&quot; button</li>
+<li><strong>Interactions:</strong> Click ticket card → navigates to <code>/support/&lt;ticket_no&gt;</code>; click &quot;Raise New Ticket&quot; → inline form</li>
+</ul>
+<h3>Ticket Detail (<code>/support/&lt;ticket_no&gt;</code>)</h3>
+<ul>
+<li><strong>Components:</strong> Full ticket fields visible to buyer; status timeline; resolution notes (if resolved)</li>
+<li><strong>Interactions:</strong> Buyer can add response/confirmation; view attachment photos</li>
+</ul>
+<h3>Possession Status (<code>/possession/&lt;unit_no&gt;</code>)</h3>
+<ul>
+<li><strong>Components:</strong> Stage indicator (Initiated → Dues Check → NOC → Scheduled → Key Handover → Completed); scheduled date; handover details</li>
+<li><strong>Interactions:</strong> Read-only; auto-refreshes on status change</li>
+</ul>
+<h2>8.4 Mobile-Optimized Views</h2>
+<p>Site Inspectors use mobile browser for on-site defect logging. The Defect Report form is designed for mobile use:</p>
+<ul>
+<li>Large photo upload button for <code>photo</code> field</li>
+<li>Simplified area selection (dropdown)</li>
+<li>Offline-friendly (Frappe&#39;s PWA capabilities)</li>
+</ul>
+<hr>
+<h1>9. Automation &amp; Background Process Flow</h1>
+<h2>9.1 Scheduler Overview</h2>
+<p>All scheduled jobs are defined in <code>hooks.py</code> under <code>scheduler_events</code>.</p>
+<div class="mermaid-wrapper"><div class="mermaid">gantt
+    title Scheduler Event Timeline
+    dateFormat HH:mm
+    section Every 30 Minutes
+    SLA Breach Check         : 00:00, 30m
+    SLA Breach Check         : 00:30, 30m
+    section Every Hour
+    RERA Deadline Check      : 00:00, 60m
+    section Daily (midnight)
+    SLA Summary to Managers  : 00:00, 5m
+    Hearing Reminders        : 00:05, 5m
+    Possession Aging Update  : 00:10, 5m
+    section Weekly (Sunday)
+    Weekly KPI Report Gen    : 00:00, 15m
+</div></div>
+<h2>9.2 Scheduled Job Details</h2>
+<h3>Every 30 Minutes: <code>sla_engine.check_sla_breaches()</code></h3>
+<p><strong>Purpose:</strong> Proactive SLA breach detection and escalation</p>
+<p><strong>Logic:</strong></p>
+<ol>
+<li>Query all <code>Support Ticket</code> where <code>status IN (&#39;Open&#39;, &#39;Assigned&#39;, &#39;In Progress&#39;)</code></li>
+<li>For each ticket, compare <code>sla_resolution_due</code> against <code>now()</code></li>
+<li>If <code>sla_resolution_due &lt; now</code> → set <code>resolution_breached = 1</code></li>
+<li>If <code>escalate_to</code> is populated → call <code>send_breach_alert(ticket, user)</code></li>
+<li>Commit transaction</li>
+</ol>
+<p><strong>Business Impact:</strong> Ensures no ticket silently breaches SLA; enables proactive intervention</p>
+<h3>Every Hour: <code>rera_alert.check_response_deadlines()</code></h3>
+<p><strong>Purpose:</strong> Enforce legal compliance for RERA response deadlines</p>
+<p><strong>Logic:</strong> Scans all active RERA Complaints; alerts legal team if <code>response_deadline</code> is within 48 hours</p>
+<h3>Daily: <code>notifications.send_daily_sla_summary_to_managers()</code></h3>
+<p><strong>Purpose:</strong> Morning briefing for Support Managers</p>
+<p><strong>Logic:</strong> Counts all <code>Support Ticket</code> where <code>resolution_breached = 1</code> and <code>status != &#39;Closed&#39;</code>; sends summary if count &gt; 0</p>
+<h3>Daily: <code>rera_alert.send_hearing_reminders()</code></h3>
+<p><strong>Purpose:</strong> Prevent missed RERA hearings</p>
+<p><strong>Logic:</strong> Finds all <code>RERA Complaint</code> with <code>hearing_date = tomorrow</code>; sends WhatsApp + email to <code>legal_team</code> and <code>external_counsel</code></p>
+<h3>Daily: <code>possession_management.tasks.update_possession_aging()</code></h3>
+<p><strong>Purpose:</strong> Aging analysis for Possession Status Tracker report</p>
+<p><strong>Logic:</strong> Calculates days elapsed since each status transition for all active Possession Requests; stores aging data for report queries</p>
+<h3>Weekly: <code>reports_analytics.tasks.generate_weekly_kpi_report()</code></h3>
+<p><strong>Purpose:</strong> Executive KPI report every Sunday</p>
+<p><strong>Logic:</strong> Compiles previous week&#39;s ticket metrics (open, closed, SLA compliance, avg resolution time) and emails to Support Managers</p>
+<h2>9.3 Document Event Hooks Summary</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph TD
+    A["Support Ticket\nbefore_insert"] --> B["set_sla_due_dates()\n→ Auto-calculate SLA deadlines"]
+    C["Support Ticket\non_update"] --> D["notify_buyer_status_change()\n→ WhatsApp/Email to buyer"]
+    C --> E["check_first_response()\n→ Record first_response_at"]
+    F["Support Ticket\non_submit"] --> G["create_defect_if_applicable()\n→ Auto-create Defect Report"]
+    H["Defect Report\non_submit"] --> I["assign_contractors_on_submit()\n→ Create Contractor Assignment records"]
+    J["Defect Report\non_update"] --> K["update_open_defect_count()\n→ Recalculate open_defects counter"]
+    L["Possession Request\nbefore_save"] --> M["check_all_nocs_received()\n→ Auto-set all_nocs_received flag"]
+    N["Possession Request\non_update"] --> O["notify_buyer_possession_update()\n→ WhatsApp milestone notification"]
+    P["RERA Complaint\nbefore_save"] --> Q["check_response_deadline()\n→ Alert if deadline overdue"]
+    R["RERA Complaint\non_submit"] --> S["notify_legal_team()\n→ Urgent legal team notification"]
+</div></div>
+<h2>9.4 Notification Automation Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["Status change event\n(on_update hook)"] --> B["notify_buyer_status_change(doc)"]
+    B --> C{"doc.has_value_changed('status')?"}
+    C --> |No| D["Exit - no notification needed"]
+    C --> |Yes| E["Build notification subject and message"]
+    E --> F{"whatsapp_notify enabled\nin Buyer Portal Settings?"}
+    F --> |Yes| G["Call WhatsApp API provider\n(Interakt/Wati/AiSensy)"]
+    G --> H{"API call success?"}
+    H --> |Success| I["Portal Notification record: Sent"]
+    H --> |Failure| J["Portal Notification record: Failed\nfailure_reason recorded\nfrappe.log_error() called"]
+    F --> |No| K{"email_notify enabled?"}
+    K --> |Yes| L["frappe.sendmail()\nusing email_notify_template"]
+    K --> |No| M["No notification sent"]
+    L --> I
+</div></div>
+<hr>
+<h1>10. Reports &amp; Analytics Flow</h1>
+<h2>10.1 Report Generation Logic</h2>
+<p>All reports are <strong>Frappe Script Reports</strong> — Python scripts that generate data dynamically with parameterized SQL queries via <code>frappe.db.sql()</code> or <code>frappe.get_list()</code>.</p>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["User opens report\n(e.g. SLA Breach Report)"] --> B["Report filter form shown\n(Category, Period, Agent)"]
+    B --> C["User sets filters and clicks Run"]
+    C --> D["Frappe calls report's get_data(filters) method"]
+    D --> E["Python script queries MariaDB\nusing frappe.db.sql() or frappe.get_list()"]
+    E --> F["Data returned as list of dicts"]
+    F --> G["Frappe renders as sortable table"]
+    G --> H{"Export required?"}
+    H --> |Excel| I["Download .xlsx file"]
+    H --> |PDF| J["Print format applied → PDF download"]
+    H --> |No| K["View in browser"]
+</div></div>
+<h2>10.2 SLA Breach Report Logic</h2>
+<p><strong>Data Source:</strong> <code>Support Ticket</code></p>
+<p><strong>Key Calculation:</strong></p>
+<pre><code>breach_duration_hrs = (now() - sla_resolution_due) in hours WHERE resolution_breached = 1
+</code></pre>
+<p><strong>Filters:</strong> <code>category</code>, <code>date_range</code>, <code>assigned_to</code></p>
+<p><strong>Columns:</strong> ticket_no, buyer, project, category, priority, sla_resolution_due, breach_duration_hrs, assigned_to, status</p>
+<h2>10.3 Defect Heatmap by Unit</h2>
+<p><strong>Data Source:</strong> <code>Defect Item</code> joined to <code>Defect Report</code></p>
+<p><strong>Key Calculation:</strong></p>
+<pre><code>defect_density_per_unit = COUNT(Defect Item) GROUP BY project + tower_block + floor_no + unit_no
+</code></pre>
+<p><strong>Visual:</strong> Grid representation (tower × floor × unit) with color density based on defect count</p>
+<h2>10.4 RERA Risk Score</h2>
+<p><strong>Data Source:</strong> <code>Support Ticket</code> + <code>RERA Complaint</code></p>
+<p><strong>Risk Score Logic:</strong></p>
+<pre><code>risk_score = (open_rera_cases × 10) + (rera_risk_tickets_unresolved × 3) + (penalty_exposure_amount / 100000)
+</code></pre>
+<p><strong>Output:</strong> Project-wise risk ranking for management attention</p>
+<h2>10.5 Agent Productivity Report</h2>
+<p><strong>Data Source:</strong> <code>Support Ticket</code></p>
+<p><strong>Key Metrics:</strong></p>
+<ul>
+<li>Tickets closed per agent per period</li>
+<li>Average resolution time (hours)</li>
+<li>Average buyer rating (1–5)</li>
+<li>SLA compliance % per agent</li>
+</ul>
+<h2>10.6 Dashboard Charts</h2>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>Data Source</th>
+<th>Aggregation</th>
+<th>Visual</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Open Tickets by Project</td>
+<td>Support Ticket</td>
+<td>COUNT grouped by project</td>
+<td>Bar chart</td>
+</tr>
+<tr>
+<td>SLA Compliance Rate</td>
+<td>Support Ticket</td>
+<td>% within SLA by week</td>
+<td>Line chart (trend)</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>11. Security &amp; Access Control Flow</h1>
+<h2>11.1 Authentication Architecture</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["Login Request"] --> B{"User type?"}
+    B --> |ERPNext Internal User| C["Standard Frappe Login\nUsername + Password"]
+    B --> |Buyer Portal| D["Mobile OTP Flow"]
+    C --> E["bcrypt password verification"]
+    E --> F{"Valid?"}
+    F --> |Yes| G["Frappe session cookie created\nstored in Redis"]
+    F --> |No| H["Account lockout after\nconfigured failed attempts"]
+    G --> I["Roles loaded: Support Manager,\nSupport Agent, Site Inspector, etc."]
+    I --> J["Permission matrix applied to\nevery DocType access"]
+    D --> K["OTP generated (6-digit)\nsent via SMS/WhatsApp"]
+    K --> L["OTP verified\n(time-limited, single-use)"]
+    L --> M["Frappe portal session created\nBuyer role applied"]
+    M --> N["Session timeout: session_timeout_mins\n(default: 30 min, auto-logout)"]
+</div></div>
+<h2>11.2 Role-Based Access Control (RBAC)</h2>
+<p>Frappe&#39;s built-in permission system enforces access at multiple levels:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Mechanism</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DocType level</td>
+<td>Permission rules per role</td>
+<td>Buyer role cannot read SLA Policy</td>
+</tr>
+<tr>
+<td>Document level</td>
+<td><code>user_permissions</code> / role restrictions</td>
+<td>Buyers see only own tickets via filtered queries</td>
+</tr>
+<tr>
+<td>Field level</td>
+<td>Field permissions</td>
+<td><code>internal_notes</code> hidden from Buyer role</td>
+</tr>
+<tr>
+<td>Report level</td>
+<td>Report permissions</td>
+<td>RERA Risk Dashboard restricted to Legal + Manager</td>
+</tr>
+</tbody></table>
+<h2>11.3 Data Isolation — Buyer Portal</h2>
+<pre><code class="language-python"># Buyer can only see own tickets
+frappe.get_list(&#39;Support Ticket&#39;,
+    filters={&#39;buyer_mobile&#39;: buyer_mobile},  # Filters to authenticated buyer&#39;s mobile
+    fields=[...],
+    order_by=&#39;creation desc&#39;)
+# frappe.whitelist(allow_guest=False) ensures no unauthenticated access
+</code></pre>
+<h2>11.4 API Key Security</h2>
+<ul>
+<li>WhatsApp API key stored in <code>Buyer Portal Settings.whatsapp_api_key</code> as <strong>Password field</strong> (Frappe stores this encrypted in the database)</li>
+<li>Never exposed in API responses</li>
+<li>HTTPS enforced at Nginx layer in production</li>
+</ul>
+<h2>11.5 Session Management</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Portal session timeout</td>
+<td><code>session_timeout_mins</code> (configurable, default 30)</td>
+<td>Auto-logout inactive buyers</td>
+</tr>
+<tr>
+<td>ERPNext session</td>
+<td>Frappe default (24 hours)</td>
+<td>Standard internal user session</td>
+</tr>
+<tr>
+<td>OTP validity</td>
+<td>Frappe default (10 minutes)</td>
+<td>Single-use, time-limited OTPs</td>
+</tr>
+</tbody></table>
+<h2>11.6 Fixtures &amp; Configuration Security</h2>
+<ul>
+<li>All roles exported as <code>fixtures/roles.json</code> — versions controlled in Git</li>
+<li>Custom fields exported as <code>fixtures/custom_fields.json</code> — no manual DB edits needed</li>
+<li>Permission matrix applied via Frappe&#39;s standard Role Permission Manager UI</li>
+</ul>
+<hr>
+<h1>12. Error Handling &amp; Exception Flow</h1>
+<h2>12.1 Validation Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Error Type</th>
+<th>Trigger</th>
+<th>User-Facing Message</th>
+<th>System Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Missing mandatory field</td>
+<td>Save without required field</td>
+<td>&quot;Category is mandatory&quot;</td>
+<td>Frappe shows inline error; save blocked</td>
+</tr>
+<tr>
+<td>Invalid link reference</td>
+<td>Selecting non-existent Buyer/Project</td>
+<td>&quot;Invalid link: Contact does not exist&quot;</td>
+<td>Save blocked</td>
+</tr>
+<tr>
+<td>SLA Policy not found</td>
+<td>Category has no default_sla</td>
+<td>Silent skip — SLA dates not set</td>
+<td>Ticket saved without SLA dates; manager can set manually</td>
+</tr>
+<tr>
+<td>Duplicate naming</td>
+<td>Race condition on series</td>
+<td>Auto-incremented by Frappe</td>
+<td>Framework handles transparently</td>
+</tr>
+</tbody></table>
+<h2>12.2 API Failure Flow</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["API call: create_ticket()"] --> B{"Session valid?"}
+    B --> |No| C["Return PermissionError\nHTTP 403"]
+    B --> |Yes| D{"Required fields\npresent?"}
+    D --> |No| E["Return ValidationError\nHTTP 417"]
+    D --> |Yes| F["frappe.new_doc().insert()"]
+    F --> G{"DB write success?"}
+    G --> |Yes| H["Return ticket_name\nHTTP 200"]
+    G --> |No: DB error| I["frappe.log_error() called\nReturn InternalServerError\nHTTP 500"]
+    I --> J["Error logged in\nFrappe Error Log DocType"]
+</div></div>
+<h2>12.3 WhatsApp Notification Failure</h2>
+<p>When WhatsApp delivery fails:</p>
+<ol>
+<li><code>Portal Notification</code> record created with <code>delivery_status = Failed</code></li>
+<li><code>failure_reason</code> field populated with API error message</li>
+<li><code>frappe.log_error()</code> writes to Frappe&#39;s Error Log</li>
+<li>Fallback to email notification (if <code>email_notify = Yes</code>)</li>
+<li>Support Manager can view failed notifications for manual follow-up</li>
+</ol>
+<h2>12.4 SLA Engine Error Handling</h2>
+<pre><code class="language-python">def check_sla_breaches():
+    &quot;&quot;&quot;Robust: even if one ticket fails, others processed&quot;&quot;&quot;
+    open_tickets = frappe.get_list(...)
+    for ticket in open_tickets:
+        try:
+            if ticket.sla_resolution_due and ticket.sla_resolution_due &lt; now:
+                frappe.db.set_value(...)
+        except Exception as e:
+            frappe.log_error(f&quot;SLA breach check failed for {ticket.name}: {e}&quot;)
+    frappe.db.commit()  # Single commit after all updates
+</code></pre>
+<h2>12.5 User-Facing Error Messages</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Message Shown to User</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Portal ticket creation fails</td>
+<td>&quot;Unable to create ticket. Please try again or contact support at {support_phone}&quot;</td>
+</tr>
+<tr>
+<td>OTP expired/invalid</td>
+<td>&quot;OTP is invalid or has expired. Please request a new OTP.&quot;</td>
+</tr>
+<tr>
+<td>Session timeout</td>
+<td>&quot;Your session has expired. Please login again.&quot;</td>
+</tr>
+<tr>
+<td>Permission denied</td>
+<td>&quot;You do not have permission to access this resource.&quot;</td>
+</tr>
+</tbody></table>
+<h2>12.6 Logging System</h2>
+<table>
+<thead>
+<tr>
+<th>Log Type</th>
+<th>Location</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Application errors</td>
+<td>Frappe <code>Error Log</code> DocType</td>
+<td>30 days (configurable)</td>
+</tr>
+<tr>
+<td>Scheduler errors</td>
+<td><code>frappe.log_error()</code> → Error Log</td>
+<td>30 days</td>
+</tr>
+<tr>
+<td>Notification failures</td>
+<td><code>Portal Notification.failure_reason</code></td>
+<td>Permanent (in DocType)</td>
+</tr>
+<tr>
+<td>SLA breach events</td>
+<td><code>Support Ticket.resolution_breached</code> flag</td>
+<td>Permanent (in DocType)</td>
+</tr>
+<tr>
+<td>Access logs</td>
+<td>Nginx access log</td>
+<td>Server-level retention</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>13. Integration Flow</h1>
+<h2>13.1 ERPNext Core Integration Map</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph LR
+    subgraph re_support
+        ST[Support Ticket]
+        DR[Defect Report]
+        PR[Possession Request]
+        RC[RERA Complaint]
+        BP[Buyer Portal]
+    end
+
+    subgraph ERPNext Core
+        CON[Contact / Customer\n(CRM)]
+        PRJ[Project\n(Projects)]
+        SUP[Supplier\n(Buying)]
+        PO[Purchase Order\n(Buying)]
+        JE[Journal Entry\n(Accounts)]
+        USR[User / Department\n(HR)]
+        SI[Sales Invoice\n(Accounts)]
+    end
+
+    ST --> |buyer Link| CON
+    ST --> |project Link| PRJ
+    ST --> |assigned_to / assigned_team| USR
+    DR --> |buyer Link| CON
+    DR --> |project Link| PRJ
+    DR --> |contractor Link (via Defect Item)| SUP
+    DR --> |generates| PO
+    PO --> |defect_report custom field| DR
+    PR --> |buyer Link| CON
+    PR --> |project Link| PRJ
+    PR --> |dues verification Finance| SI
+    RC --> |buyer Link| CON
+    RC --> |project Link| PRJ
+    RC --> |penalty_jv Link| JE
+    JE --> |rera_complaint custom field| RC
+    BP --> |authenticates via| CON
+</div></div>
+<h2>13.2 CRM / Contact Integration</h2>
+<ul>
+<li><strong>Buyers modelled as ERPNext Contacts</strong> (linked to Customer if needed)</li>
+<li><strong>Custom fields on Contact:</strong> <code>unit_no</code>, <code>project</code>, <code>booking_ref</code>, <code>possession_status</code>, <code>is_buyer</code></li>
+<li><code>buyer_mobile</code> and <code>buyer_email</code> auto-fetched from Contact on selection in any DocType</li>
+<li><code>possession_status</code> on Contact auto-updated when Possession Request advances stages</li>
+</ul>
+<h2>13.3 Finance Integration</h2>
+<table>
+<thead>
+<tr>
+<th>Integration</th>
+<th>DocType</th>
+<th>ERPNext DocType</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RERA penalty payment</td>
+<td>RERA Complaint.penalty_jv</td>
+<td>Journal Entry</td>
+<td>Penalty accounting</td>
+</tr>
+<tr>
+<td>Contractor payment</td>
+<td>Contractor Assignment.purchase_order</td>
+<td>Purchase Order</td>
+<td>Rectification work contracts</td>
+</tr>
+<tr>
+<td>Possession dues</td>
+<td>Possession Request.outstanding_dues</td>
+<td>Sales Invoice</td>
+<td>Outstanding amount query</td>
+</tr>
+<tr>
+<td>Support cost tracking</td>
+<td>All tickets</td>
+<td>Cost Centers per Project</td>
+<td>Project-wise cost attribution</td>
+</tr>
+</tbody></table>
+<h2>13.4 WhatsApp Integration Architecture</h2>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart TD
+    A["Doc event: on_update\nstatus changed"] --> B["notify_buyer_status_change(doc)"]
+    B --> C["Build message from template\n'Ticket {ticket_no} is now {status}'"]
+    C --> D["Read Buyer Portal Settings\nwhatsapp_api_provider\nwhatsapp_api_key"]
+    D --> E{"Provider?"}
+    E --> |Interakt| F["POST to Interakt API\n/v1/send/whatsapp"]
+    E --> |Wati| G["POST to Wati API\n/api/v1/sendTemplateMessage"]
+    E --> |AiSensy| H["POST to AiSensy API\n/campaign/send"]
+    E --> |Custom| I["POST to custom webhook URL"]
+    F --> J["Log Portal Notification\ndelivery_status = Sent/Failed"]
+    G --> J
+    H --> J
+    I --> J
+</div></div>
+<h2>13.5 Email Integration</h2>
+<ul>
+<li>Uses Frappe&#39;s native email system (<code>frappe.sendmail()</code>)</li>
+<li>Email templates configurable per <code>Ticket Category</code> (category-specific templates)</li>
+<li>Default template set in <code>Buyer Portal Settings.email_notify_template</code></li>
+<li>SMTP configuration managed at Frappe site level (not in-app)</li>
+</ul>
+<h2>13.6 Quality Module Integration</h2>
+<ul>
+<li><code>Defect Report</code> can optionally link to ERPNext <code>Quality Inspection</code> DocType</li>
+<li>Enables QC parameters to mirror RERA complaint categories for compliance tracking</li>
+<li>Provides construction QC → support handover data trail</li>
+</ul>
+<hr>
+<h1>14. Complete System Flow Summary</h1>
+<h2>14.1 Overall Workflow Summary</h2>
+<p>The RE Support System operates as a <strong>closed-loop post-handover support ecosystem</strong>:</p>
+<div class="mermaid-wrapper"><div class="mermaid">flowchart LR
+    A["🧑‍💼 Buyer\nComplaint"] --> B["📋 Complaint\nManagement\n(SLA tracking)"]
+    B --> |"Civil/Plumbing issue"| C["🔧 Defect &\nSnagging\n(Rectification)"]
+    B --> |"Legal risk"| D["⚖️ RERA\nEscalation\n(Compliance)"]
+    E["🏠 Possession\nRequest"] --> F["Finance: Dues\nLegal: NOCs\nExec: Handover"]
+    F --> C
+    B --> G["🌐 Buyer\nPortal\n(Self-service)"]
+    C --> G
+    E --> G
+    B --> H["📊 Reports &\nAnalytics\n(Intelligence)"]
+    C --> H
+    E --> H
+    D --> H
+
+    style A fill:#2980B9,color:#fff
+    style H fill:#8E44AD,color:#fff
+</div></div>
+<h2>14.2 Inter-Module Communication Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Source → Target</th>
+<th>Trigger</th>
+<th>Data Passed</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Complaint Management → Defect &amp; Snagging</td>
+<td>Civil/plumbing ticket submitted</td>
+<td>source_ticket reference; project; unit_no; buyer</td>
+</tr>
+<tr>
+<td>Complaint Management → RERA Escalation</td>
+<td>SLA breach + RERA-risk category</td>
+<td>source_ticket reference; buyer; project; complaint details</td>
+</tr>
+<tr>
+<td>Defect &amp; Snagging → Possession Management</td>
+<td>Pre-possession inspection</td>
+<td>defect_report reference</td>
+</tr>
+<tr>
+<td>All modules → Buyer Portal</td>
+<td>Status change events</td>
+<td>Notifications pushed via WhatsApp/Email</td>
+</tr>
+<tr>
+<td>All modules → Reports &amp; Analytics</td>
+<td>All DocType data</td>
+<td>Aggregated by scheduled jobs and on-demand reports</td>
+</tr>
+<tr>
+<td>RERA Escalation → ERPNext Accounts</td>
+<td>Penalty outcome</td>
+<td>Journal Entry auto-linked</td>
+</tr>
+<tr>
+<td>Defect &amp; Snagging → ERPNext Buying</td>
+<td>Contractor assignment</td>
+<td>Purchase Order created</td>
+</tr>
+</tbody></table>
+<h2>14.3 Business Operation Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Business Outcome</th>
+<th>Modules Involved</th>
+<th>Key Automation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Complaint resolved within SLA</td>
+<td>Complaint Management</td>
+<td>SLA engine every 30 min; auto-escalation</td>
+</tr>
+<tr>
+<td>Defect rectified with buyer sign-off</td>
+<td>Complaint + Defect &amp; Snagging</td>
+<td>Auto defect creation; contractor assignment on submit</td>
+</tr>
+<tr>
+<td>Possession handed over legally</td>
+<td>Possession Management + Finance + Legal</td>
+<td>Sequential workflow; NOC checker; buyer notification at each stage</td>
+</tr>
+<tr>
+<td>RERA case managed without penalty</td>
+<td>RERA Escalation</td>
+<td>Hourly deadline checks; daily hearing reminders</td>
+</tr>
+<tr>
+<td>Buyer self-served without calling</td>
+<td>Buyer Portal</td>
+<td>Portal APIs; OTP login; real-time ticket status</td>
+</tr>
+<tr>
+<td>Weekly KPI report for management</td>
+<td>Reports &amp; Analytics</td>
+<td>Weekly scheduled report generation</td>
+</tr>
+</tbody></table>
+<h2>14.4 Key Automation Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Automation</th>
+<th>Trigger</th>
+<th>Frequency</th>
+<th>Business Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SLA deadline auto-set</td>
+<td><code>before_insert</code> (ticket creation)</td>
+<td>Every new ticket</td>
+<td>Ensures every ticket has measurable SLA target</td>
+</tr>
+<tr>
+<td>Buyer WhatsApp notification</td>
+<td><code>on_update</code> (status change)</td>
+<td>Every status change</td>
+<td>Real-time transparency; reduces inbound calls</td>
+</tr>
+<tr>
+<td>SLA breach detection</td>
+<td>Cron every 30 minutes</td>
+<td>48×/day</td>
+<td>Proactive escalation; prevents ignored tickets</td>
+</tr>
+<tr>
+<td>RERA deadline alert</td>
+<td>Cron every hour</td>
+<td>24×/day</td>
+<td>Legal compliance; prevents response default</td>
+</tr>
+<tr>
+<td>NOC auto-flag</td>
+<td><code>before_save</code> (possession)</td>
+<td>Every possession save</td>
+<td>Prevents premature possession approval</td>
+</tr>
+<tr>
+<td>Defect auto-creation</td>
+<td><code>on_submit</code> (ticket)</td>
+<td>Civil/plumbing tickets</td>
+<td>Ensures no defect complaint falls through cracks</td>
+</tr>
+<tr>
+<td>Contractor auto-assignment</td>
+<td><code>on_submit</code> (defect report)</td>
+<td>Every defect submission</td>
+<td>Immediate action; no manual assignment delay</td>
+</tr>
+<tr>
+<td>Daily SLA summary</td>
+<td>Daily cron</td>
+<td>Once/day</td>
+<td>Morning briefing for managers</td>
+</tr>
+<tr>
+<td>Possession aging update</td>
+<td>Daily cron</td>
+<td>Once/day</td>
+<td>Aging analytics for pending possessions</td>
+</tr>
+<tr>
+<td>Weekly KPI report</td>
+<td>Weekly cron</td>
+<td>Once/week</td>
+<td>Executive performance reporting</td>
+</tr>
+</tbody></table>
+<h2>14.5 Critical Dependencies</h2>
+<div class="mermaid-wrapper"><div class="mermaid">graph TD
+    A["ERPNext v15+ installed\n(required_apps in hooks.py)"] --> B["re_support app installed"]
+    C["Ticket Category masters\nconfigured with SLA Policy"] --> D["Support Tickets\ncan be raised"]
+    E["SLA Policy masters\nconfigured with hours"] --> D
+    F["Buyer Portal Settings\nconfigured with WhatsApp API key"] --> G["WhatsApp notifications\nwork"]
+    H["Contact records\n(Buyers) exist with is_buyer = Yes"] --> I["Portal login\nand ticket creation work"]
+    J["ERPNext Project records\nexist per development"] --> D
+    J --> K["Possession Requests\ncan be raised"]
+    K --> L["Finance dues clearance\n(first gate)"]
+    L --> M["NOC collection\n(second gate)"]
+    M --> N["Key handover\ncan proceed"]
+</div></div>
+<h2>14.6 Scalability Considerations</h2>
+<table>
+<thead>
+<tr>
+<th>Consideration</th>
+<th>Current Approach</th>
+<th>Scaling Path</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Multi-project support</td>
+<td><code>project</code> Link field on all DocTypes</td>
+<td>All reports and dashboards filter by project; supports unlimited projects</td>
+</tr>
+<tr>
+<td>WhatsApp provider</td>
+<td>Abstracted in <code>utils/notifications.py</code></td>
+<td>Swap provider by changing <code>Buyer Portal Settings.whatsapp_api_provider</code> — no code change</td>
+</tr>
+<tr>
+<td>State RERA</td>
+<td>Select field (configurable)</td>
+<td>Add new RERA states via <code>Property Setter</code> fixture — no code change</td>
+</tr>
+<tr>
+<td>Contractor portal</td>
+<td>Not in scope v1</td>
+<td>Future: separate contractor login role + portal pages</td>
+</tr>
+<tr>
+<td>Data archival</td>
+<td>Scheduled job archiving tickets &gt;2 years</td>
+<td>Reduces main table size; queries remain fast</td>
+</tr>
+<tr>
+<td>Report performance</td>
+<td>Frappe Script Reports (Python + SQL)</td>
+<td>Move heavy aggregations to Data Warehouse if team exceeds 10k tickets/month</td>
+</tr>
+<tr>
+<td>Multi-site</td>
+<td>ERPNext multi-site bench</td>
+<td>Deploy RSS on multiple ERPNext sites (one per region/entity)</td>
+</tr>
+</tbody></table>
+<h2>14.7 Server Requirements Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Minimum</th>
+<th>Recommended</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OS</td>
+<td>Ubuntu 20.04 LTS</td>
+<td>Ubuntu 22.04 LTS</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.10+</td>
+<td>3.11+</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>18.x</td>
+<td>20.x LTS</td>
+</tr>
+<tr>
+<td>MariaDB</td>
+<td>10.6+</td>
+<td>10.11+</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>6.x</td>
+<td>7.x</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8 GB</td>
+<td>16 GB</td>
+</tr>
+<tr>
+<td>Disk</td>
+<td>50 GB SSD</td>
+<td>200 GB SSD</td>
+</tr>
+<tr>
+<td>ERPNext</td>
+<td>v15.0</td>
+<td>v15 latest</td>
+</tr>
+<tr>
+<td>Frappe</td>
+<td>v15.0</td>
+<td>v15 latest</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>Appendix A: Naming Series Reference</h1>
+<table>
+<thead>
+<tr>
+<th>DocType</th>
+<th>Naming Pattern</th>
+<th>Example Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Ticket</td>
+<td><code>TICK-.YYYY.MM.-.####</code></td>
+<td><code>TICK-2026-06-0001</code></td>
+</tr>
+<tr>
+<td>Defect Report</td>
+<td><code>DEF-.YYYY.-.####</code></td>
+<td><code>DEF-2026-0042</code></td>
+</tr>
+<tr>
+<td>Possession Request</td>
+<td><code>POSS-.YYYY.MM.-.####</code></td>
+<td><code>POSS-2026-06-0088</code></td>
+</tr>
+<tr>
+<td>RERA Complaint</td>
+<td><code>RERA-.YYYY.-.####</code></td>
+<td><code>RERA-2026-0007</code></td>
+</tr>
+<tr>
+<td>Contractor Assignment</td>
+<td><code>CASS-.YYYY.-.####</code></td>
+<td><code>CASS-2026-0015</code></td>
+</tr>
+<tr>
+<td>Portal Notification</td>
+<td><code>PNOT-.YYYY.MM.DD.-.##</code></td>
+<td><code>PNOT-2026-06-15-03</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h1>Appendix B: Workflow State Matrix</h1>
+<table>
+<thead>
+<tr>
+<th>DocType</th>
+<th>Draft/Initial</th>
+<th>Intermediate States</th>
+<th>Final/Submitted</th>
+<th>Exception</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Support Ticket</td>
+<td>Open → Assigned</td>
+<td>In Progress / Awaiting Buyer</td>
+<td>Resolved → Closed</td>
+<td>Escalated</td>
+</tr>
+<tr>
+<td>Defect Report</td>
+<td>Draft</td>
+<td>Under Review / In Rectification</td>
+<td>QC Pending → Buyer Accepted</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Possession Request</td>
+<td>Initiated</td>
+<td>Dues Check / NOC Collection / Scheduled</td>
+<td>Key Handover → Completed</td>
+<td>—</td>
+</tr>
+<tr>
+<td>RERA Complaint</td>
+<td>Filed</td>
+<td>Response Prep / Hearing Scheduled</td>
+<td>Outcome Recorded</td>
+<td>Appealed</td>
+</tr>
+<tr>
+<td>Contractor Assignment</td>
+<td>Pending</td>
+<td>In Progress</td>
+<td>Completed</td>
+<td>Defaulted</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>Appendix C: Installation Reference</h1>
+<pre><code class="language-bash"># 1. Get the app from repository
+bench get-app re_support https://github.com/your-org/re_support
+
+# 2. Install on ERPNext site
+bench --site your-site.local install-app re_support
+
+# 3. Run database migrations
+bench --site your-site.local migrate
+
+# 4. Export fixtures after setup
+bench --site your-site.local export-fixtures --app re_support
+
+# 5. Restart bench services
+bench restart
+
+# 6. Clear cache
+bench --site your-site.local clear-cache
+
+# 7. Optional: Load demo data
+bench --site your-site.local execute re_support.setup.load_demo_data
+</code></pre>
+<hr>
+<p><em>Document generated from source code analysis of <code>re_support</code> ERPNext v15+ application.</em><br><em>Version 1.0 | 2026 | RE Support System — Structural Functional Flow Document</em><br><em>For internal use by implementation teams, functional consultants, and QA engineers.</em></p>
+
+</div>
+
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:        '#1D5299',
+    primaryTextColor:    '#ffffff',
+    primaryBorderColor:  '#13315C',
+    lineColor:           '#6B7280',
+    secondaryColor:      '#E8F0FA',
+    tertiaryColor:       '#F4F8FD',
+    background:          '#ffffff',
+    nodeBorder:          '#1D5299',
+    clusterBkg:          '#E8F0FA',
+    titleColor:          '#0B2545',
+    edgeLabelBackground: '#ffffff',
+    fontFamily:          'Inter, sans-serif',
+    fontSize:            '12px',
+  },
+  flowchart: { curve: 'basis', padding: 18 },
+  sequence:  { actorMargin: 50, messageMargin: 18 },
+});
+</script>
+</body>
+</html>

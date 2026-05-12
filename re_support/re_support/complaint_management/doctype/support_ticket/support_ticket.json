@@ -1,0 +1,237 @@
+{
+ "doctype": "DocType",
+ "is_submittable": 1,
+ "module": "Complaint Management",
+ "name": "Support Ticket",
+ "autoname": "TICK-.YYYY.MM.-.####",
+ "fields": [
+  {
+   "fieldname": "ticket_no",
+   "fieldtype": "Data",
+   "read_only": 1,
+   "label": "Ticket No"
+  },
+  {
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "options": "Contact",
+   "reqd": 1,
+   "label": "Buyer"
+  },
+  {
+   "fieldname": "buyer_mobile",
+   "fieldtype": "Data",
+   "fetch_from": "buyer.mobile_no",
+   "read_only": 1,
+   "label": "Buyer Mobile"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "options": "Project",
+   "reqd": 1,
+   "label": "Project"
+  },
+  {
+   "fieldname": "unit_no",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "label": "Unit No"
+  },
+  {
+   "fieldname": "tower_block",
+   "fieldtype": "Data",
+   "label": "Tower Block"
+  },
+  {
+   "fieldname": "floor_no",
+   "fieldtype": "Int",
+   "label": "Floor No"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "options": "Ticket Category",
+   "reqd": 1,
+   "label": "Category"
+  },
+  {
+   "fieldname": "sub_category",
+   "fieldtype": "Data",
+   "label": "Sub Category"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "options": "Low\\nMedium\\nHigh\\nCritical",
+   "label": "Priority"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "reqd": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Attach",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Assigned To"
+  },
+  {
+   "fieldname": "assigned_team",
+   "fieldtype": "Link",
+   "options": "Department",
+   "label": "Assigned Team"
+  },
+  {
+   "fieldname": "sla_policy",
+   "fieldtype": "Link",
+   "options": "SLA Policy",
+   "label": "Sla Policy"
+  },
+  {
+   "fieldname": "sla_response_due",
+   "fieldtype": "Datetime",
+   "read_only": 1,
+   "label": "Sla Response Due"
+  },
+  {
+   "fieldname": "sla_resolution_due",
+   "fieldtype": "Datetime",
+   "read_only": 1,
+   "label": "Sla Resolution Due"
+  },
+  {
+   "fieldname": "first_response_at",
+   "fieldtype": "Datetime",
+   "label": "First Response At"
+  },
+  {
+   "fieldname": "response_breached",
+   "fieldtype": "Check",
+   "read_only": 1,
+   "label": "Response Breached"
+  },
+  {
+   "fieldname": "resolution_breached",
+   "fieldtype": "Check",
+   "read_only": 1,
+   "label": "Resolution Breached"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "options": "Open\\nAssigned\\nIn Progress\\nAwaiting Buyer\\nResolved\\nClosed\\nEscalated",
+   "label": "Status"
+  },
+  {
+   "fieldname": "resolution_notes",
+   "fieldtype": "Text Editor",
+   "label": "Resolution Notes"
+  },
+  {
+   "fieldname": "closed_at",
+   "fieldtype": "Datetime",
+   "label": "Closed At"
+  },
+  {
+   "fieldname": "buyer_rating",
+   "fieldtype": "Rating",
+   "label": "Buyer Rating"
+  },
+  {
+   "fieldname": "buyer_feedback",
+   "fieldtype": "Small Text",
+   "label": "Buyer Feedback"
+  },
+  {
+   "fieldname": "rera_complaint",
+   "fieldtype": "Link",
+   "options": "RERA Complaint",
+   "label": "Rera Complaint"
+  },
+  {
+   "fieldname": "defect_report",
+   "fieldtype": "Link",
+   "options": "Defect Report",
+   "label": "Defect Report"
+  },
+  {
+   "fieldname": "internal_notes",
+   "fieldtype": "Text Editor",
+   "label": "Internal Notes"
+  },
+  {
+   "fieldname": "escalation_reason",
+   "fieldtype": "Small Text",
+   "label": "Escalation Reason"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 0,
+ "field_order": [
+  "ticket_no",
+  "buyer",
+  "buyer_mobile",
+  "project",
+  "unit_no",
+  "tower_block",
+  "floor_no",
+  "category",
+  "sub_category",
+  "priority",
+  "description",
+  "attachments",
+  "assigned_to",
+  "assigned_team",
+  "sla_policy",
+  "sla_response_due",
+  "sla_resolution_due",
+  "first_response_at",
+  "response_breached",
+  "resolution_breached",
+  "status",
+  "resolution_notes",
+  "closed_at",
+  "buyer_rating",
+  "buyer_feedback",
+  "rera_complaint",
+  "defect_report",
+  "internal_notes",
+  "escalation_reason"
+ ]
+}

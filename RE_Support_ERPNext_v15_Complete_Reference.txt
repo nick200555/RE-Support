@@ -1,0 +1,2169 @@
+RSS
+ Real Estate Support System
+ Frappe Framework | ERPNext v15+
+ Complete Architecture | DocTypes | Workflows | Workspace | Implementation Guide
+ Version 1.0 | 2026
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 2
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Table of Contents
+1
+System Overview
+ 3
+2
+App Structure & Directory Layout
+ 4
+3
+Workspace Configuration
+ 5
+4
+Module 1 — Complaint Management
+ 6
+5
+Module 2 — Defect & Snagging
+ 9
+6
+Module 3 — Possession Management
+ 12
+7
+Module 4 — RERA Escalation
+ 15
+8
+Module 5 — Buyer Portal
+ 17
+9
+Module 6 — Reports & Analytics
+ 19
+10
+Workflows — All Modules
+ 21
+11
+ERPNext Integration Points
+ 25
+12
+Roles & Permission Matrix
+ 27
+13
+Naming Series & Configuration
+ 28
+14
+hooks.py — Complete Reference
+ 29
+15
+Implementation Roadmap
+ 31
+16
+Technical Decisions & Server Requirements
+ 33
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 3
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+1. System Overview
+Project Summary
+The Real Estate Support System (RSS) is a custom Frappe application built on top of ERPNext v15+.
+It covers the complete post-handover real estate support value chain — from buyer complaint intake
+through defect rectification, possession management, RERA escalation, and buyer self-service portal
+— integrating natively with ERPNext's Accounts, CRM, Quality, HR, and Communication modules.
+ 6
+ Core Modules
+ 26+
+ DocTypes
+ 9
+ Script Reports
+ 7
+ Custom Roles
+ 4
+ Workflows
+ 5
+ Build Phases
+Core Modules at a Glance
+Module
+Scope
+Complaint Management
+Support ticketing, SLA policy, category-based
+auto-assignment, buyer notification
+Defect & Snagging
+Unit-level defect logging with photos, contractor
+rectification, buyer e-sign acceptance
+Possession Management
+End-to-end possession workflow: dues check, NOC, key
+handover, OC tracking
+RERA Escalation
+RERA portal complaint tracking, legal team
+management, hearing schedules, outcomes
+Buyer Portal
+Frappe web portal for buyers: ticket creation, status
+tracking, possession checklist
+Reports & Analytics
+SLA dashboards, TAT reports, RERA risk scores,
+project-level defect heatmaps
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 4
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+2. App Structure & Directory Layout
+The app is created using bench new-app re_support and installed on the target ERPNext site. Each functional
+module is a separate directory following standard Frappe conventions.
+re_support/                          # Frappe bench app root
+■■■ re_support/
+■   ■■■ __init__.py
+■   ■■■ hooks.py                     # Scheduler, doc_events, whitelists, fixtures
+■   ■■■ patches.txt
+■   ■■■ modules.txt                  # Lists all 6 module names
+■   ■■■ config/
+■   ■   ■■■ desktop.py               # Workspace module tiles & shortcuts
+■   ■   ■■■ docs.py
+■   ■■■ complaint_management/        # MODULE 1
+■   ■   ■■■ doctype/
+■   ■   ■   ■■■ support_ticket/      # Core transaction DocType
+■   ■   ■   ■   ■■■ support_ticket.json
+■   ■   ■   ■   ■■■ support_ticket.py
+■   ■   ■   ■   ■■■ support_ticket.js
+■   ■   ■   ■■■ ticket_category/     # Master
+■   ■   ■   ■■■ sla_policy/          # Master
+■   ■   ■■■ report/
+■   ■       ■■■ sla_breach_report/
+■   ■       ■■■ ticket_tat_by_category/
+■   ■■■ defect_snagging/             # MODULE 2
+■   ■   ■■■ doctype/
+■   ■   ■   ■■■ defect_report/       # Submittable transaction
+■   ■   ■   ■■■ defect_item/         # Child table
+■   ■   ■   ■■■ contractor_assignment/
+■   ■   ■■■ report/
+■   ■       ■■■ defect_heatmap_by_unit/
+■   ■■■ possession_management/       # MODULE 3
+■   ■   ■■■ doctype/
+■   ■   ■   ■■■ possession_request/  # Submittable, 6-state workflow
+■   ■   ■   ■■■ possession_checklist/
+■   ■   ■   ■■■ noc_document/        # Child table
+■   ■   ■■■ workflow/
+■   ■       ■■■ possession_workflow.json
+■   ■■■ rera_escalation/             # MODULE 4
+■   ■   ■■■ doctype/
+■   ■   ■   ■■■ rera_complaint/      # High-priority submittable
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 5
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+■   ■   ■   ■■■ rera_response_log/   # Child table
+■   ■   ■■■ report/
+■   ■       ■■■ rera_risk_dashboard/
+■   ■■■ buyer_portal/                # MODULE 5
+■   ■   ■■■ doctype/
+■   ■   ■   ■■■ buyer_portal_settings/  # Single DocType
+■   ■   ■   ■■■ portal_notification/
+■   ■   ■■■ templates/pages/
+■   ■   ■   ■■■ buyer_portal.html
+■   ■   ■   ■■■ ticket_detail.html
+■   ■   ■   ■■■ possession_status.html
+■   ■   ■■■ api.py                   # @frappe.whitelist() portal APIs
+■   ■■■ reports_analytics/           # MODULE 6
+■   ■   ■■■ report/
+■   ■   ■   ■■■ support_dashboard/
+■   ■   ■   ■■■ team_productivity/
+■   ■   ■■■ dashboard_chart/
+■   ■       ■■■ open_tickets_by_project.json
+■   ■       ■■■ sla_compliance_rate.json
+■   ■■■ utils/
+■       ■■■ sla_engine.py            # SLA due-date calculation
+■       ■■■ notifications.py         # WhatsApp / email dispatch
+■       ■■■ validators.py
+■■■ requirements.txt
+■■■ setup.py
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 6
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+3. Workspace Configuration
+The RE Support workspace appears as a tile on the ERPNext home screen. It is defined in config/desktop.py
+and can also be configured via Frappe's Workspace DocType in the UI. The workspace groups shortcuts by module
+for quick navigation.
+Workspace Module Tiles
+Workspace Name
+Module
+Icon
+Purpose
+RE Support Home
+re_support
+RSS
+Main workspace landing
+page
+Complaint Management
+complaint_management
+issue
+Ticket list, SLA monitor
+Defect & Snagging
+defect_snagging
+tools
+Defect reports, contractor
+tasks
+Possession Management
+possession_management
+home
+Possession workflow
+board
+RERA Escalation
+rera_escalation
+law
+RERA complaint tracker
+Buyer Portal Settings
+buyer_portal
+globe
+Portal config &
+notifications
+Reports & Analytics
+reports_analytics
+bar-chart
+All dashboards and
+reports
+Workspace Shortcuts by Module
+DocType / Report
+View
+Module
+Description
+Support Ticket
+List
+Complaint Management
+All open and closed tickets
+Support Ticket
+New
+Complaint Management
+Raise a new support ticket
+Ticket Category
+List
+Complaint Management
+Manage categories & SLA
+defaults
+SLA Policy
+List
+Complaint Management
+View / edit SLA policies
+SLA Breach Report
+Report
+Complaint Management
+Tickets breached SLA by
+period
+Defect Report
+List
+Defect & Snagging
+All defect reports
+Defect Report
+New
+Defect & Snagging
+Log a new defect
+Defect Heatmap
+Report
+Defect & Snagging
+Project/unit-wise defect
+count
+Possession Request
+List
+Possession Management
+All possession records
+Possession Request
+New
+Possession Management
+Initiate a possession
+RERA Complaint
+List
+RERA Escalation
+All RERA cases
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 7
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+DocType / Report
+View
+Module
+Description
+RERA Risk Dashboard
+Report
+RERA Escalation
+Project-wise risk score
+Buyer Portal Settings
+Single
+Buyer Portal
+Portal configuration
+Support Dashboard
+Dashboard
+Reports & Analytics
+Live KPI dashboard
+Farmer Payment Register
+Report
+Reports & Analytics
+Agent productivity report
+desktop.py — Workspace Definition (excerpt)
+# re_support/config/desktop.py
+from frappe import _
+def get_data():
+    return [
+        {
+            "module_name": "Complaint Management",
+            "color": "#C0392B",
+            "icon": "octicon octicon-issue-opened",
+            "label": _("Complaint Management"),
+            "type": "module",
+        },
+        {
+            "module_name": "Defect Snagging",
+            "color": "#E67E22",
+            "icon": "octicon octicon-tools",
+            "label": _("Defect & Snagging"),
+            "type": "module",
+        },
+        # ... repeat for all 6 modules
+    ]
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 8
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 4
+Module 1 — Complaint Management
+Manages the complete support ticketing lifecycle for real estate buyers. Handles complaint intake via
+the buyer portal, WhatsApp, or CRM. Auto-assigns to the correct team based on category, tracks SLA
+breach, sends buyer notifications at every status change, and escalates critical tickets to the RERA
+module. This is the primary operational module used daily by the support team.
+Support Ticket
+ Transaction
+ DocType ·
+Submittable
+Core transaction — one record per buyer complaint. Linked to unit, project, and buyer contact. Rate auto-assigned from SLA Policy.
+Status drives the complete workflow.
+Field Name
+Type
+Description
+ticket_no *
+Data — Auto (naming series)
+TICK-.YYYY.MM.-.#### — system generated on
+save
+buyer *
+Link → Contact
+Buyer who raised the complaint
+buyer_mobile
+Data — Fetched
+Auto-fetched from Contact on buyer selection
+project *
+Link → Project
+ERPNext Project linked to the real estate
+development
+unit_no *
+Data
+Flat / unit number within the project
+tower_block
+Data
+Tower or block identifier (e.g. A, B, Tower-1)
+floor_no
+Int
+Floor number for location context
+category *
+Link → Ticket Category
+Complaint category — drives SLA and
+auto-assignment
+sub_category
+Data
+Optional sub-category for granular reporting
+priority
+Select
+Low / Medium / High / Critical — can override
+category default
+description *
+Long Text
+Detailed complaint description from buyer
+attachments
+Attach Multiple
+Photos, videos, or documents uploaded by buyer
+assigned_to
+Link → User
+Support agent responsible for this ticket
+assigned_team
+Link → Department
+Team (Civil / Electrical / Legal / Finance)
+sla_policy
+Link → SLA Policy
+Auto-fetched from Ticket Category default
+sla_response_due
+Datetime — Auto
+First response deadline = created +
+response_time_hrs
+sla_resolution_due
+Datetime — Auto
+Resolution deadline = created +
+resolution_time_hrs
+first_response_at
+Datetime
+Timestamp of agent's first reply
+response_breached
+Check — Auto
+Set if first_response_at > sla_response_due
+resolution_breached
+Check — Auto
+Set if closed_at > sla_resolution_due
+status
+Select
+Open / Assigned / In Progress / Awaiting Buyer /
+Resolved / Closed / Escalated
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 9
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+resolution_notes
+Text Editor
+Agent notes on how the issue was resolved
+closed_at
+Datetime
+Timestamp when ticket moved to Closed /
+Resolved
+buyer_rating
+Rating (1–5)
+Buyer satisfaction score collected on closure
+buyer_feedback
+Small Text
+Optional text feedback from buyer at closure
+rera_complaint
+Link → RERA Complaint
+Linked RERA case if ticket was escalated
+defect_report
+Link → Defect Report
+Linked defect record if complaint led to snagging
+internal_notes
+Text Editor
+Internal team notes — not visible to buyer
+escalation_reason
+Small Text
+Reason recorded when ticket status set to
+Escalated
+Ticket Category
+ Master DocType
+Setup master defining each complaint category. Controls default SLA, responsible team, and RERA-risk flag.
+Field Name
+Type
+Description
+category_name *
+Data
+e.g. Seepage, Electrical Fault, Possession Delay,
+Legal
+department *
+Select
+Civil / Electrical / Plumbing / Legal / Finance /
+General
+default_sla
+Link → SLA Policy
+Default SLA applied when this category is
+selected
+auto_assign_role
+Link → Role
+Role to auto-assign ticket if no specific agent
+available
+rera_risk
+Check
+Flag — tickets in this category are potential
+RERA complaints
+allow_buyer_create
+Check
+Allow buyers to create tickets in this category via
+portal
+email_template
+Link → Email Template
+Notification template specific to this category
+color_code
+Color
+Hex color for visual identification in dashboards
+is_active
+Check
+Category is available for ticket creation
+SLA Policy
+ Master DocType
+Defines response and resolution time targets. Multiple policies can be created for different priority levels or project types.
+Field Name
+Type
+Description
+policy_name *
+Data
+e.g. Standard SLA, Critical SLA, RERA-Risk SLA
+applies_to_priority
+Select
+Low / Medium / High / Critical / All — when policy
+auto-applies
+response_time_hrs *
+Int
+Hours within which first agent response must be
+sent
+resolution_time_hrs *
+Int
+Hours within which ticket must be fully resolved
+escalate_after_hrs
+Int
+Hours after SLA breach before automatic
+escalation triggers
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 10
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+escalate_to
+Link → User
+Manager or senior agent to receive escalation
+notification
+notify_buyer_on_breach
+Check
+Send WhatsApp/email to buyer when SLA is
+breached
+notify_manager_on_brea
+ch
+Check
+Send alert to manager when resolution SLA
+breaches
+working_days_only
+Check
+SLA counts only business hours (Mon–Sat,
+9am–6pm)
+breach_message
+Small Text
+Custom message sent to buyer on SLA breach
+notification
+Auto-Created Actions on Support Ticket
+Hook / Trigger
+Method
+Action
+before_insert
+set_sla_due_dates()
+Calculates sla_response_due and
+sla_resolution_due from SLA Policy
+on_update
+notify_buyer()
+Sends WhatsApp/email when status
+changes
+on_update
+check_first_response()
+Records first_response_at if agent
+commented for first time
+on_submit
+create_task_if_defect()
+Creates linked Defect Report for
+civil/plumbing categories
+Scheduler/30min
+check_sla_breaches()
+Sets response_breached and
+resolution_breached flags
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 11
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 5
+Module 2 — Defect & Snagging
+Manages the complete post-handover punch-list process. Site inspectors log defects per unit with
+photographs, area classification, and severity rating. Defects are assigned to contractors with due
+dates. A QC re-inspection confirms rectification. Buyer provides digital sign-off on the completed
+report. All defect data feeds into the project-wise defect heatmap report.
+Defect Report
+ Transaction
+ DocType ·
+Submittable
+Parent record per unit per inspection. Contains a child table of individual defect items. On submit, auto-assigns contractors and sends
+notifications.
+Field Name
+Type
+Description
+report_no *
+Data — Auto
+DEF-.YYYY.-.#### — auto-generated naming
+series
+project *
+Link → Project
+ERPNext Project of the development
+unit_no *
+Data
+Flat / unit number being inspected
+tower_block
+Data
+Tower or block identifier
+floor_no
+Int
+Floor number
+buyer *
+Link → Contact
+Buyer / owner of the unit
+buyer_mobile
+Data — Fetched
+Auto-fetched from Contact
+inspection_date *
+Date
+Date of physical site inspection
+inspector *
+Link → User
+Site inspector performing the inspection
+source_ticket
+Link → Support Ticket
+Originating support ticket if complaint-driven
+inspection_type
+Select
+Pre-Handover Inspection / Post-Handover /
+Re-Inspection / Annual
+defects
+Table → Defect Item
+Child table — one row per defect identified
+total_defects
+Int — Auto
+Count of defect items in child table
+(auto-calculated)
+open_defects
+Int — Auto
+Count of items with item_status = Open
+status
+Select
+Draft / Under Review / In Rectification / QC
+Pending / Completed / Buyer Accepted
+qc_date
+Date
+Date of re-inspection to verify contractor
+rectification
+qc_inspector
+Link → User
+Inspector who performed the QC re-inspection
+qc_notes
+Small Text
+Notes from the QC re-inspection
+buyer_remarks
+Small Text
+Buyer comments at time of sign-off
+buyer_signature
+Signature
+Digital signature captured from buyer on
+acceptance
+completion_date
+Date
+Date all defects were rectified and report closed
+internal_notes
+Text Editor
+Internal team remarks — not shared with buyer
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 12
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Defect Item
+ Child Table
+DocType (of
+Defect Report)
+One row per identified defect within a Defect Report. Photo upload mandatory for major severity.
+Field Name
+Type
+Description
+area *
+Select
+Living Room / Kitchen / Master Bedroom /
+Bedroom 2 / Bathroom / Toilet / Balcony /
+Common Area / Exterior
+location_detail
+Data
+More specific location (e.g. North wall, Near
+window)
+defect_type *
+Select
+Crack / Seepage / Tiling / Paint / Fixture /
+Electrical / Plumbing / Carpentry / False Ceiling /
+Waterproofing / Other
+description *
+Small Text
+Detailed description of the defect observed
+photo
+Attach
+Photo of the defect (mandatory for Major
+severity)
+severity *
+Select
+Minor / Moderate / Major
+contractor
+Link → Supplier
+Contractor assigned to rectify this specific defect
+due_date
+Date
+Deadline for contractor to complete rectification
+contractor_notes
+Small Text
+Contractor's remarks or clarifications
+rectification_photo
+Attach
+Photo after rectification — uploaded by contractor
+resolved_on
+Date
+Actual date defect was rectified
+item_status
+Select
+Open / Assigned / In Progress / Done / Rejected /
+Cannot Rectify
+rejection_reason
+Small Text
+Reason if item_status = Rejected or Cannot
+Rectify
+Contractor Assignment
+ Transaction
+ DocType
+Summary assignment record per contractor per defect report. Tracks all items assigned to one contractor.
+Field Name
+Type
+Description
+defect_report *
+Link → Defect Report
+Source defect report
+contractor *
+Link → Supplier
+ERPNext Supplier — contractor
+assignment_date *
+Date
+Date items were formally assigned
+due_date *
+Date
+Completion deadline for all assigned items
+items_assigned
+Int
+Number of defect items assigned to this
+contractor
+items_completed
+Int — Auto
+Count of items with item_status = Done
+status
+Select
+Pending / In Progress / Completed / Partially
+Done / Defaulted
+remarks
+Small Text
+Assignment-level notes or special instructions
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 13
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+purchase_order
+Link → Purchase Order
+ERPNext PO raised for rectification work if
+applicable
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 14
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 6
+Module 3 — Possession Management
+Manages the end-to-end possession workflow from initial triggering through key handover. The
+process spans Finance (dues clearance), Legal (NOC collection), Construction (OC availability), and
+the Possession Executive (scheduling and key handover). Six workflow states enforce departmental
+sign-offs before the next step can begin. Buyer receives WhatsApp notification at each milestone.
+Possession Request
+ Transaction
+ DocType ·
+Submittable ·
+6-State Workflow
+Primary document for each unit's possession process. Created either manually or triggered from the CRM booking record. Workflow
+enforces departmental approvals sequentially.
+Field Name
+Type
+Description
+possession_no *
+Data — Auto
+POSS-.YYYY.MM.-.#### — auto naming series
+project *
+Link → Project
+Real estate project
+unit_no *
+Data
+Unit / flat number
+tower_block
+Data
+Tower or block identifier
+floor_no
+Int
+Floor number
+buyer *
+Link → Contact
+Primary buyer / co-applicant
+co_buyer
+Link → Contact
+Co-applicant (joint ownership)
+buyer_mobile
+Data — Fetched
+Auto-fetched from Contact
+booking_ref
+Data
+CRM booking number or agreement reference
+sale_deed_date
+Date
+Date of registered sale deed
+total_consideration
+Currency
+Total sale value as per agreement
+outstanding_dues
+Currency
+Balance amount pending — fetched from
+CRM/Finance
+dues_verified_by
+Link → User
+Finance team member who verified dues
+clearance
+dues_cleared
+Check
+Confirmed by Finance that all dues are paid
+dues_cleared_date
+Date
+Date Finance confirmed dues clearance
+oc_received
+Check
+Occupancy Certificate received from authority
+oc_number
+Data
+OC number / reference
+oc_date
+Date
+Date OC was issued
+oc_copy
+Attach
+Scanned copy of Occupancy Certificate
+noc_list
+Table → NOC Document
+Child table — list of NOCs required and their
+status
+all_nocs_received
+Check — Auto
+Set when all mandatory NOC items are marked
+received
+scheduled_date
+Datetime
+Confirmed date and time of key handover
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 15
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+confirmed_by_buyer
+Check
+Buyer has confirmed the scheduled date
+pre_inspection_done
+Check
+Pre-possession inspection of unit completed
+pre_inspection_date
+Date
+Date of pre-possession unit inspection
+defect_report
+Link → Defect Report
+Pre-possession defect report if snags exist
+key_handover_date
+Date
+Actual date keys were physically handed over
+handover_by
+Link → User
+Possession executive who conducted handover
+keys_count
+Int
+Number of key sets handed over
+welcome_kit_issued
+Check
+Welcome kit (user manuals, warranty cards)
+given
+utility_connections
+Table → Utility Item
+Electricity, water, gas connection status
+buyer_signature
+Signature
+Buyer's digital signature at handover
+witness_name
+Data
+Name of witness present at handover
+status
+Workflow Select
+Initiated / Dues Check / NOC Collection /
+Scheduled / Key Handover / Completed
+remarks
+Text Editor
+Notes and remarks across the possession
+process
+NOC Document
+ Child Table
+DocType (of
+Possession
+ Request)
+Field Name
+Type
+Description
+noc_type *
+Select
+Bank NOC / Society NOC / Water Connection
+NOC / Fire NOC / Lift Inspection / Property Tax
+Clearance / Other
+issuing_authority
+Data
+Name of bank, authority, or body issuing the
+NOC
+mandatory
+Check
+Whether this NOC is mandatory before key
+handover
+received
+Check
+NOC has been received
+received_date
+Date
+Date NOC was received
+expiry_date
+Date
+Validity expiry date of the NOC
+document
+Attach
+Scanned copy of the NOC document
+remarks
+Small Text
+Any notes about this specific NOC
+Possession Checklist
+ Master DocType
+Defines the standard checklist of items to be verified during a possession handover. Used as a template.
+Field Name
+Type
+Description
+checklist_name *
+Data
+e.g. Standard Apartment Checklist, Villa
+Checklist
+project_type
+Select
+Apartment / Villa / Commercial / Plotted
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 16
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+items
+Table
+Child table of checklist items with area,
+description, and OK checkbox
+is_active
+Check
+Checklist is available for new possession
+requests
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 17
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 7
+Module 4 — RERA Escalation
+Tracks complaints formally filed with the Real Estate Regulatory Authority (RERA). Each RERA
+Complaint links to the originating support ticket. The Legal team manages the response preparation,
+hearing schedule, and outcome recording. Penalties and penalty payment tracking are integrated with
+ERPNext Journal Entries. Dashboard flags high-risk complaints for management attention.
+RERA Complaint
+ Transaction
+ DocType ·
+Submittable ·
+High Priority
+Created when a support ticket escalates to formal RERA proceedings. All legal communications, hearing dates, and responses are
+tracked here. Non-compliance can attract crore-scale penalties.
+Field Name
+Type
+Description
+rera_complaint_no *
+Data
+RERA--.YYYY.-.#### — also stores RERA portal
+reference number
+rera_portal_ref
+Data
+Official complaint ID from state RERA portal
+source_ticket
+Link → Support Ticket
+Original support ticket that escalated to RERA
+buyer *
+Link → Contact
+Complainant — buyer who filed with RERA
+buyer_advocate
+Data
+Buyer's lawyer name if represented
+project *
+Link → Project
+Project against which complaint is filed
+unit_no
+Data
+Specific unit referenced in the complaint
+complaint_type
+Select
+Delay in Possession / Construction Defect / False
+Representation / Non-disclosure / Agreement
+Breach / Other
+filed_date *
+Date
+Date complaint was filed with RERA authority
+state_rera
+Select
+MahaRERA / RERA Karnataka / UP RERA /
+Gujarat RERA / Haryana RERA / Other
+authority_address
+Small Text
+RERA office address for correspondence
+first_notice_date
+Date
+Date first notice from RERA was received
+response_deadline *
+Date
+Deadline by which developer must respond
+legal_team
+Link → User
+Lead legal team member handling this case
+external_counsel
+Data
+Name of external law firm or advocate engaged
+hearing_date
+Date
+Next scheduled hearing date
+hearing_venue
+Data
+Hearing location / video conference details
+response_logs
+Table → RERA Response
+Log
+Child table of all responses and hearing notes
+filed
+attachments
+Attach Multiple
+All legal documents — notices, replies, evidence
+developer_position
+Long Text
+Developer's official position / defense statement
+settlement_offered
+Check
+Developer has offered settlement to buyer
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 18
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Field Name
+Type
+Description
+settlement_amount
+Currency
+Settlement amount offered or agreed
+outcome
+Select
+Pending / In Favour of Developer / Against
+Developer / Settled / Withdrawn / Dismissed
+outcome_date
+Date
+Date final order / outcome was received
+penalty_amount
+Currency
+Penalty amount as per RERA order (if any)
+penalty_paid
+Check
+Penalty has been paid
+penalty_jv
+Link → Journal Entry
+ERPNext Journal Entry for penalty payment
+appeal_filed
+Check
+Developer has filed an appeal against the order
+appeal_tribunal
+Data
+Appellate tribunal name if appeal is filed
+remarks
+Text Editor
+Running case notes and internal comments
+RERA Response Log
+ Child Table
+DocType (of
+RERA Complaint)
+Field Name
+Type
+Description
+log_date *
+Date
+Date of this filing, response, or hearing
+activity_type *
+Select
+Response Filed / Hearing Attended / Document
+Submitted / Notice Received / Settlement
+Discussion / Order Received
+description *
+Text
+Detailed description of what was filed or what
+occurred
+filed_by
+Link → User
+Legal team member who handled this activity
+document
+Attach
+Document filed or received for this activity
+next_action
+Small Text
+Next step to be taken after this activity
+next_action_date
+Date
+Deadline for next action
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 19
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 8
+Module 5 — Buyer Portal
+A Frappe web portal allowing buyers to self-serve without calling the support team. Buyers can raise
+new complaints, track ticket status, view possession checklist progress, and access their unit's defect
+report. The portal uses Frappe's standard web page framework with whitelisted API methods.
+WhatsApp and email notifications keep buyers informed at every step.
+Buyer Portal Settings
+ Single DocType ·
+ System
+Configuration
+Single-instance configuration for the buyer portal. Controls feature availability and notification settings.
+Field Name
+Type
+Description
+portal_enabled
+Check
+Master switch — enables / disables buyer portal
+access
+portal_url
+Data
+Custom domain for the portal (e.g.
+support.myproject.com)
+allow_ticket_create
+Check
+Buyers can raise new tickets via portal
+allow_ticket_attachmen
+t
+Check
+Buyers can upload photos when raising tickets
+allowed_categories
+Table Multiselect
+Ticket categories visible to buyers in portal form
+show_possession_status
+Check
+Buyers can view their possession checklist status
+show_defect_report
+Check
+Buyers can view their unit's defect report
+whatsapp_notify
+Check
+Send WhatsApp notifications for ticket status
+changes
+whatsapp_api_provider
+Select
+Interakt / Wati / AiSensy / Gupshup / Custom
+whatsapp_api_key
+Password
+API key for WhatsApp provider — stored
+encrypted
+email_notify
+Check
+Send email notifications for ticket status changes
+email_notify_template
+Link → Email Template
+Default email template for buyer notifications
+support_email
+Data
+Support team email displayed to buyers
+support_phone
+Data
+Support phone number displayed on portal
+office_hours
+Data
+e.g. Mon–Sat, 9:00 AM – 6:00 PM
+portal_logo
+Attach Image
+Company logo shown on portal pages
+welcome_message
+Text
+Custom welcome text shown on portal home
+page
+footer_links
+Table
+Quick links in portal footer (privacy, terms, etc.)
+buyer_auth_method
+Select
+OTP via Mobile / Email OTP / Password / Both
+session_timeout_mins
+Int
+Portal session timeout in minutes (default: 30)
+Portal Notification
+ Transaction
+ DocType
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 20
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Log of every notification sent to buyers via the portal, WhatsApp, or email.
+Field Name
+Type
+Description
+buyer *
+Link → Contact
+Recipient buyer
+notification_type
+Select
+Ticket Created / Status Changed / SLA Breach /
+Possession Update / Defect Update / RERA
+Notice
+channel
+Select
+WhatsApp / Email / SMS / In-App
+source_document
+Dynamic Link
+Linked Support Ticket, Possession Request, etc.
+message
+Text
+Exact message content sent
+sent_at
+Datetime
+Timestamp when notification was dispatched
+delivery_status
+Select
+Sent / Delivered / Read / Failed
+failure_reason
+Small Text
+Error message if delivery failed
+Portal API Methods (api.py)
+# re_support/buyer_portal/api.py
+@frappe.whitelist(allow_guest=False)
+def get_buyer_tickets(buyer_mobile):
+    """Return all tickets for the authenticated buyer."""
+    return frappe.get_list('Support Ticket',
+        filters={'buyer_mobile': buyer_mobile},
+        fields=['ticket_no','category','status','sla_resolution_due','priority'],
+        order_by='creation desc')
+@frappe.whitelist(allow_guest=False)
+def create_ticket(project, unit_no, category, description, attachments=None):
+    """Create a new support ticket from the buyer portal."""
+    doc = frappe.new_doc('Support Ticket')
+    doc.buyer = frappe.session.user
+    doc.project = project
+    doc.unit_no = unit_no
+    doc.category = category
+    doc.description = description
+    doc.insert(ignore_permissions=True)
+    return doc.name
+@frappe.whitelist(allow_guest=False)
+def get_possession_status(unit_no, project):
+    """Return possession request status for buyer's unit."""
+    return frappe.db.get_value('Possession Request',
+        {'unit_no': unit_no, 'project': project},
+        ['possession_no','status','scheduled_date','key_handover_date'],
+        as_dict=True)
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 21
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ 9
+Module 6 — Reports & Analytics
+All reports are built as Frappe Script Reports with Python-based data sources. Dashboards use
+ERPNext Number Cards and Chart components. Reports can be exported to Excel and PDF. The
+support dashboard is set as the default home page for Support Managers.
+Report Name
+Type
+Key Filters
+Purpose
+SLA Breach Report
+Script Report
+Category, Period, Agent
+Tickets that breached
+response or resolution
+SLA with breach duration
+Ticket TAT by Category
+Script Report
+Category, Period, Priority
+Average turnaround time
+per category and priority
+with trend
+Defect Heatmap by Unit
+Script Report
+Project, Tower, Floor,
+Period
+Count of open/closed
+defects per unit — visual
+density heat map
+Possession Status
+Tracker
+Script Report
+Project, Status
+Stage-wise count of all
+possession requests with
+ageing
+RERA Risk Dashboard
+Report/Dashboard
+Project, Category, Period
+Count of RERA-risk
+tickets, open RERA
+cases, penalty exposure
+Agent Productivity Report
+Script Report
+Agent, Period, Team
+Tickets closed, avg
+resolution time, buyer
+rating per agent
+Buyer Satisfaction Report
+Script Report
+Period, Project, Category
+Average buyer rating,
+NPS score, and feedback
+summary
+Contractor Performance
+Script Report
+Contractor, Period, Project
+Defects assigned vs
+completed, on-time %,
+defaulted items
+Support Dashboard
+Dashboard
+Date Range, Project
+Live KPIs: open tickets,
+SLA compliance %, avg
+resolution time
+Support Dashboard — Number Cards
+Card Name
+Calculation / Filter
+Open Tickets
+Count of Support Ticket where status in (Open,
+Assigned, In Progress)
+SLA Compliance %
+100 × (tickets resolved within SLA / total closed tickets)
+for selected period
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 22
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Card Name
+Calculation / Filter
+Avg Resolution Time
+Average hours from ticket creation to Closed status for
+selected period
+RERA Active Cases
+Count of RERA Complaint where outcome = Pending
+Possession Pending
+Count of Possession Request where status not in
+(Completed)
+Open Defects
+Count of Defect Item where item_status in (Open,
+Assigned, In Progress)
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 23
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+10. Workflows — All Modules
+Workflow A — Complaint Ticket Lifecycle
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+1
+Buyer raises complaint via portal /
+WhatsApp / call
+Buyer / CRM Agent
+Support Ticket created with status = Open
+2
+System auto-assigns ticket based
+on category
+System (hooks)
+assigned_to and assigned_team
+populated; notification sent to agent
+3
+Agent acknowledges — status →
+Assigned
+Support Agent
+first_response_at recorded; buyer notified
+via WhatsApp
+4
+Agent begins investigation —
+status → In Progress
+Support Agent
+SLA response timer stopped; work begins
+5
+Agent needs buyer confirmation —
+Awaiting Buyer
+Support Agent
+Buyer gets WhatsApp prompt to confirm or
+provide more info
+6
+Civil/plumbing issues auto-create
+Defect Report
+System (on_update)
+Linked defect_report field populated;
+snagging module engaged
+7
+Issue resolved — status →
+Resolved
+Support Agent
+resolution_notes filled; buyer asked to
+confirm resolution
+8a
+Buyer confirms — status → Closed
+Buyer / Agent
+buyer_rating collected; ticket closed; SLA
+metrics updated
+8b
+SLA breach detected — status →
+Escalated
+System (scheduler)
+Escalation notification to manager;
+resolution_breached flagged
+9
+RERA-risk categories auto-flag for
+review
+System
+Support Manager reviews; RERA
+Complaint created if needed
+Workflow B — Defect Rectification Process
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+1
+Site inspection conducted; defects
+photographed
+Site Inspector
+Defect Report created with all items;
+inspector assigned
+2
+Report reviewed by manager —
+status → Under Review
+Support Manager
+Item severity and contractor allocation
+reviewed
+3
+Contractors assigned per item —
+In Rectification
+Support Manager
+Contractor Assignment records created;
+due dates set
+4
+Contractor rectifies defects,
+uploads photos
+Contractor (via agent)
+Defect Item item_status set to Done;
+rectification_photo uploaded
+5
+QC re-inspection verifies
+rectification
+QC Inspector
+qc_date, qc_inspector, qc_notes filled;
+items verified
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 24
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+6
+Defect items approved — status →
+QC Pending → Completed
+Site Inspector
+All items verified; report moves to Buyer
+Accepted stage
+7
+Buyer inspects; provides digital
+signature
+Buyer
+buyer_signature captured; buyer_remarks
+noted
+8
+Defect Report → Buyer Accepted
+System
+Completion date stamped; support ticket (if
+any) can be closed
+Workflow C — Possession Handover Process
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+1
+Possession Request initiated from
+CRM or manually
+CRM / Possession
+Exec
+outstanding_dues fetched; status =
+Initiated
+2
+Finance verifies all dues are
+cleared
+Finance Team
+dues_cleared = Yes; dues_verified_by
+recorded; status → Dues Check
+3
+Legal collects all required NOCs
+Legal Team
+NOC Document child rows marked
+received; status → NOC Collection
+4
+OC received; possession date
+scheduled with buyer
+Possession Exec
+oc_copy uploaded; scheduled_date
+confirmed; status → Scheduled
+5
+Pre-possession inspection of unit
+completed
+Site Inspector
+pre_inspection_done checked; any snags
+linked to Defect Report
+6
+Physical key handover conducted
+Possession Exec
+keys_count, handover_by,
+key_handover_date filled; status → Key
+Handover
+7
+Buyer signs digitally; welcome kit
+issued
+Possession Exec
+buyer_signature captured;
+welcome_kit_issued checked
+8
+Possession Request status →
+Completed
+System / Exec
+Utility connections confirmed; buyer gets
+completion WhatsApp
+Workflow D — RERA Complaint Management
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+1
+Complaint filed at RERA portal by
+buyer
+Buyer / Buyer Advocate
+RERA Complaint created; source_ticket
+linked; status = Filed
+2
+Legal team receives notice;
+response preparation begins
+Legal Team
+Response deadline set; external counsel
+engaged if needed
+3
+Developer response filed with
+RERA authority
+Legal Team
+RERA Response Log entry: Response
+Filed; document attached
+4
+Hearing date received from RERA
+Legal Team
+hearing_date updated; hearing_venue
+noted; calendar reminder set
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 25
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Ste
+p
+Action / Document
+Actor
+Triggers / Notes
+5
+Hearing attended; proceedings
+documented
+Legal Team / Counsel
+Response Log: Hearing Attended;
+next_action defined
+6
+Settlement discussed (if
+applicable)
+Legal + Management
+settlement_offered = Yes;
+settlement_amount recorded
+7
+Final order received from RERA
+Legal Team
+outcome set; outcome_date recorded;
+penalty_amount if applicable
+8a
+Developer wins — case closed
+Legal Team
+Outcome = In Favour of Developer;
+support ticket updated
+8b
+Penalty imposed — payment
+initiated
+Finance + Legal
+penalty_jv (Journal Entry) created;
+penalty_paid tracked
+9
+Appeal filed if required
+Legal Team
+appeal_filed = Yes; appeal_tribunal noted;
+new timeline tracked
+DocType Approval States Summary
+DocType
+Draft / Initial
+Intermediate
+States
+Final / Submitted
+Exception
+Support Ticket
+Open / Assigned
+In Progress /
+Awaiting Buyer
+Resolved → Closed
+Escalated
+Defect Report
+Draft
+Under Review / In
+Rectification
+QC Pending →
+Buyer Accepted
+—
+Possession Request
+Initiated
+Dues Check / NOC
+Collection /
+Scheduled
+Key Handover →
+Completed
+—
+RERA Complaint
+Filed
+Response Prep /
+Hearing Scheduled
+Outcome Recorded
+Appealed
+Contractor
+Assignment
+Pending
+In Progress
+Completed
+Defaulted
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 26
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+11. ERPNext Integration Points
+The RSS app integrates with five ERPNext modules. All links use standard Frappe Link fields — no monkey-patching
+or core file edits are required. Custom fields on ERPNext DocTypes are exported as
+fixtures/custom_fields.json.
+CRM / Contacts
+ Buyers are modelled as ERPNext Contacts (linked to Customer if applicable)
+ Ticket and Possession Request use Link → Contact for buyer reference
+ buyer_mobile and buyer_email auto-fetched from Contact on selection
+ Contact custom fields added: unit_no, project, booking_ref, possession_status
+Accounts & Finance
+ RERA penalty payments posted as Journal Entries (penalty_jv field on RERA Complaint)
+ Contractor rectification work can create Purchase Orders → Purchase Invoices
+ Deduction vouchers for possession-related charges use Sales Invoice
+ Cost Centers defined per project for support cost attribution
+Projects
+ All transactions (Ticket, Defect Report, Possession) link to ERPNext Project
+ Project-wise filtering available on all reports and dashboards
+ Project custom fields added: rera_registration_no, oc_received, project_type
+HR & Users
+ Support agents, inspectors, possession executives are ERPNext Users with custom roles
+ assigned_to fields link to User; assigned_team links to Department
+ Agent productivity reports pull from ticket assignment history
+Quality (ERPNext)
+ Defect Report can link to ERPNext Quality Inspection for construction QC integration
+ QC parameters can mirror RERA complaint categories for compliance tracking
+Custom Fields on ERPNext DocTypes
+These custom fields extend ERPNext core DocTypes without modifying core files. They are exported as
+fixtures/custom_fields.json.
+ERPNext DocType
+Custom Field
+Type
+Purpose
+Contact
+unit_no
+Data
+Buyer's flat / unit number
+Contact
+project
+Link → Project
+Buyer's real estate project
+Contact
+booking_ref
+Data
+CRM / agreement booking
+reference
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 27
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+ERPNext DocType
+Custom Field
+Type
+Purpose
+Contact
+possession_status
+Data (read-only)
+Current possession stage
+(auto-updated)
+Contact
+is_buyer
+Check
+Marks this contact as a
+real estate buyer
+Project
+rera_registration_no
+Data
+Project's RERA
+registration number
+Project
+oc_received
+Check
+Occupancy Certificate
+received for project
+Project
+project_type
+Select
+Apartment / Villa /
+Commercial / Plotted
+Project
+total_units
+Int
+Total number of sellable
+units
+Purchase Order
+defect_report
+Link → Defect Report
+Traces PO to rectification
+batch
+Journal Entry
+rera_complaint
+Link → RERA Complaint
+Traces penalty JV to
+RERA case
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 28
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+12. Roles & Permission Matrix
+Custom roles defined in hooks.py and exported as fixtures/roles.json.
+Role
+Access Summary
+Support Manager
+Full access all modules; can delete; configure settings;
+view all reports; approve invoices
+Support Agent
+Create/edit own tickets; read defect reports; no RERA or
+possession access; limited reports
+Site Inspector
+Create/edit defect reports; read-only tickets; no
+RERA/finance/settings access
+Legal Team
+Full RERA Complaint access; read-only on tickets and
+defects; possession NOC fields only
+Possession Exec
+Full possession management; read-only tickets and
+defects; no RERA/finance access
+Finance Team
+Read-only possession (dues fields); read-only tickets;
+RERA penalty JV only
+Buyer (Portal)
+Own tickets only (create/read); possession status read;
+defect report read-only; no admin
+DocType
+Supp. Mgr
+Supp. Agent
+Site Insp.
+Legal
+Poss. Exec
+Buyer
+Support
+Ticket
+Full / Submit
+Own /
+Assigned
+Read
+Read
+None
+Own Only
+Defect
+Report
+Full / Submit
+Read
+Full / Submit
+Read
+None
+Read
+Possession
+Request
+Full
+None
+None
+NOC only
+Full
+Status only
+RERA
+Complaint
+Full
+None
+None
+Full
+None
+None
+SLA Policy
+Full
+Read
+None
+None
+None
+None
+Buyer Portal
+Settings
+Full
+None
+None
+None
+None
+None
+Reports (all)
+Full
+Limited (own)
+Defect only
+RERA only
+Poss. only
+None
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 29
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+13. Naming Series & Configuration
+DocType
+Naming Series
+Example
+Support Ticket
+TICK-.YYYY.MM.-.####
+TICK-2026-06-0001
+Defect Report
+DEF-.YYYY.-.####
+DEF-2026-0042
+Possession Request
+POSS-.YYYY.MM.-.####
+POSS-2026-06-0088
+RERA Complaint
+RERA-.YYYY.-.####
+RERA-2026-0007
+Contractor Assignment
+CASS-.YYYY.-.####
+CASS-2026-0015
+Portal Notification
+PNOT-.YYYY.MM.DD.-.##
+PNOT-2026-06-15-03
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 30
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+14. hooks.py — Complete Reference
+App Identity
+app_name        = "re_support"
+app_title       = "RE Support System"
+app_publisher   = "Your Company Name"
+app_description = "Real estate post-handover customer support application"
+app_version     = "1.0.0"
+required_apps   = ["frappe", "erpnext"]
+Custom Roles
+# Exported as fixtures/roles.json
+roles = [
+    "Support Manager",
+    "Support Agent",
+    "Site Inspector",
+    "Legal Team",
+    "Possession Exec",
+    "Finance Team",
+    "Buyer",
+]
+Document Events
+doc_events = {
+    "Support Ticket": {
+        "before_insert": "re_support.utils.sla_engine.set_sla_due_dates",
+        "on_update":     "re_support.utils.notifications.notify_buyer_status_change"
+,
+        "on_update":     "re_support.complaint_management.doctype.support_ticket
+                          .support_ticket.check_first_response",
+        "on_submit":     "re_support.complaint_management.doctype.support_ticket
+                          .support_ticket.create_defect_if_applicable",
+    },
+    "Defect Report": {
+        "on_submit": "re_support.defect_snagging.doctype.defect_report
+                      .defect_report.assign_contractors_on_submit",
+        "on_update": "re_support.defect_snagging.doctype.defect_report
+                      .defect_report.update_open_defect_count",
+    },
+    "Possession Request": {
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 31
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+        "on_update": "re_support.possession_management.doctype.possession_request
+                      .possession_request.notify_buyer_possession_update",
+        "before_save": "re_support.possession_management.doctype.possession_request
+                        .possession_request.check_all_nocs_received",
+    },
+    "RERA Complaint": {
+        "before_save": "re_support.rera_escalation.doctype.rera_complaint
+                        .rera_complaint.check_response_deadline",
+        "on_submit":   "re_support.rera_escalation.doctype.rera_complaint
+                        .rera_complaint.notify_legal_team",
+    },
+}
+Scheduled Jobs
+scheduler_events = {
+    "cron": {
+        # Every 30 minutes — check SLA breaches
+        "*/30 * * * *": [
+            "re_support.utils.sla_engine.check_sla_breaches"
+        ],
+        # Every hour — check RERA response deadlines
+        "0 * * * *": [
+            "re_support.rera_escalation.rera_alert.check_response_deadlines"
+        ],
+    },
+    "daily": [
+        "re_support.utils.notifications.send_daily_sla_summary_to_managers",
+        "re_support.rera_escalation.rera_alert.send_hearing_reminders",
+        "re_support.possession_management.tasks.update_possession_aging",
+    ],
+    "weekly": [
+        "re_support.reports_analytics.tasks.generate_weekly_kpi_report",
+    ],
+}
+Portal Routes & Whitelists
+# Buyer portal web pages
+website_route_rules = [
+    {"from_route": "/support",               "to_route": "buyer_portal"},
+    {"from_route": "/support/<ticket_no>",   "to_route": "ticket_detail"},
+    {"from_route": "/possession/<unit_no>",  "to_route": "possession_status"},
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 32
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+]
+# Fixtures to export with bench export-fixtures
+fixtures = [
+    "Custom Field",
+    "Property Setter",
+    "Role",
+    "Workflow",
+    "Workspace",
+]
+SLA Engine — Key Methods (utils/sla_engine.py)
+# re_support/utils/sla_engine.py
+import frappe
+from frappe.utils import add_to_date, now_datetime
+def set_sla_due_dates(doc, method=None):
+    """Auto-set SLA response and resolution deadlines on ticket creation."""
+    if not doc.sla_policy:
+        cat = frappe.get_doc("Ticket Category", doc.category)
+        doc.sla_policy = cat.default_sla
+    if doc.sla_policy:
+        sla = frappe.get_doc("SLA Policy", doc.sla_policy)
+        now = now_datetime()
+        doc.sla_response_due   = add_to_date(now, hours=sla.response_time_hrs)
+        doc.sla_resolution_due = add_to_date(now, hours=sla.resolution_time_hrs)
+def check_sla_breaches():
+    """Scheduled job: flag breached tickets and escalate."""
+    now = now_datetime()
+    open_tickets = frappe.get_list("Support Ticket",
+        filters={"status": ["in", ["Open","Assigned","In Progress"]]},
+        fields=["name","sla_resolution_due","escalate_to"])
+    for ticket in open_tickets:
+        if ticket.sla_resolution_due and ticket.sla_resolution_due < now:
+            frappe.db.set_value("Support Ticket", ticket.name,
+                "resolution_breached", 1)
+            if ticket.escalate_to:
+                send_breach_alert(ticket.name, ticket.escalate_to)
+    frappe.db.commit()
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 33
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+15. Implementation Roadmap
+Phase 1 — Weeks 1–3
+ Foundation & Setup
+ Create Frappe app with bench new-app re_support
+ Configure hooks.py: scheduler events, doc events, roles
+ Define 7 custom roles with permission matrices
+ Build Workspace module tiles, shortcuts, and navigation (config/desktop.py)
+ Create all Master DocTypes: Ticket Category, SLA Policy, Buyer Portal Settings
+ Build Support Ticket DocType with all fields, naming series, and client scripts
+ Export initial fixtures: roles.json, custom_fields.json
+ Configure ERPNext custom fields on Contact and Project DocTypes
+Phase 2 — Weeks 4–7
+ Complaint Management & SLA Engine
+ Build SLA engine in utils/sla_engine.py with set_sla_due_dates()
+ Implement doc_events for Support Ticket: before_insert, on_update, on_submit
+ Build WhatsApp notification integration (utils/notifications.py)
+ Implement scheduler: check_sla_breaches() every 30 minutes
+ Build Ticket Category and SLA Policy configuration UI
+ Script Report: SLA Breach Report with filters by category, agent, period
+ Script Report: Ticket TAT by Category
+ Build Support Dashboard with Number Cards and Charts
+Phase 3 — Weeks 8–11
+ Defect & Snagging Module
+ Build Defect Report DocType with Defect Item child table
+ Implement contractor auto-assignment on Defect Report submit
+ Build Contractor Assignment DocType with status tracking
+ Implement open_defects auto-count on defect item status update
+ Build photo upload flow for defect items and rectification evidence
+ Integrate digital buyer signature capture (e-sign on mobile)
+ Script Report: Defect Heatmap by Unit (grid view by tower/floor/unit)
+ Contractor Performance report with on-time completion percentage
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 34
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+Phase 4 — Weeks 12–15
+ Possession & RERA Modules
+ Build Possession Request DocType with NOC Document child table
+ Define 6-state Frappe Workflow for Possession Request (workflow.json)
+ Implement cross-department approval notifications per workflow state
+ Build Possession Checklist master and template assignment
+ Build RERA Complaint DocType with RERA Response Log child table
+ Implement RERA deadline reminder scheduler (daily job)
+ Implement penalty Journal Entry auto-creation on outcome = Against Developer
+ Script Report: RERA Risk Dashboard and Possession Status Tracker
+Phase 5 — Weeks 16–20
+ Buyer Portal, Reports & UAT
+ Build Frappe web portal pages: buyer_portal.html, ticket_detail.html, possession_status.html
+ Implement whitelisted API methods in buyer_portal/api.py
+ Buyer OTP authentication via mobile number (Frappe session handling)
+ Build remaining Script Reports: Agent Productivity, Buyer Satisfaction, Contractor Performance
+ Build Dairy P&L; equivalent — Support Cost Summary by project
+ RERA compliance export: all open cases with deadlines
+ Mobile-optimised forms for site inspectors (defect logging on-site)
+ UAT with support team, legal team, and possession executives
+ Training documentation and video walkthroughs
+ Go-live support and hypercare period (2 weeks post-UAT)
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 35
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+16. Technical Decisions & Server Requirements
+Key Technical Decisions
+Decision Area
+Approach
+Buyer Authentication
+OTP via mobile number using Frappe's standard portal
+login — no custom auth layer
+WhatsApp Integration
+Abstracted in utils/notifications.py — swappable provider
+(Interakt/Wati/AiSensy)
+e-Signature
+Frappe's built-in Signature field type — renders as
+canvas on mobile browsers
+RERA State Selection
+Configurable Select field — new states added without
+code changes
+SLA Calculation
+Business hours support via working_days_only flag in
+SLA Policy
+Contractor Portal
+Not in scope — contractors assigned via agent;
+contractor can be given email access
+Data Archival
+Closed tickets older than 2 years moved to Archive
+status via scheduled job
+Reporting Engine
+Frappe Script Reports (Python) — avoids SQL injection
+risk; exportable to Excel/PDF
+Custom Fields Strategy
+All ERPNext extensions via fixtures/custom_fields.json
+— zero core file changes
+Multi-Project Support
+All DocTypes have project Link field — enables
+per-project filtering everywhere
+Installation Commands
+# 1. Get the app from your repository
+bench get-app re_support https://github.com/your-org/re_support
+# 2. Install on your ERPNext site
+bench --site your-site.local install-app re_support
+# 3. Run database migrations
+bench --site your-site.local migrate
+# 4. Export fixtures after setup
+bench --site your-site.local export-fixtures --app re_support
+# 5. Restart bench services
+bench restart
+# 6. Clear cache
+bench --site your-site.local clear-cache
+
+Real Estate Support System — Frappe / ERPNext v15+ Architecture & Implementation Guide
+Confidential | re_support Frappe App   Page 36
+Internal Technical Reference — Not for External Distribution
+frappe.io / erpnext.com
+# 7. Optional: Load demo data
+bench --site your-site.local execute re_support.setup.load_demo_data
+Server Requirements
+Component
+Minimum
+Recommended
+OS
+Ubuntu 20.04 LTS
+Ubuntu 22.04 LTS
+Python
+3.10+
+3.11+
+Node.js
+18.x
+20.x LTS
+MariaDB
+10.6+
+10.11+
+Redis
+6.x
+7.x
+RAM
+8 GB
+16 GB
+Disk
+50 GB SSD
+200 GB SSD
+ERPNext
+v15.0
+v15 latest
+Frappe
+v15.0
+v15 latest
+Real Estate Support System · Frappe / ERPNext v15+ · Complete Architecture & Implementation Guide · Version 1.0 · 2026
+Confidential — Internal Technical Reference | re_support Frappe App | frappe.io / erpnext.com
+

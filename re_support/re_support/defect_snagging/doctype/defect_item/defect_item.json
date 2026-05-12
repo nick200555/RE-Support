@@ -1,0 +1,126 @@
+{
+ "doctype": "DocType",
+ "istable": 1,
+ "module": "Defect Snagging",
+ "name": "Defect Item",
+ "fields": [
+  {
+   "fieldname": "area",
+   "fieldtype": "Select",
+   "options": "Living Room\\nKitchen\\nMaster Bedroom\\nBedroom 2\\nBathroom\\nToilet\\nBalcony\\nCommon Area\\nExterior",
+   "reqd": 1,
+   "label": "Area"
+  },
+  {
+   "fieldname": "location_detail",
+   "fieldtype": "Data",
+   "label": "Location Detail"
+  },
+  {
+   "fieldname": "defect_type",
+   "fieldtype": "Select",
+   "options": "Crack\\nSeepage\\nTiling\\nPaint\\nFixture\\nElectrical\\nPlumbing\\nCarpentry\\nFalse Ceiling\\nWaterproofing\\nOther",
+   "reqd": 1,
+   "label": "Defect Type"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "reqd": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "options": "Minor\\nModerate\\nMajor",
+   "reqd": 1,
+   "label": "Severity"
+  },
+  {
+   "fieldname": "contractor",
+   "fieldtype": "Link",
+   "options": "Supplier",
+   "label": "Contractor"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "contractor_notes",
+   "fieldtype": "Small Text",
+   "label": "Contractor Notes"
+  },
+  {
+   "fieldname": "rectification_photo",
+   "fieldtype": "Attach",
+   "label": "Rectification Photo"
+  },
+  {
+   "fieldname": "resolved_on",
+   "fieldtype": "Date",
+   "label": "Resolved On"
+  },
+  {
+   "fieldname": "item_status",
+   "fieldtype": "Select",
+   "options": "Open\\nAssigned\\nIn Progress\\nDone\\nRejected\\nCannot Rectify",
+   "label": "Item Status"
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Small Text",
+   "label": "Rejection Reason"
+  }
+ ],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "actions": [],
+ "allow_events_in_timeline": 0,
+ "allow_guest_to_view": 0,
+ "allow_import": 0,
+ "allow_rename": 0,
+ "creation": "2024-04-20 12:00:00.000000",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2024-04-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "field_order": [
+  "area",
+  "location_detail",
+  "defect_type",
+  "description",
+  "photo",
+  "severity",
+  "contractor",
+  "due_date",
+  "contractor_notes",
+  "rectification_photo",
+  "resolved_on",
+  "item_status",
+  "rejection_reason"
+ ]
+}
